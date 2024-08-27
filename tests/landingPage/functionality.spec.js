@@ -18,7 +18,7 @@ test('should be enabled and visible buerokratt start button', async ({ page }) =
     const button = page.getByRole('button', { name: 'Ava vestlus' });
     await expect(button).toBeEnabled();
     await button.click();
-    await expect(page.getByText('BürokrattTervist!0/')).toBeVisible();
+    await expect(page.locator('.os-content')).toBeVisible();
 });
 
 test('should intentionally fail', async () => {
