@@ -1,0 +1,8 @@
+services:
+  playwright:
+    build: .
+    ports:
+      - "9323:9323"
+    stdin_open: true
+    tty: true
+    command: /bin/bash
