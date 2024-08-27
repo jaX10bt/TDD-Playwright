@@ -7,10 +7,13 @@ Technologies used: Playwright, NODE.js, Docker
 
 ## Project setup
 * in root directory
-* Build image ```docker build -t PW-testing .```
-* Run docker container ```docker run PW-testing```  
+* Build image ```docker-compose up -d```
+* Run docker CLI interactively ```docker-compose exec playwright bash```
+	
+	later...
+* Exit docker CLI ```exit```
+* Stop and remove container ```docker-compose down```
 
-!!! This section needs an update - docker commands !!!
 
 # Running tests in Docker container CLI
 * run all tests - ```npx playwright test```
