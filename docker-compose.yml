@@ -1,8 +1,10 @@
 services:
   playwright:
+    image: buerokratt_pw_image
+    container_name: buerokratt_pw
     build: .
     ports:
       - "9323:9323"
     stdin_open: true
     tty: true
-    command: /bin/bash
+    command: bash
