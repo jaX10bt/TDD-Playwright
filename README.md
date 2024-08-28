@@ -13,7 +13,7 @@ Technologies used: Playwright, NODE.js, Docker
 * To see report ```npx playwright show-report --host 0.0.0.0```	
 	
 	when done...
-* Exit docker CLI ```exit```
+* Exit docker CLI ```exit``` or ```CTRL + D```
 * Stop and remove container ```docker-compose down```
 
 
