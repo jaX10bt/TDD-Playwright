@@ -46,7 +46,7 @@ The container has to be rebuilt after.
 * action before each separate test
     ```
     test.beforeEach(async ({ page }) => {
-		await page.goto('https://prod.buerokratt.ee/');
+		await page.goto('/');
 		// Additional actions here
 	});
     ```  
