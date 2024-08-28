@@ -16,8 +16,8 @@ COPY . .
 # Run Playwright installation to ensure all browsers are installed
 RUN npx playwright install
 
-# # Expose the port for the Playwright HTML report
-# EXPOSE 9323
+# Expose the port for the Playwright HTML report
+EXPOSE 9323
 
-# Keep the container running and open for commands
-CMD ["tail", "-f", "/dev/null"]
+# # Keep the container running and open for commands
+# CMD ["tail", "-f", "/dev/null"]
