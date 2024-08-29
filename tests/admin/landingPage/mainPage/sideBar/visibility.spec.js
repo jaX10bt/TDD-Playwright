@@ -1,8 +1,5 @@
 import { test, expect } from '@playwright/test';
 
-const TIMEOUT = 500000
-
-
 test.beforeEach('test', async ({ page }) => {
     await page.goto('https://admin.test.buerokratt.ee/chat/active');
     // page is authenticated
@@ -102,4 +99,51 @@ test.describe('conversations tab with sub tabs visibility', () => {
         await expect(page.getByRole('link', { name: /Aktiivsed/ })).not.toHaveClass(/active/);
         await expect(page.getByRole('link', { name: 'Ajalugu' })).not.toHaveClass(/active/);
     })
+});
+
+
+
+test.describe('training tab with sub tabs visibility', () => {
+
+    test('should have all tabs', async ({ page }) => {
+        // Open training tab, initially it is closed
+        await page.getByRole('button', { name: 'Treening' }).click();
+
+        await expect(page.getByRole('button', { name: 'Treening' }).nth(1)).toBeVisible();
+        await expect(page.getByRole('button', { name: 'Ajaloolised vestlused' })).toBeVisible();
+        await expect(page.getByRole('button', { name: 'Mudelipank ja analüütika' })).toBeVisible();
+        await expect(page.getByRole('link', { name: 'Treeni uus mudel' })).toBeVisible();
+
+        // Open "Treening" subtab "Treening"
+        await page.getByRole('button', { name: 'Treening' }).nth(1).click();
+
+        // Check its subtabs
+        await expect(page.getByRole('link', { name: 'Teemad', exact: true })).toBeVisible();
+        await expect(page.getByRole('link', { name: 'Avalikud teemad' })).toBeVisible();
+        await expect(page.getByRole('link', { name: 'Teemade järeltreenimine' })).toBeVisible();
+        await expect(page.getByRole('link', { name: 'Vastused' })).toBeVisible();
+        await expect(page.getByRole('link', { name: 'Kasutuslood' })).toBeVisible();
+        await expect(page.getByRole('link', { name: 'Konfiguratsioon' })).toBeVisible();
+        await expect(page.getByRole('link', { name: 'Vormid' })).toBeVisible();
+        await expect(page.getByRole('link', { name: 'Mälukohad' })).toBeVisible();
+        await expect(page.getByRole('link', { name: 'Automatic Teenused' })).toBeVisible();
+
+        // Open "Treening" subtab "Ajaloolised vestlused"
+        await page.getByRole('button', { name: 'Ajaloolised vestlused' }).click();
+
+        // Check its subtabs
+        await expect(page.getByRole('link', { name: 'Ajalugu' }).nth(1)).toBeVisible();
+        await expect(page.getByRole('link', { name: 'Pöördumised' })).toBeVisible();
+
+        // Open "Treening" subtab "Mudelipank ja analyytika"
+        await page.getByRole('button', { name: 'Mudelipank ja analüütika' }).click();
+
+        await expect(page.getByRole('link', { name: 'Teemade ülevaade' })).toBeVisible();
+        await expect(page.getByRole('link', { name: 'Mudelite võrdlus' })).toBeVisible();
+        await expect(page.getByRole('link', { name: 'Testlood' })).toBeVisible();
+
+    });
+
+
+    
 });
