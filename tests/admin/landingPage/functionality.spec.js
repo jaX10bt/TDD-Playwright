@@ -18,3 +18,15 @@ test.describe('basic connectivity', () => {
     })
 })
 
+test.describe("auth button functionality", () => {
+    test('should be enabled', async ({ page }) => {
+        await expect(page.getByRole('button', { name: 'sisene TARA kaudu' })).toBeEnabled();
+    })
+
+    test("should start auth process on click", async ({ page }) => {
+        page.getByRole('button', { name: 'sisene TARA kaudu' }).click()
+        await page.waitForURL();
+        await expect(page).toHaveTitle(/Riigi autentimisteenus/)
+        await expect(page).toHaveURL(/.*tara-test\.ria\.ee.*/);
+    })
+})

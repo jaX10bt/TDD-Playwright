@@ -12,11 +12,10 @@ test.describe("background visibility", () => {
     test("should display the background", async ({ page }) => {
         await expect(page.getByText(bacground)).toBeVisible();
     })
-    
 })
 
 test.describe("logos visibility", () => {
-    test("should display the logo", async ({ page }) => {
+    test("should display buerokratt logo", async ({ page }) => {
         await expect(page.getByRole('img', { name: 'Bürokrati logo' })).toBeVisible();
     })
 
