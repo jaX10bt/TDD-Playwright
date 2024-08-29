@@ -28,6 +28,10 @@ test.describe("button visibility", () => {
     test("should display the authentication button", async ({ page }) => {
         await expect(page.getByRole('button', { name: 'sisene TARA kaudu' })).toBeVisible()
     })
+
+    test("should contain correct text", async ({ page }) => {
+        await expect(page.getByRole('button', { name: 'sisene TARA kaudu' })).toHaveText(/sisene TARA kaudu/)
+    })
 })
 
 test.describe('sponsors image visibility', () => {
