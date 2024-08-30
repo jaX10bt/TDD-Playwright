@@ -3,7 +3,7 @@ const path = require('path'); // Import Node.js path module
 import { test as setup } from '@playwright/test';
 
 // Define the path to the auth file relative to the project root
-const authFile = 'tests/admin/.auth/user.json';
+const authFile = 'tests/.auth/user.json';
 
 setup('authenticate', async ({ page }) => {
     // Ensure the .auth directory exists
