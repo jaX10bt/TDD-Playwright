@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test.describe('Visibility Tests for "Välimus ja käitumine" Page', () => {
+test.describe('Visibility Tests for "Välimus ja käitumine"/"Appearance and Behaviour"  Page', () => {
 
     test.beforeEach(async ({ page }) => {
         // Navigate to the page before each test
