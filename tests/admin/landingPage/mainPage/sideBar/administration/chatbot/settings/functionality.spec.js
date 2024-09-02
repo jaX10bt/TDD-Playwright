@@ -22,6 +22,10 @@ test.describe('Functionality Tests with State Reset for Settings Page', () => {
             type: 'Known bug',
             description: 'There is a bug regarding this test as its supposed to turn the switches on after first press but its first state is checked while the UI remains as if its unchecked meaning the first press only makes the state unchecked and thus nothing changes for the user in regard to UI. This is the action sequence ==> Open page => Switch appears unchecked => Inspect the element => Element says its state is checked => Click the element => Switch doesnt change appearance but state changes to unchecked.',
         })
+        test.info().annotations.push({
+            type: 'TODO',
+            description: 'Since this functionality is related to the widgets functionality, they should be tested together.',
+        })
 
         const robotActiveSwitch = page.locator('label:has-text("Vestlusrobot aktiivne") + button.switch__button');
         const showAdvisorNameSwitch = page.locator('label:has-text("Kuva nõustaja nimi") + button.switch__button');
