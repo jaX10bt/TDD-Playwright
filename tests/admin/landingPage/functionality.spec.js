@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-const adminPage = 'https://admin.prod.buerokratt.ee/'
+const adminPage = 'https://admin.test.buerokratt.ee/'
 let response;
 
 test.beforeEach(async ({ page }) => {
