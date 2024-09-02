@@ -228,7 +228,7 @@ test('Search input field accepts text input and triggers search', async ({ page 
 });
 
 
-test('Table columns should be sortable by clicking on the column headers.', async ({ page }) => {
+test('Table columns should be sortable by clicking on the column headers. Sort by From date', async ({ page }) => {
     await page.waitForLoadState('networkidle');
 
     // Locate the card element and the table inside it
@@ -263,6 +263,52 @@ test('Table columns should be sortable by clicking on the column headers.', asyn
     // Get the sorted values from the column "Algusaeg" after descending sort
     const sortedValuesDesc = await table.locator('tbody tr').evaluateAll(rows => {
         return rows.map(row => row.querySelector('td:nth-of-type(1)').textContent.trim());
+    });
+
+
+    // Verify that the values are sorted in ascending or descending order
+    const isSortedAsc = sortedValuesAsc.every((val, i, arr) => !i || arr[i - 1] <= val);
+    const isSortedDesc = sortedValuesDesc.every((val, i, arr) => !i || arr[i - 1] >= val);
+
+    expect(isSortedAsc || isSortedDesc).toBe(true);
+});
+
+
+test('Table columns should be sortable by clicking on the column headers. Sort by To date', async ({ page }) => {
+    await page.waitForLoadState('networkidle');
+
+    // Locate the card element and the table inside it
+    const table = page.locator('table.data-table');
+
+    // Ensure the table is visible
+    await expect(table).toBeVisible();
+
+    // Locate the "Algusaeg" column header
+    const algusaegSortingButton = table.locator('th:has-text("Lõppaeg")').locator('button');
+
+    // Click on the "Algusaeg" column header to sort the table
+    await algusaegSortingButton.click();
+
+    // Wait for the table to sort (adjust timeout if necessary)
+    await page.waitForTimeout(1000); // or use a more specific wait if you know what triggers the sort
+
+    // Get the sorted values from the column "Algusaeg"
+    const sortedValuesAsc = await table.locator('tbody tr').evaluateAll(rows => {
+        return rows.map(row => row.querySelector('td:nth-of-type(2)').textContent.trim());
+    });
+
+    // Click again to sort in descending order
+    await algusaegSortingButton.click();
+
+     // Log the sorted values to the terminal
+     console.log('Sorted Values Ascending:', sortedValuesAsc);
+
+    // Wait for the table to sort again
+    await page.waitForTimeout(1000);
+
+    // Get the sorted values from the column "Algusaeg" after descending sort
+    const sortedValuesDesc = await table.locator('tbody tr').evaluateAll(rows => {
+        return rows.map(row => row.querySelector('td:nth-of-type(2)').textContent.trim());
     });
 
 
