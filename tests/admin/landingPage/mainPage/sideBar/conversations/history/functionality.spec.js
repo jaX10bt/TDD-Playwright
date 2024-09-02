@@ -157,7 +157,7 @@ test('Dropdown menu should expand, displaying the available options, and allow t
 });
 
 
-test('Selecting between different options from dropdown should show corresponding columns in table.', async ({ page }) => {
+test('Dropdown menu should expand, displaying the available options, and allow the user to select a different option. Should show corresponding columns in table.', async ({ page }) => {
     // Locate the table rows to check if there is any data
     const card = page.locator('.card').first();
 
@@ -225,6 +225,50 @@ test('Search input field accepts text input and triggers search', async ({ page 
     } else {
         return;
     }
+});
 
 
+test('Table columns should be sortable by clicking on the column headers.', async ({ page }) => {
+    await page.waitForLoadState('networkidle');
+
+    // Locate the card element and the table inside it
+    const table = page.locator('table.data-table');
+
+    // Ensure the table is visible
+    await expect(table).toBeVisible();
+
+    // Locate the "Algusaeg" column header
+    const algusaegSortingButton = table.locator('th:has-text("Algusaeg")').locator('button');
+
+    // Click on the "Algusaeg" column header to sort the table
+    await algusaegSortingButton.click();
+
+    // Wait for the table to sort (adjust timeout if necessary)
+    await page.waitForTimeout(1000); // or use a more specific wait if you know what triggers the sort
+
+    // Get the sorted values from the column "Algusaeg"
+    const sortedValuesAsc = await table.locator('tbody tr').evaluateAll(rows => {
+        return rows.map(row => row.querySelector('td:nth-of-type(1)').textContent.trim());
+    });
+
+    // Click again to sort in descending order
+    await algusaegSortingButton.click();
+
+     // Log the sorted values to the terminal
+     console.log('Sorted Values Ascending:', sortedValuesAsc);
+
+    // Wait for the table to sort again
+    await page.waitForTimeout(1000);
+
+    // Get the sorted values from the column "Algusaeg" after descending sort
+    const sortedValuesDesc = await table.locator('tbody tr').evaluateAll(rows => {
+        return rows.map(row => row.querySelector('td:nth-of-type(1)').textContent.trim());
+    });
+
+
+    // Verify that the values are sorted in ascending or descending order
+    const isSortedAsc = sortedValuesAsc.every((val, i, arr) => !i || arr[i - 1] <= val);
+    const isSortedDesc = sortedValuesDesc.every((val, i, arr) => !i || arr[i - 1] >= val);
+
+    expect(isSortedAsc || isSortedDesc).toBe(true);
 });

@@ -71,8 +71,6 @@ test.describe('"Ajalugu" page visibility', () => {
             await expect(table).toBeVisible();
 
             // Check if each column header is rendered
-            
-
             for (const header of headers) {
                 const headerElement = table.locator(`th`).filter({ hasText: header });
                 await expect(headerElement).toBeVisible();
