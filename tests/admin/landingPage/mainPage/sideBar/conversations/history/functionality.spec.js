@@ -134,6 +134,30 @@ test('Check if "Ajalugu" date inputs accept only valid date formats', async ({ p
 });
 
 
+test('Dropdown menu should expand, displaying the available options, and allow the user to select a different option.', async ({ page }) => {
+    // Locate the table rows to check if there is any data
+    const card = page.locator('.card').first();
+
+    const dropdown = card.locator('div.select__trigger:has-text("Vali")')
+
+    dropdown.click();
+
+    const dropdownMenu = card.locator('.select__menu');
+    await expect(dropdownMenu).toBeVisible();
+
+    await dropdownMenu.waitFor({ state: 'visible', timeout: 5000 }); // Adjust timeout as needed
+
+    const optionToSelect = dropdownMenu.locator('li.select__option:has-text("Algusaeg") input[type="checkbox"]');
+
+    await optionToSelect.check();
+
+    const isChecked = await optionToSelect.isChecked();
+
+    expect(isChecked).toBe(true);
+});
+
+
+
 test('Search input field accepts text input and triggers search', async ({ page }) => {
     // Locate the table rows to check if there is any data
     await page.waitForLoadState('networkidle');
@@ -141,15 +165,15 @@ test('Search input field accepts text input and triggers search', async ({ page 
 
     const initialRowCount = await initialRows.count();
 
-    if (initialRowCount > 0) {        
+    if (initialRowCount > 0) {
         // Locate the search input field using the placeholder text
         const searchInput = page.locator('input[placeholder="Otsi üle vestluste..."]');
-        
+
         // Type random input value into the search input field to expect 0 matching and ensure that input field is working as expected
         await searchInput.fill('abcdefgh12345jklmnop678999001122ghdsa');
-        
+
         await expect(searchInput).toHaveValue('abcdefgh12345jklmnop678999001122ghdsa');
-        
+
         // Wait for search results to be updated
         await page.waitForTimeout(2000);
 
@@ -160,7 +184,7 @@ test('Search input field accepts text input and triggers search', async ({ page 
         expect(resultsCount).toBe(0);
 
     } else {
-        return ;
+        return;
     }
 
 
