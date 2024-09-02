@@ -43,7 +43,7 @@ test('Check if "Ajalugu" date inputs can be changed', async ({ page }) => {
 });
 
 
-test('Date input fields should reject invalid date formats', async ({ page }) => {
+test('Date FROM input field should reject invalid date formats', async ({ page }) => {
     const container = page.locator('.card__body');
 
     const dateInputs = container.locator('input');
@@ -75,6 +75,40 @@ test('Date input fields should reject invalid date formats', async ({ page }) =>
     const inputValue = await datepickerInput.inputValue();
     expect(inputValue).toBe(''); // Assuming invalid input should clear the field or leave it unchanged
 });
+
+
+test('Date TO input field should reject invalid date formats', async ({ page }) => {
+    const container = page.locator('.card__body');
+
+    const dateInputs = container.locator('input');
+
+    // Access the first two inputs which are assumed to be the date inputs
+    const endDateInput = dateInputs.nth(1);
+
+    // Clear and set the start date
+    await endDateInput.click({ clickCount: 3 }); // Select all text
+    await endDateInput.fill('01.09.12345');
+
+    // Trigger any validation mechanism if necessary (e.g., blur event)
+    await endDateInput.blur();
+
+    // This could be a message or some form of UI feedback
+    const validationMessage = page.locator('.validation-error-message'); // Adjust selector as needed
+    await validationMessage.waitFor({ state: 'visible', timeout: 5000 }); // Adjust timeout as needed
+
+    // Verify that the validation message is displayed
+    const isValidationMessageVisible = await validationMessage.isVisible();
+    expect(isValidationMessageVisible).toBe(true);
+
+    // Optionally, check the content of the validation message
+    const validationMessageText = await validationMessage.textContent();
+    expect(validationMessageText).toContain('Invalid date format'); // Adjust text as needed
+
+    // Optionally, you may also verify the input field's value remains unchanged or cleared
+    const inputValue = await datepickerInput.inputValue();
+    expect(inputValue).toBe(''); // Assuming invalid input should clear the field or leave it unchanged
+});
+
 
 test('Check if "Ajalugu" date inputs accept only valid date formats', async ({ page }) => {
 
