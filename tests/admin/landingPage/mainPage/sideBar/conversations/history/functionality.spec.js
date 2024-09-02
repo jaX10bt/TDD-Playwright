@@ -157,6 +157,45 @@ test('Dropdown menu should expand, displaying the available options, and allow t
 });
 
 
+test('Selecting between different options from dropdown should show corresponding columns in table.', async ({ page }) => {
+    // Locate the table rows to check if there is any data
+    const card = page.locator('.card').first();
+
+    const dropdown = card.locator('div.select__trigger:has-text("Vali")')
+
+    dropdown.click();
+
+    const dropdownMenu = card.locator('.select__menu');
+    await expect(dropdownMenu).toBeVisible();
+
+    await dropdownMenu.waitFor({ state: 'visible', timeout: 5000 }); // Adjust timeout as needed
+
+    // select algusaeg from dropdown
+    const optionToSelect = dropdownMenu.locator('li.select__option:has-text("Algusaeg") input[type="checkbox"]');
+
+    await optionToSelect.check();
+
+    const isChecked = await optionToSelect.isChecked();
+
+    expect(isChecked).toBe(true);
+
+    const table = page.locator('table.data-table');
+    const columns = table.locator('th')
+
+    // Check for the count of headers
+    const headerCount = await columns.count()
+    // 2 because second table head is to see the details of each row.
+    expect(headerCount).toBe(2)
+
+    // Verify that the single column header is "Algusaeg"
+    const columnHeader = columns.first();
+    const columnText = await columnHeader.innerText();
+    expect(columnText).toBe('Algusaeg');
+
+
+});
+
+
 
 test('Search input field accepts text input and triggers search', async ({ page }) => {
     // Locate the table rows to check if there is any data
