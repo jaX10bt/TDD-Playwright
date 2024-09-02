@@ -173,7 +173,8 @@ test('Dropdown menu should expand, displaying the available options, and allow t
     // select algusaeg from dropdown
     const optionToSelect = dropdownMenu.locator('li.select__option:has-text("Algusaeg") input[type="checkbox"]');
 
-    await optionToSelect.check();
+    await optionToSelect.check();npx playwright codegen https://prod.buerokratt.ee/
+
 
     const isChecked = await optionToSelect.isChecked();
 
@@ -254,8 +255,8 @@ test('Table columns should be sortable by clicking on the column headers. Sort b
     // Click again to sort in descending order
     await algusaegSortingButton.click();
 
-     // Log the sorted values to the terminal
-     console.log('Sorted Values Ascending:', sortedValuesAsc);
+    // Log the sorted values to the terminal
+    //console.log('Sorted Values Ascending:', sortedValuesAsc);
 
     // Wait for the table to sort again
     await page.waitForTimeout(1000);
@@ -300,8 +301,8 @@ test('Table columns should be sortable by clicking on the column headers. Sort b
     // Click again to sort in descending order
     await algusaegSortingButton.click();
 
-     // Log the sorted values to the terminal
-     console.log('Sorted Values Ascending:', sortedValuesAsc);
+    // Log the sorted values to the terminal
+    //console.log('Sorted Values Ascending:', sortedValuesAsc);
 
     // Wait for the table to sort again
     await page.waitForTimeout(1000);
@@ -317,4 +318,28 @@ test('Table columns should be sortable by clicking on the column headers. Sort b
     const isSortedDesc = sortedValuesDesc.every((val, i, arr) => !i || arr[i - 1] >= val);
 
     expect(isSortedAsc || isSortedDesc).toBe(true);
+});
+
+
+
+test('Should expand chat menu when clicking on Vaata', async ({ page }) => {
+    // Wait for the Vaata button to be visible
+    const button = page.locator('td.button');
+    await expect(button).toBeVisible();
+
+    // Click the Vaata button
+    await vaataButton.click();
+
+    // Wait for the chat menu to expand
+    // const chatMenu = page.locator('[data-state="open"]'); // Assuming the expanded state has a data-state of "open"
+    // await expect(chatMenu).toBeVisible();
+
+    // // Optionally, check specific content or elements within the expanded menu
+    // // For example:
+    // // const expandedContent = page.locator('.expanded-menu-content');
+    // // await expect(expandedContent).toContainText('Expected Text');
+
+    // // You can also check that the data-state attribute has changed to "open"
+    // const stateAttribute = await page.getAttribute('[data-state]', 'data-state');
+    // expect(stateAttribute).toBe('open');
 });
