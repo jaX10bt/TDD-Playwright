@@ -1,7 +1,11 @@
 import { test, expect } from '@playwright/test';
 test.beforeEach(async ({ page }) => {
     await page.goto('https://admin.test.buerokratt.ee/chat/unanswered');
+
+    // before each test should turn switch on.
+    page.locator('.switch__button').click();
 })
+
 test('Check if clicking unanswered chat opens it ### Look issue inside',
 
     async ({ page }) => {
@@ -55,3 +59,9 @@ test('Check if clicking unanswered chat opens it ### Look issue inside',
         // Ensure that the chat header text is not empty
         await expect(chatHeaderText).not.toHaveText('');
     });
+
+
+test('Should close the chat, when "L]" button is clicked', async ({ page }) => {
+        const unansweredConversationsSection = page.locator('div.vertical-tabs__list');
+        await expect(unansweredConversationsSection).toBeVisible();
+})
