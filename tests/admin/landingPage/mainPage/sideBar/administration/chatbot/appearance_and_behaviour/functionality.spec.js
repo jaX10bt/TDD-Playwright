@@ -5,31 +5,20 @@ test.describe('Functionality Tests for "Välimus ja käitumine"/"Appearance and 
 
     let originalStates = {};
 
-    test.info().annotations.push({
-        type: 'Known bug',
-        description: 'There is a bug regarding this test as its supposed to turn the switches on after first press but its first state is checked while the UI remains as if its unchecked meaning the first press only makes the state unchecked and thus nothing changes for the user in regard to UI. This is the action sequence ==> Open page => Switch appears unchecked => Inspect the element => Element says its state is checked => Click the element => Switch doesnt change appearance but state changes to unchecked.',
-    })
-
-    test.info().annotations.push({
-        type: 'Test working condition',
-        description: 'Currently this test passes when the notification message is turned on by default. Other this shouldnt affect the test results. Since the aforementioned bug runs throught all of the tests and pages, it would be better to focus on this after the bug is fixed.',
-    })
+    
 
     test.beforeEach(async ({ page }) => {
-        // Navigate to the page before each test
-        await page.goto('https://admin.test.buerokratt.ee/chat/chatbot/appearance'); // Replace with your actual page URL
 
-        // Capture original states of all inputs and switches using more reliable selectors
-        originalStates.animationDuration = await page.locator('input[name="widgetProactiveSeconds"]').inputValue();
-        originalStates.notificationSwitch = await page.locator('button.switch__button[aria-checked]').nth(1).getAttribute('aria-checked');
-        originalStates.animationStartTime = await page.locator('input[name="widgetDisplayBubbleMessageSeconds"]').inputValue();
-        originalStates.notificationMessage = await page.locator('input[name="widgetBubbleMessageText"]').inputValue();
-        originalStates.primaryColor = await page.locator('input[name="widgetColor"]').inputValue();
-        const dropdownTrigger = page.locator('div.select__trigger');
-        originalStates.animationDropdown = await dropdownTrigger.textContent();
-    });
+        test.info().annotations.push({
+            type: 'Known bug',
+            description: 'There is a bug regarding this test as its supposed to turn the switches on after first press but its first state is checked while the UI remains as if its unchecked meaning the first press only makes the state unchecked and thus nothing changes for the user in regard to UI. This is the action sequence ==> Open page => Switch appears unchecked => Inspect the element => Element says its state is checked => Click the element => Switch doesnt change appearance but state changes to unchecked.',
+        })
 
-    test.beforeEach(async ({ page }) => {
+        test.info().annotations.push({
+            type: 'Test working condition',
+            description: 'Currently this test passes when the notification message is turned on by default. Since the aforementioned bug runs throught all of the tests and pages, it would be better to focus on this after the bug is fixed.',
+        })
+
         // Navigate to the page before each test
         await page.goto('https://admin.test.buerokratt.ee/chat/chatbot/appearance'); // Replace with your actual page URL
 
