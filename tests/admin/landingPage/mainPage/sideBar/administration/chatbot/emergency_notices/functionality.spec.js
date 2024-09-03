@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test.describe('Erakorralised Teated Functionality Tests', () => {
+test.describe('Erakorralised Teated/Emergency notices Functionality Tests', () => {
 
   test.beforeEach(async ({ page }) => {
     // Navigate to the page before each test
@@ -19,10 +19,10 @@ test.describe('Erakorralised Teated Functionality Tests', () => {
 
     async ({ page }) => {
 
-    test.info().annotations.push({
+      test.info().annotations.push({
         type: 'Known bug',
-        description: 'There is a bug regarding this test as its supposed to turn the switch on after first press but its first state is checked meaning the first press only makes the state unchecked and thus nothing changes for the user in regard to UI',
-    })
+        description: 'There is a bug regarding this test as its supposed to turn the switches on after first press but its first state is checked while the UI remains as if its unchecked meaning the first press only makes the state unchecked and thus nothing changes for the user in regard to UI. This is the action sequence ==> Open page => Switch appears unchecked => Inspect the element => Element says its state is checked => Click the element => Switch doesnt change appearance but state changes to unchecked.',
+      })
         
 
     // Locate the "Teade aktiivne" switch by its associated label
