@@ -173,8 +173,7 @@ test('Dropdown menu should expand, displaying the available options, and allow t
     // select algusaeg from dropdown
     const optionToSelect = dropdownMenu.locator('li.select__option:has-text("Algusaeg") input[type="checkbox"]');
 
-    await optionToSelect.check();npx playwright codegen https://prod.buerokratt.ee/
-
+    await optionToSelect.check()
 
     const isChecked = await optionToSelect.isChecked();
 
