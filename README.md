@@ -25,7 +25,7 @@ Technologies used: Playwright, NODE.js, Docker
 * run specific test file - ```npx playwright test ./tests/chatBox/visibility.spec.js```
 
 * run api test file - ```npx playwright test ./tests/api/sample.spec.js --config=playwright.config.api.js```
-	
+
 * additional flags
 	```
 	--debug             // debug step by step

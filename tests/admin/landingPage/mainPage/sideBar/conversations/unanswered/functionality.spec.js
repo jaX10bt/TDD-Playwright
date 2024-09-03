@@ -61,7 +61,25 @@ test('Check if clicking unanswered chat opens it ### Look issue inside',
     });
 
 
-test('Should close the chat, when "L]" button is clicked', async ({ page }) => {
-        const unansweredConversationsSection = page.locator('div.vertical-tabs__list');
-        await expect(unansweredConversationsSection).toBeVisible();
+test('Should open dialog, when "Lõpeta vestlus" button is clicked', async ({ page }) => {
+    // await page.waitForLoadState('networkidle');
+    // Get all chats
+    const buttons = page.locator('button.vertical-tabs__trigger');
+
+    // Count chats
+    const buttonCount = await buttons.count();
+    if (buttonCount === 0) {
+        console.log('No unanswered chats available');
+        return;
+    }
+    await buttons.first().click();
+
+    const endChatButtonSelector = page.locator('button.btn.btn--success.btn--m:has-text("Lõpeta vestlus")');
+
+    await endChatButtonSelector.click();
+
+    expect(page.locator('.dialog--default')).toBeVisible();
+    
 })
+
+
