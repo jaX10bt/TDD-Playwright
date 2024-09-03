@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test.describe('Welcome message Functionality Tests', () => {
+test.describe('Welcome message/Tervitussõnum Functionality Tests', () => {
 
   test.beforeEach(async ({ page }) => {
     // Navigate to the page before each test

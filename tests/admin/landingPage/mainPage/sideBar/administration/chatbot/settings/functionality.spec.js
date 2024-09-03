@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test.describe('Functionality Tests with State Reset for Settings Page', () => {
+test.describe('Settings/Seaded Functionality Tests ', () => {
 
     let originalRobotActiveState;
     let originalShowAdvisorNameState;

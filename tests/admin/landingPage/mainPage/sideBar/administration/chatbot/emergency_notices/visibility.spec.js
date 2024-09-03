@@ -1,6 +1,6 @@
 const { test, expect } = require('@playwright/test');
 
-test.describe('Erakorralised Teated Page Visibility', () => {
+test.describe('Erakorralised Teated/Emergency notices Page Visibility', () => {
 
   test.beforeEach(async ({ page }) => {
     // Visit the page (replace 'your-url' with the actual URL)

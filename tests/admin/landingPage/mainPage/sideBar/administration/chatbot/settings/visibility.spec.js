@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test.describe('Visibility Tests for Settings Page', () => {
+test.describe('Seaded/Settings Visibility Tests', () => {
 
     test.beforeEach(async ({ page }) => {
         // Navigate to the page before each test

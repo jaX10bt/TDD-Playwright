@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test.describe('Erakorralised Teated Functionality Tests', () => {
+test.describe('Erakorralised Teated/Emergency notices Functionality Tests', () => {
 
   test.beforeEach(async ({ page }) => {
     // Navigate to the page before each test
