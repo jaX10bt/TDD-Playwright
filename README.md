@@ -23,6 +23,8 @@ Technologies used: Playwright, NODE.js, Docker
 * run tests in specific directory - ```npx playwright test ./tests/chatBox```
  
 * run specific test file - ```npx playwright test ./tests/chatBox/visibility.spec.js```
+
+* run api test file - ```npx playwright test ./tests/api/sample.spec.js --config=playwright.config.api.js```
 	
 * additional flags
 	```
@@ -31,6 +33,7 @@ Technologies used: Playwright, NODE.js, Docker
 	--project=chromium  // specify a browser for testing | default: all
 	--headed            // graphical representation of tests | default: headless
     --workers=3         // amount of workers to run tests
+	--config=playwright.config.api.js // specify a config file to use for testing | default: playwright.config.js
 	```  
 [Official documentation for running and debugging tests](https://playwright.dev/docs/running-tests)  
 Tests result will be opened automatically in the browser and localhost address will be displayed in the terminal 
