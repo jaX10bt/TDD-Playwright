@@ -3,7 +3,7 @@ import { getTranslationsForLocale } from '../../../../../../.auth/language_detec
 
 test.describe('Visibility Tests for "Välimus ja käitumine"/"Appearance and Behaviour" Page', () => {
 
-    const translation = getTranslationsForLocale('https://admin.test.buerokratt.ee', 'i18nextLng');
+    const translation = getTranslationsForLocale('https://admin.test.buerokratt.ee', 'i18nextLng', __dirname);
 
     test.beforeEach(async ({ page }) => {
         // Navigate to the page before each test

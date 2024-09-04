@@ -49,19 +49,13 @@ test.describe('Full Visibility Test for User Management Page', () => {
         // Get the count of matching elements
         const count = await editButton.count();
 
-        console.log(count)
-        console.log(count)
-        console.log(count)
-        console.log(count)
-        console.log(count)
-
         // Iterate through all located buttons to ensure they contain the expected text
         for (let i = 0; i < count; i++) {
             await expect(editButton.nth(i)).toHaveText(translation["Muuda"]);
         }
     });
 
-    test.only('should have one Edit and one Delete button per row', async ({ page }) => {
+    test('should have one Edit and one Delete button per row', async ({ page }) => {
         // Wait for the table to be visible
         await page.waitForSelector('.data-table'); // Adjust if needed
         const table = page.locator('.data-table');
@@ -70,8 +64,6 @@ test.describe('Full Visibility Test for User Management Page', () => {
         const body = table.locator('tbody'); // Ensure this is the correct selector for tbody
         const rows = body.locator('tr');
         const rowCount = await rows.count();
-
-        console.log(`Number of rows found: ${rowCount}`); // Debugging output
 
         // Ensure there are rows in the table
         expect(rowCount).toBeGreaterThan(0);

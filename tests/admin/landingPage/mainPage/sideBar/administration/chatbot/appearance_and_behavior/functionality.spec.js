@@ -4,7 +4,7 @@ import { getTranslationsForLocale } from '../../../../../../.auth/language_detec
 
 test.describe('Functionality Tests for "Välimus ja käitumine"/"Appearance and Behaviour" Page', () => {
 
-    const translation = getTranslationsForLocale('https://admin.test.buerokratt.ee', 'i18nextLng');
+    const translation = getTranslationsForLocale('https://admin.test.buerokratt.ee', 'i18nextLng', __dirname);
 
     test.beforeEach(async ({ page }) => {
         await page.goto('https://admin.test.buerokratt.ee/chat/chatbot/appearance');
@@ -68,8 +68,6 @@ test.describe('Functionality Tests for "Välimus ja käitumine"/"Appearance and 
 
     let originalStates = {};
 
-    const translation = getTranslationsForLocale('https://admin.test.buerokratt.ee', 'i18nextLng');
-
     test.beforeEach(async ({ page }) => {
 
         test.info().annotations.push({
@@ -96,9 +94,6 @@ test.describe('Functionality Tests for "Välimus ja käitumine"/"Appearance and 
     });
 
     test('Check functionality of all fields and "Eelvaade" button', async ({ page }) => {
-
-        
-
         function rgbToHex(rgb) {
             const [r, g, b] = rgb.match(/\d+/g).map(Number);
             return `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1).toUpperCase()}`;
