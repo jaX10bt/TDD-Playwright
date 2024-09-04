@@ -1,6 +1,5 @@
 import fs from 'fs';
 import path from 'path';
-import { translations } from '../landingPage/mainPage/sideBar/administration/chatbot/appearance_and_behavior/translations.js';
 
 // Function to safely load user data
 function loadUserData() {
@@ -22,7 +21,7 @@ function loadUserData() {
 
 const userData = loadUserData();
 
-export function getTranslationsForLocale(targetOrigin, targetName) {
+export function getTranslationsForLocale(targetOrigin, targetName, importingDir) {
     if (!userData) {
         console.error('User data could not be loaded. Unable to get translations.');
         return null;
@@ -41,6 +40,23 @@ export function getTranslationsForLocale(targetOrigin, targetName) {
     }
 
     const locale = localStorageEntry.value;
+
+    // Dynamically resolve the path to the translations.js file
+    const translationsPath = path.join(importingDir, 'translations.js');
+
+    if (!fs.existsSync(translationsPath)) {
+        console.warn(`No translations.js file found in directory: ${importingDir}`);
+        return null;
+    }
+
+    let translations;
+    try {
+        translations = require(translationsPath).translations;
+    } catch (error) {
+        console.error(`Error loading translations from ${translationsPath}: ${error.message}`);
+        return null;
+    }
+
     if (!translations[locale]) {
         console.warn(`No translations found for locale: ${locale}`);
         return null;
