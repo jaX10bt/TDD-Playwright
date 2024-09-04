@@ -1,71 +1,35 @@
 name: Playwright Tests
-
 on:
   pull_request:
     branches:
       - main 
-    # paths:
-    #   - 'GUI/**'
-  
   push:
     branches:
       - main
-    # paths:
-    #   - 'GUI/README.md'
-
 jobs:
   test:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '18'
-
-      # - name: Install dependencies
-      #   run: npm install --legacy-peer-deps
-      #   working-directory: ./GUI
-
       - name: Run Docker
         run: docker compose up -d
-        # working-directory: ./GUI
-
-      # - name: Install dependencies PW
-      #   run: pnpm exec playwright install --with-deps
-      #   working-directory: ./GUI/tests
-
       - name: Install Playwright
         run: npm install @playwright/test && npx playwright install --with-deps
-        # working-directory: ./GUI/tests
-
-      # - name: Install dependencies
-      #   run: npm install --legacy-peer-deps
-      #   working-directory: ./GUI
-
-      # - name: Install dependencies PW
-      #   run: npm install @playwright/test
-      #   working-directory: ./GUI/tests
-
-      # - name: Install Playwright
-      #   run: npx playwright install --with-deps
-      #   working-directory: ./GUI/tests
-
-# To run all
-#       - name: Run Playwright tests
-#         run: npx playwright test GUI/tests/admin/landingPage
-
-# To run only one
-#      - name: Run Playwright tests
-#        run: npx playwright test GUI/tests/admin/landingPage/visibility.spec.js
-
-      - name: Run Playwright tests
-        run: npx playwright test tests/admin/landingPage/functionality.spec.js
-        # working-directory: ./GUI/tests
         
+        # Run all in directory
+      # - name: Run Playwright tests
+      #   run: npx playwright test tests/admin/landingPage
+        # Run only one
+      # - name: Run Playwright tests
+      #   run: npx playwright test tests/admin/landingPage/visibility.spec.js
+        # Run all tests
+      - name: Run Playwright tests
+        run: npx playwright test
       - uses: actions/upload-artifact@v4
         if: always()
         with:
