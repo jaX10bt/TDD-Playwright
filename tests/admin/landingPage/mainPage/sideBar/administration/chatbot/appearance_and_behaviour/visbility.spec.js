@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { translations } from './translations.js';
-import userData from '../../../../../../.auth/user.json';
+import userData from '../../../../../../../.auth/user.json';
 
 test.describe('Visibility Tests for "Välimus ja käitumine"/"Appearance and Behaviour"  Page', () => {
 
