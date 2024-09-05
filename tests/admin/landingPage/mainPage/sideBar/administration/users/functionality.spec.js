@@ -2,62 +2,76 @@ const { test, expect } = require('@playwright/test');
 const { getTranslationsForLocale } = require('../../../../../.auth/language_detector');
 
 test.describe('Table Sorting and Search Functionality', () => {
-    // URL of the page where the table is located
-
     const translation = getTranslationsForLocale('https://admin.test.buerokratt.ee', 'i18nextLng', __dirname);
-
     const pageUrl = 'https://admin.test.buerokratt.ee/chat/users';
+
     test.beforeEach(async ({ page }) => {
         await page.goto(pageUrl);
         await page.waitForLoadState('networkidle');
     });
 
-    test('Sort by Nimi', async ({ page }) => {
-        await page.getByRole('cell', { name: `${translation["Nimi"]}`, exact: true }).getByRole('button').first().click();
-    });
+    async function testSorting({ page }, translationKey) {
+        const columnName = translation[translationKey];
+        
+        // Log headers and translation key for debugging
+        const headers = await page.locator('//table//thead//th').allTextContents();
+        console.log('Table headers:', headers);
+        console.log('Translation key used for column:', columnName);
+        
+        // Verify column index
+        const columnIndex = headers.indexOf(columnName) + 1;
+        console.log('Column index:', columnIndex);
 
-    test('Sort by Nimi search', async ({ page }) => {
-        await page.getByRole('cell', { name: `${translation["Nimi"]}`, exact: true }).getByRole('button').nth(1).click();
+        // Construct XPath using the static index for debugging
+        const columnXpath = `xpath=//table//tr/td[${columnIndex}]`;
+        console.log('Column XPath:', columnXpath);
+        
+        // Locate the cells in the target column before sorting
+        const columnCells = await page.locator(columnXpath);
+        const unsortedValues = (await columnCells.allTextContents()).map(val => val.trim());
+        console.log('Unsorted values:', unsortedValues);
+
+        // Click to sort in ascending order
+        await page.getByRole('cell', { name: columnName, exact: true }).getByRole('button').first().click();
+        await page.waitForTimeout(2000); // Wait for sorting to take effect
+
+        // Locate the cells again after sorting
+        const sortedValuesAsc = (await columnCells.allTextContents()).map(val => val.trim());
+        const manuallySortedValuesAsc = [...unsortedValues].sort((a, b) => a.localeCompare(b));
+        expect(sortedValuesAsc).toEqual(manuallySortedValuesAsc);
+
+        // Click again to sort in descending order
+        await page.getByRole('cell', { name: columnName, exact: true }).getByRole('button').first().click();
+        await page.waitForTimeout(2000); // Wait for sorting to take effect
+
+        // Locate the cells again after sorting
+        const sortedValuesDesc = (await columnCells.allTextContents()).map(val => val.trim());
+        const manuallySortedValuesDesc = [...unsortedValues].sort((a, b) => b.localeCompare(a));
+        expect(sortedValuesDesc).toEqual(manuallySortedValuesDesc);
+    }
+
+    // Test cases for all columns
+    test('Sort by Nimi', async ({ page }) => {
+        await testSorting({ page }, 'Nimi');
     });
 
     test('Sort by Isikukood', async ({ page }) => {
-        await page.getByRole('cell', { name: `${translation["Isikukood"]}`, exact: true }).getByRole('button').first().click();
-    });
-
-    test('Sort by Isikukood search', async ({ page }) => {
-        await page.getByRole('cell', { name: `${translation["Isikukood"]}`, exact: true }).getByRole('button').nth(1).click();
+        await testSorting({ page }, 'Isikukood');
     });
 
     test('Sort by Roll', async ({ page }) => {
-        await page.getByRole('cell', { name: `${translation["Roll"]}`, exact: true }).getByRole('button').first().click();
-    });
-
-    test('Sort by Roll search', async ({ page }) => {
-        await page.getByRole('cell', { name: `${translation["Roll"]}`, exact: true }).getByRole('button').nth(1).click();
+        await testSorting({ page }, 'Roll');
     });
 
     test('Sort by Kuvatav nimi', async ({ page }) => {
-        await page.getByRole('cell', { name: `${translation["Kuvatav nimi"]}`, exact: true }).getByRole('button').first().click();
-    });
-
-    test('Sort by Kuvatav nimi search', async ({ page }) => {
-        await page.getByRole('cell', { name: `${translation["Kuvatav nimi"]}`, exact: true }).getByRole('button').nth(1).click();
+        await testSorting({ page }, 'Kuvatav nimi');
     });
 
     test('Sort by Tiitel', async ({ page }) => {
-        await page.getByRole('cell', { name: `${translation["Tiitel"]}`, exact: true }).getByRole('button').first().click();
-    });
-
-    test('Sort by Tiitel search', async ({ page }) => {
-        await page.getByRole('cell', { name: `${translation["Tiitel"]}`, exact: true }).getByRole('button').nth(1).click();
+        await testSorting({ page }, 'Tiitel');
     });
 
     test('Sort by E-post', async ({ page }) => {
-        await page.getByRole('cell', { name: `${translation["E-post"]}`, exact: true }).getByRole('button').first().click();
+        await testSorting({ page }, 'E-post');
     });
-
-    test('Sort by E-post search', async ({ page }) => {
-        await page.getByRole('cell', { name: `${translation["E-post"]}`, exact: true }).getByRole('button').nth(1).click();
-    });
-
 });
