@@ -10,6 +10,7 @@ export const translations = {
         'E-post': 'E-mail',
         'Muuda': 'Edit',
         'Kustuta': 'Delete',
+        'Otsi...': 'Search...'
     },
     et: {
         'Kasutajad': 'Kasutajad',
@@ -22,5 +23,6 @@ export const translations = {
         'E-post': 'E-post',
         'Muuda': 'Muuda',
         'Kustuta': 'Kustuta',
+        'Otsi': 'Otsi',
     }
 };
