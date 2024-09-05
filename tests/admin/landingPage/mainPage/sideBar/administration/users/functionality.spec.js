@@ -1,9 +1,17 @@
 const { test, expect } = require('@playwright/test');
 const { getTranslationsForLocale } = require('../../../../../.auth/language_detector');
 
+
+
 test.describe('Table Sorting and Search Functionality', () => {
     const translation = getTranslationsForLocale('https://admin.test.buerokratt.ee', 'i18nextLng', __dirname);
     const pageUrl = 'https://admin.test.buerokratt.ee/chat/users';
+
+    //
+
+    // WRITE A SINGLE TEST OR SEQUENTIAL TESTS THAT TEST THE CREATION, EDITING AND DELETION OF AN USER.
+
+    //
 
     test.beforeEach(async ({ page }) => {
         await page.goto(pageUrl);
