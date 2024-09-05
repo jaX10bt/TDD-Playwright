@@ -41,20 +41,6 @@ test.describe('Full Visibility Test for User Management Page', () => {
         }
     });
 
-    // Test 5: Check if the Edit button is visible (generic check, not row-specific)
-    test('should display the Edit button for any user', async ({ page }) => {
-        // Correcting the selector
-        const editButton = await page.locator(`button:has-text("${translation["Muuda"]}")`);
-
-        // Get the count of matching elements
-        const count = await editButton.count();
-
-        // Iterate through all located buttons to ensure they contain the expected text
-        for (let i = 0; i < count; i++) {
-            await expect(editButton.nth(i)).toHaveText(translation["Muuda"]);
-        }
-    });
-
     test('should have one Edit and one Delete button per row', async ({ page }) => {
         // Wait for the table to be visible
         await page.waitForSelector('.data-table'); // Adjust if needed
