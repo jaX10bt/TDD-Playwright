@@ -15,21 +15,16 @@ test.describe('Table Sorting and Search Functionality', () => {
         
         // Log headers and translation key for debugging
         const headers = await page.locator('//table//thead//th').allTextContents();
-        console.log('Table headers:', headers);
-        console.log('Translation key used for column:', columnName);
         
         // Verify column index
         const columnIndex = headers.indexOf(columnName) + 1;
-        console.log('Column index:', columnIndex);
 
         // Construct XPath using the static index for debugging
         const columnXpath = `xpath=//table//tr/td[${columnIndex}]`;
-        console.log('Column XPath:', columnXpath);
         
         // Locate the cells in the target column before sorting
         const columnCells = await page.locator(columnXpath);
         const unsortedValues = (await columnCells.allTextContents()).map(val => val.trim());
-        console.log('Unsorted values:', unsortedValues);
 
         // Click to sort in ascending order
         await page.getByRole('cell', { name: columnName, exact: true }).getByRole('button').first().click();
@@ -38,6 +33,7 @@ test.describe('Table Sorting and Search Functionality', () => {
         // Locate the cells again after sorting
         const sortedValuesAsc = (await columnCells.allTextContents()).map(val => val.trim());
         const manuallySortedValuesAsc = [...unsortedValues].sort((a, b) => a.localeCompare(b));
+
         expect(sortedValuesAsc).toEqual(manuallySortedValuesAsc);
 
         // Click again to sort in descending order
@@ -60,6 +56,10 @@ test.describe('Table Sorting and Search Functionality', () => {
     });
 
     test('Sort by Roll', async ({ page }) => {
+        test.info().annotations.push({
+            type: 'Known bug',
+            description: 'The sorting is random? All administrator roles should be first, but some are after other roles. ',
+        })
         await testSorting({ page }, 'Roll');
     });
 
