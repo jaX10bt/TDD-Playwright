@@ -124,4 +124,64 @@ test.describe('Table Sorting and Search Functionality', () => {
         await testSorting({ page }, 'E-post');
         await testSearching({ page }, 'E-post');
     });
+
+    test.only('should add a new user', async ({ page }) => {
+
+        test.info().annotations.push({
+            type: 'Known bug',
+            description: 'The test doesnt run due to some internal failure, making the creation of an user impossible.',
+        })
+
+        // Click the "Lisa kasutaja" button to open the Add User dialog
+        await page.locator(`button.btn--primary:has-text("${translation["Lisa kasutaja"]}")`).click();
+
+        // Fill in the Full Name field
+        await page.fill('input[name="fullName"]', 'Test User');
+
+        // Fill in the ID Code field (e.g., EE12345678910)
+        await page.fill('input[name="idCode"]', 'EE12345678910');
+
+        // Select a role from the dropdown (assuming it's a multi-select dropdown)
+        await page.click('.multiSelect__wrapper'); // Click to open the dropdown
+        // THIS FAILS 
+        await page.click(`div[role="option"]:has-text("${translation["Administraator"]}")'`)  /// This should be randomized
+
+        // Fill in the Display Name field
+        await page.fill('input[name="displayName"]', 'TUser');
+
+        // Fill in the Title field
+        await page.fill('input[name="csaTitle"]', 'Developer');
+
+        // Fill in the Email field
+        await page.fill('input[name="csaEmail"]', 'test.user@example.com');
+
+        // Click the "Lisa kasutaja" button to submit the form
+        await page.click('button.btn--primary:has-text("Lisa kasutaja")');
+
+        // Assert that the new user has been added to the table (based on expected behavior)
+        const newUserRow = await page.locator('table.data-table tbody tr:has-text("Test User")');
+        await expect(newUserRow).toBeVisible();
+    });
+
+    test('Edit user details', async ({ page }) => {
+
+        test.info().annotations.push({
+            type: 'Known bug',
+            description: 'The test doesnt run due to some internal failure, making the editing impossible.',
+        })
+
+        // TODO
+
+    })
+
+    test.skip('Delete user', async ({ page }) => {
+
+        test.info().annotations.push({
+            type: 'Note',
+            description: 'This test is skipped due to it actually working. THis is currently skipped due to there not being a possibility of creating a new user due to internal failures.',
+        })
+
+        // TODO
+
+    })
 });
