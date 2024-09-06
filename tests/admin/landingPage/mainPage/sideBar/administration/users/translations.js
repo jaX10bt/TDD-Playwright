@@ -10,7 +10,9 @@ export const translations = {
         'E-post': 'E-mail',
         'Muuda': 'Edit',
         'Kustuta': 'Delete',
-        'Otsi...': 'Search...'
+        'Otsi...': 'Search...',
+        'Administraator': 'Administrator',
+        'Ees- ja perekonnanimi': '',
     },
     et: {
         'Kasutajad': 'Kasutajad',
@@ -24,5 +26,7 @@ export const translations = {
         'Muuda': 'Muuda',
         'Kustuta': 'Kustuta',
         'Otsi': 'Otsi',
+        'Administraator': 'Administraator',
+        'Ees- ja perekonnanimi': 'Ees- ja perekonnanimi'
     }
 };
