@@ -142,9 +142,12 @@ test.describe('Table Sorting and Search Functionality', () => {
         await page.fill('input[name="idCode"]', 'EE12345678910');
 
         // Select a role from the dropdown (assuming it's a multi-select dropdown)
-        await page.click('.multiSelect__wrapper'); // Click to open the dropdown
-        // THIS FAILS 
-        await page.click(`div[role="option"]:has-text("${translation["Administraator"]}")'`)  /// This should be randomized
+        //await page.click('.multiSelect__wrapper'); // Click to open the dropdown
+
+
+
+        await page.locator('div').filter({ hasText: translation["Vali"] }).nth(2).click();
+        await page.getByRole('option', { name: translation["Administraator"] }).click();
 
         // Fill in the Display Name field
         await page.fill('input[name="displayName"]', 'TUser');
@@ -156,11 +159,28 @@ test.describe('Table Sorting and Search Functionality', () => {
         await page.fill('input[name="csaEmail"]', 'test.user@example.com');
 
         // Click the "Lisa kasutaja" button to submit the form
-        await page.click('button.btn--primary:has-text("Lisa kasutaja")');
+        await page.locator(`button.btn.btn--primary.btn--m:has-text("${translation["Lisa kasutaja"]}")`).nth(1).click();
 
-        // Assert that the new user has been added to the table (based on expected behavior)
-        const newUserRow = await page.locator('table.data-table tbody tr:has-text("Test User")');
-        await expect(newUserRow).toBeVisible();
+     // Log headers and translation key for debugging
+     const columnName = translation["Nimi"];
+     const headers = await page.locator('//table//thead//th').allTextContents();
+ 
+     // Verify column index
+     const columnIndex = headers.indexOf(columnName) + 1;
+ 
+     // Construct XPath using the static index for debugging
+     const columnXpath = `xpath=//table//tr/td[${columnIndex}]`;
+ 
+     // Locate the cells in the target column after the user is added
+     const columnCells = await page.locator(columnXpath);
+     const allValues = (await columnCells.allTextContents()).map(val => val.trim());
+ 
+     // Check if the new user's name exists in the column
+     expect(allValues).toContain(userName);
+ 
+     // Assert that the new user has been added to the table (based on expected behavior)
+     const newUserRow = await page.locator(`table.data-table tbody tr:has-text("${userName}")`);
+     await expect(newUserRow).toBeVisible();
     });
 
     test('Edit user details', async ({ page }) => {
