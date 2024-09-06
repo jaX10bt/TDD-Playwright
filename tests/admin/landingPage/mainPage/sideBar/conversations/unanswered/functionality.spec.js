@@ -1,9 +1,15 @@
 import { test, expect } from '@playwright/test';
+import { openDialog, selectFirstChat, takeOverFirstChat } from '../unanswered/helper';
+
 test.beforeEach(async ({ page }) => {
     await page.goto('https://admin.test.buerokratt.ee/chat/unanswered');
 
     // before each test should turn switch on.
-    page.locator('.switch__button').click();
+    await page.locator('.switch__button').click();
+    await page.reload();
+    await page.waitForTimeout(2000);
+
+
 })
 
 test('Check if clicking unanswered chat opens it ### Look issue inside',
@@ -15,20 +21,8 @@ test('Check if clicking unanswered chat opens it ### Look issue inside',
             description: 'This test has a bug: after clicking to open the chat, it only works if you mark it as "Present", switch to another tab, return to the original tab, and then attempt to open the chat again.',
         })
 
-        // await page.getByRole('switch', { name: 'Kohal Eemal' }).click();
-
-
-        // Get all chats
-        const buttons = page.locator('button.vertical-tabs__trigger').first();
-
-
-        // Count chats
-        const buttonCount = await buttons.count();
-        if (buttonCount === 0) {
-            console.log('No unanswered chats available');
-            return;
-        }
-        await buttons.first().click();
+        const chatOpened = await selectFirstChat(page);
+        if (!chatOpened) return;
 
 
         // Check that all chat parts exist
@@ -53,7 +47,7 @@ test('Check if clicking unanswered chat opens it ### Look issue inside',
         const chatSideMeta = page.locator('div.active-chat__side-meta')
         await expect(chatSideMeta).toBeVisible();
 
-        const chatHeaderText = page.locator('div.track.h3')
+        const chatHeaderText = page.locator('div.track h3')
         await expect(chatHeaderText).toBeVisible();
 
         // Ensure that the chat header text is not empty
@@ -61,25 +55,135 @@ test('Check if clicking unanswered chat opens it ### Look issue inside',
     });
 
 
+
 test('Should open dialog, when "Lõpeta vestlus" button is clicked', async ({ page }) => {
-    // await page.waitForLoadState('networkidle');
-    // Get all chats
-    const buttons = page.locator('button.vertical-tabs__trigger');
+    const chatOpened = await selectFirstChat(page);
+    if (!chatOpened) return;
 
-    // Count chats
-    const buttonCount = await buttons.count();
-    if (buttonCount === 0) {
-        console.log('No unanswered chats available');
-        return;
-    }
-    await buttons.first().click();
+    const isDialogVisible = await openDialog(page, "Lõpeta vestlus");
+    expect(isDialogVisible).toBe(true);
 
-    const endChatButtonSelector = page.locator('button.btn.btn--success.btn--m:has-text("Lõpeta vestlus")');
-
-    await endChatButtonSelector.click();
-
-    expect(page.locator('.dialog--default')).toBeVisible();
-    
 })
+
+
+test('Should close dialog, when "Lõpeta vestlus" button is clicked', async ({ page }) => {
+    const chatOpened = await selectFirstChat(page);
+    if (!chatOpened) return;
+
+    const isDialogVisible = await openDialog(page, "Lõpeta vestlus");
+    expect(isDialogVisible).toBe(true);
+
+    const dialog = page.locator('.dialog--default');
+    const closeButton = dialog.getByRole('button', { name: 'Tühista' });
+    await closeButton.click();
+    await expect(dialog).not.toBeVisible();
+})
+
+
+test('Should activate chat, when "Võta üle" button is clicked', async ({ page }) => {
+    await takeOverFirstChat(page);
+
+    const sideActionsButtons = page.locator('.active-chat__side-actions button');
+    const sideButtonsCount = await sideActionsButtons.count();
+
+    for (let i = 0; i < sideButtonsCount; i++) {
+        const button = sideActionsButtons.nth(i);
+        await expect(button).not.toHaveClass(/btn--disabled/);
+    }
+
+    await expect(page.locator('textarea#chatArea')).toBeVisible();
+    await expect(page.locator('#myButton')).toBeVisible();
+    await expect(page.locator('.active-chat__toolbar-actions > button:nth-child(2)')).toBeVisible();
+})
+
+
+
+test('Should be able to type text in chat input field', async ({ page }) => {
+    await takeOverFirstChat(page);
+
+    const textarea = page.locator('textarea#chatArea');
+    const inputValue = 'Test input value';
+    await textarea.fill(inputValue);
+    await expect(textarea).toHaveValue(inputValue);
+
+})
+
+
+test('Verify that text appears in chat after sending button clicked', async ({ page }) => {
+
+    await takeOverFirstChat(page);
+
+    const textArea = page.locator('#chatArea');
+    const message = 'Hello, this is a test message!';
+    await textArea.fill(message);
+
+    const sendButton = page.locator('#myButton');
+    await sendButton.click();
+    await page.waitForEvent(1000);
+
+    const chatMessage = page.locator('.active-chat__message-text div').last();
+    await expect(chatMessage).toHaveText(message);
+});
+
+
+test('click "Küsi autentimist" button and verify chat event', async ({ page }) => {
+    await takeOverFirstChat(page);
+
+    // Click on the "Küsi autentimist" button
+    await page.click('button.btn--secondary:has-text("Küsi autentimist")');
+
+    // Get all chat messages
+    const chatMessages = page.locator('div.active-chat__group.active-chat__group--event div.active-chat__event-message p');
+
+    // Get last chat message that should be asking for authentication
+    const lastMessage = chatMessages.last();
+
+    // Verify the chat event message content
+    await expect(lastMessage).toHaveText(/Küsiti autentimist/);
+});
+
+test('click "Küsi kontaktandmeid" button and verify chat event', async ({ page }) => {
+    await takeOverFirstChat(page);
+
+    // Click on the "Küsi autentimist" button
+    await page.click('button.btn--secondary:has-text("Küsi kontaktandmeid")');
+
+    // Get all chat messages
+    const chatMessages = page.locator('div.active-chat__group.active-chat__group--event div.active-chat__event-message p');
+
+    // Get last chat message that should be asking for authentication
+    const lastMessage = chatMessages.last();
+
+    // Verify the chat event message content
+    await expect(lastMessage).toHaveText(/Küsiti kontaktandmeid/);
+});
+
+
+test('click "Küsi nõusolekut" button and verify chat event', async ({ page }) => {
+    await takeOverFirstChat(page);
+
+    // Click on the "Küsi autentimist" button
+    await page.click('button.btn--secondary:has-text("Küsi nõusolekut")');
+
+    // Get all chat messages
+    const chatMessages = page.locator('div.active-chat__group.active-chat__group--event div.active-chat__event-message p');
+
+    // Get last chat message that should be asking for authentication
+    const lastMessage = chatMessages.last();
+
+    // Verify the chat event message content
+    await expect(lastMessage).toHaveText(/Küsiti nõusolekut/);
+});
+
+
+
+
+
+
+
+
+
+
+
 
 

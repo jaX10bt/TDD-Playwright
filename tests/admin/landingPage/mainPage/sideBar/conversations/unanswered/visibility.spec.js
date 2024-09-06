@@ -1,8 +1,11 @@
 import { test, expect } from '@playwright/test';
+import { openDialog, selectFirstChat, takeOverFirstChat } from '../unanswered/helper';
 
 test.describe('"Vastamata" page visibility', () => {
+    test.beforeEach(async ({ page }) => {
+        await page.goto('https://admin.test.buerokratt.ee/chat/unanswered');
+    })
 
-    
     test('should have the correct URL', async ({ page }) => {
         await expect(page).toHaveURL('https://admin.test.buerokratt.ee/chat/unanswered');
     });
@@ -48,16 +51,22 @@ test.describe('Selected conversation open chat visibility tests', () => {
     test.beforeEach(async ({ page }) => {
         await page.goto('https://admin.test.buerokratt.ee/chat/unanswered');
 
-      
-        //***************this two lines should be removed later */
-        await page.getByRole('link', { name: /Aktiivsed/ }).click();
-        await page.getByRole('link', { name: /Vastamata/ }).click();
 
-        const switchButton =  page.locator('.switch__button');
+        //***************this two lines should be removed later */
+        // await page.getByRole('link', { name: /Aktiivsed/ }).click();
+        // await page.getByRole('link', { name: /Vastamata/ }).click();
+
+        const switchButton = page.locator('.switch__button');
         if (switchButton.getAttribute('aria-expanded', 'true') !== 'true') {
             await switchButton.click();
         }
+
+        await page.reload();
+        await page.waitForTimeout(2000);
+
+
         const buttons = page.locator('button.vertical-tabs__trigger').first();
+        await buttons.check();
 
         await buttons.first().click();
 
@@ -111,6 +120,26 @@ test.describe('Selected conversation open chat visibility tests', () => {
         const buttonElement = page.locator('div.active-chat__toolbar-actions button')
         await expect(buttonElement.filter({ hasText: /Võta üle/ })).toBeVisible();
     });
+    test('Should have all radio labels (Aktsepteeritud, Vihakone, Muud pohjused, Kliendile vastati tema jäetud kontaktile) visible', async ({ page }) => {
+        const radioItems = page.locator('fieldset.radios .radios__item');
+
+        // Expected labels and their corresponding texts
+        const expectedLabels = [
+            'Aktsepteeritud',
+            'Vihakõne',
+            'Muud põhjused',
+            'Kliendile vastati tema jäetud kontaktile'
+        ];
+
+        // Check visibility and text of each label
+        for (let i = 0; i < 4; i++) {
+            const radioItem = radioItems.nth(i);
+            const label = radioItem.locator('label');
+
+            await expect(label).toBeVisible();
+            await expect(label).toHaveText(expectedLabels[i]);
+        }
+    });
 
     test('Should have active chat header', async ({ page }) => {
         // Verify chat header
@@ -122,6 +151,179 @@ test.describe('Selected conversation open chat visibility tests', () => {
         await expect(h3).toBeVisible();
     });
 
-
-
 });
+
+
+test.describe('"Vali vestluse staatus" dialog visibility', () => {
+    test.beforeEach(async ({ page }) => {
+
+        test.info().annotations.push({
+            type: 'Known bug',
+            description: 'This test has a bug: after clicking to open the chat, it only works if you mark it as "Present", switch to another tab, return to the original tab, and then attempt to open the chat again.',
+        })
+
+        await page.goto('https://admin.test.buerokratt.ee/chat/unanswered');
+
+
+        //***************this two lines should be removed later */
+        // await page.getByRole('link', { name: /Aktiivsed/ }).click();
+        // await page.getByRole('link', { name: /Vastamata/ }).click();
+
+        const switchButton = page.locator('.switch__button');
+        if (switchButton.getAttribute('aria-expanded', 'true') !== 'true') {
+            await switchButton.click();
+        }
+
+        await page.reload();
+        await page.waitForTimeout(2000);
+        const buttons = page.locator('button.vertical-tabs__trigger').first();
+
+        await buttons.first().click();
+
+        const endChatButtonSelector = page.locator('button.btn.btn--success.btn--m:has-text("Lõpeta vestlus")');
+
+        await endChatButtonSelector.click();
+
+
+    })
+
+
+    test('Should have dialog visible', async ({ page }) => {
+        const dialog = page.locator('div.dialog')
+        await expect(dialog).toBeVisible();
+    });
+
+    test('Should have dialog header visible', async ({ page }) => {
+        const title = page.locator('div.dialog__header')
+        await expect(title).toBeVisible();
+    });
+
+    test('Should have dialog body visible', async ({ page }) => {
+        const body = page.locator('div.dialog__body')
+        await expect(body).toBeVisible();
+    });
+
+    test('Should have all radio buttons visible', async ({ page }) => {
+        const radios = page.locator('fieldset.radios .radios__item input[type="radio"]');
+        await expect(radios).toHaveCount(4); // Check if there are 4 radio buttons
+    });
+
+    test('Should have all radio labels (Aktsepteeritud, Vihakone, Muud pohjused, Kliendile vastati tema jäetud kontaktile) visible', async ({ page }) => {
+        const radioItems = page.locator('fieldset.radios .radios__item');
+
+        // Expected labels and their corresponding texts
+        const expectedLabels = [
+            'Aktsepteeritud',
+            'Vihakõne',
+            'Muud põhjused',
+            'Kliendile vastati tema jäetud kontaktile'
+        ];
+
+        // Check visibility and text of each label
+        for (let i = 0; i < 4; i++) {
+            const radioItem = radioItems.nth(i);
+            const label = radioItem.locator('label');
+
+            await expect(label).toBeVisible();
+            await expect(label).toHaveText(expectedLabels[i]);
+        }
+    });
+
+
+
+
+    // test('Should have dialog footer visible', async ({ page }) => {
+    //     const body = page.locator('div.dialog__footer')
+    //     await expect(body).toBeVisible();
+    // });
+
+})
+
+
+test.describe('"Suuna kolleegile" active chat actions dialog visibility', () => {
+    const headers = [
+        /Nimi/, /Kuvatav nimi/, /Staatus/
+    ];
+
+    test.beforeEach(async ({ page }) => {
+
+        await page.goto('https://admin.test.buerokratt.ee/chat/unanswered');
+
+        // before each test should turn switch on.
+        await page.locator('.switch__button').click();
+        await page.reload();
+        await page.waitForTimeout(2000);
+        await selectFirstChat(page);
+        await takeOverFirstChat(page);
+        await openDialog(page, "Suuna kolleegile")
+
+    })
+
+
+    test('Should have "Kellele vastust suunata?" dialog header and body parts visible', async ({ page }) => {
+        // header pars
+        const dialogHeader = page.locator('.dialog__header');
+        await expect(dialogHeader).toBeVisible();
+
+        const dialogTitle = dialogHeader.locator('h2.dialog__title');
+        await expect(dialogTitle).toHaveText('Kellele vestlus suunata?');
+
+        const closeButton = dialogHeader.locator('button.dialog__close');
+        await expect(closeButton).toBeVisible();
+
+        // body parts
+        const dialogBody = page.locator('.dialog__body');
+        await expect(dialogBody).toBeVisible();
+
+        // Check input field visibility and placeholder
+        const inputField = dialogBody.locator('input[name="search"]');
+        await expect(inputField).toBeVisible();
+        await expect(inputField).toHaveAttribute('placeholder', 'Otsi nime või tiitli järgi...');
+
+        // Check checkbox visibility
+        const checkbox = page.getByText('Näita ainult kohal olevaid nõustajaid');
+        await expect(checkbox).toBeVisible();
+
+        const table = page.locator('.data-table');
+        await expect(table).toBeVisible();
+
+        // Check if each column header is rendered
+        for (const header of headers) {
+            const headerElement = table.locator(`th`).filter({ hasText: header });
+            await expect(headerElement).toBeVisible();
+        }
+
+
+        // Iterate over each header and check if the sorting button exists
+        for (const header of headers) {
+            const sortingButton = page.locator('th').filter({ hasText: header }).locator('button');
+            await expect(sortingButton).toBeVisible();
+        }
+
+
+        // Check if table pagination wrapper exist 
+        const paginationWrapper = page.locator('.data-table__pagination-wrapper');
+        await expect(paginationWrapper).toBeVisible();
+
+        const pageSizeSelector = paginationWrapper.locator('select');
+        await expect(pageSizeSelector).toBeVisible();
+
+
+        // Change the number of rows per page
+        await pageSizeSelector.selectOption('10');
+        await expect(pageSizeSelector).toHaveValue('10');
+
+        await pageSizeSelector.selectOption('20');
+        await expect(pageSizeSelector).toHaveValue('20');
+
+        await pageSizeSelector.selectOption('30');
+        await expect(pageSizeSelector).toHaveValue('30');
+
+        await pageSizeSelector.selectOption('40');
+        await expect(pageSizeSelector).toHaveValue('40');
+
+        await pageSizeSelector.selectOption('50');
+        await expect(pageSizeSelector).toHaveValue('50');
+    });
+
+})
