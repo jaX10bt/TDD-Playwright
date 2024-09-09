@@ -21,6 +21,7 @@ function loadUserData() {
 
 const userData = loadUserData();
 
+
 export function getTranslationsForLocale(targetOrigin, targetName, importingDir) {
     if (!userData) {
         console.error('User data could not be loaded. Unable to get translations.');
@@ -41,11 +42,15 @@ export function getTranslationsForLocale(targetOrigin, targetName, importingDir)
 
     const locale = localStorageEntry.value;
 
-    // Dynamically resolve the path to the translations.js file
-    const translationsPath = path.join(importingDir, 'translations.js');
+    // Determine the appropriate folder and file based on the locale
+    const localeFolder = locale === 'et' ? 'et' : 'en';
+    const translationsFileName = 'common.js';
+
+    // Dynamically resolve the path to the correct translations file
+    const translationsPath = path.join(importingDir, 'TDD-Playwright', 'tests', 'translations', localeFolder, translationsFileName);
 
     if (!fs.existsSync(translationsPath)) {
-        console.warn(`No translations.js file found in directory: ${importingDir}`);
+        console.warn(`No ${translationsFileName} file found in directory: ${translationsPath}`);
         return null;
     }
 
@@ -57,10 +62,5 @@ export function getTranslationsForLocale(targetOrigin, targetName, importingDir)
         return null;
     }
 
-    if (!translations[locale]) {
-        console.warn(`No translations found for locale: ${locale}`);
-        return null;
-    }
-
-    return translations[locale];
+    return translations;
 }
