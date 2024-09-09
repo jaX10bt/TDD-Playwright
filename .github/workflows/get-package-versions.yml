@@ -38,28 +38,33 @@ jobs:
           OUTPUT_FILE="docker_image_tags.txt"
           echo "Docker Image Tags:" > "$OUTPUT_FILE"
 
-          for IMAGE in "${IMAGES[@]}"; do
-            echo "Fetching tags for $IMAGE..."
+          # GitHub API token (required for authentication)
+          GITHUB_TOKEN="${{ secrets.ACCESS_TOKEN }}"
 
-            # Fetch Docker tags using the corrected Docker Registry HTTP API for public repositories
-            response=$(curl -s "https://ghcr.io/v2/$IMAGE/tags/list")
-            
+          for REPO in "${REPOS[@]}"; do
+            echo "Fetching tags for $REPO..."
+
+            # Fetch package list using GitHub REST API
+            response=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
+                          "https://api.github.com/orgs/buerokratt/packages/container/${REPO#*/}/versions")
+
             # Print the raw response for debugging
-            echo "Response for $IMAGE: $response"
+            echo "Response for $REPO: $response"
 
-            # Check if the response contains tags or an error
-            if echo "$response" | jq -e '.tags' > /dev/null; then
-              # Parse the JSON to list all tags (Docker image versions)
-              tags=$(echo "$response" | jq -r '.tags[]')
+            # Check for errors in the response
+            if echo "$response" | jq -e '.message' > /dev/null; then
+              echo "Error fetching tags for $REPO: $(echo "$response" | jq -r '.message')" >> "$OUTPUT_FILE"
+              continue
+            fi
 
-              if [ -n "$tags" ]; then
-                echo "Tags for $IMAGE:" >> "$OUTPUT_FILE"
-                echo "$tags" >> "$OUTPUT_FILE"
-              else
-                echo "No tags found for $IMAGE." >> "$OUTPUT_FILE"
-              fi
+            # Parse the JSON to list all tags (Docker image versions)
+            tags=$(echo "$response" | jq -r '.[].metadata.container.tags[]')
+
+            if [ -n "$tags" ]; then
+              echo "Tags for $REPO:" >> "$OUTPUT_FILE"
+              echo "$tags" >> "$OUTPUT_FILE"
             else
-              echo "Error fetching tags for $IMAGE." >> "$OUTPUT_FILE"
+              echo "No tags found for $REPO." >> "$OUTPUT_FILE"
             fi
           done
 
