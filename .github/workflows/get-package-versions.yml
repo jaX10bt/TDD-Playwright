@@ -36,7 +36,7 @@ jobs:
 
           # Create or clear the output file
           OUTPUT_FILE="docker_image_tags.txt"
-          echo "Latest Docker Image Tags:" > "$OUTPUT_FILE"
+          # echo "Latest Docker Image Tags:" > "$OUTPUT_FILE"
 
           # GitHub API token (required for authentication)
           GITHUB_TOKEN="${{ secrets.GITHUB_TOKEN }}"
@@ -63,7 +63,7 @@ jobs:
             latest_version=$(echo "$response" | jq -r 'sort_by(.created_at) | .[-1] | .metadata.container.tags[]')
 
             if [ -n "$latest_version" ]; then
-              echo "Latest tag for $PACKAGE: $latest_version" >> "$OUTPUT_FILE"
+              echo "$PACKAGE=$latest_version" >> "$OUTPUT_FILE"
             else
               echo "No tags found for $PACKAGE." >> "$OUTPUT_FILE"
             fi
