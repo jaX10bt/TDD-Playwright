@@ -88,11 +88,12 @@ jobs:
         run: |
           # Set up SSH
           mkdir -p ~/.ssh
-          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+          echo "${{ secrets.SSH_KEY_TODELETE }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.DEV_IP }} >> ~/.ssh/known_hosts
 
           # Write the YAML file to the remote server
-          scp -o StrictHostKeyChecking=no latest_docker_tags.yaml ubuntu@${{ secrets.DEV_IP }}:/jakob/
+          scp latest_docker_tags.yaml ubuntu@${{ secrets.DEV_IP }}:/jakob/
 
       - name: Upload docker tags file
         uses: actions/upload-artifact@v4
