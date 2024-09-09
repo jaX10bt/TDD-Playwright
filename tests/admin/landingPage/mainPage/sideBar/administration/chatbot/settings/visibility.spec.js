@@ -2,6 +2,8 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Seaded/Settings Visibility Tests', () => {
 
+    // TODO Make universal based on translations
+
     test.beforeEach(async ({ page }) => {
         // Navigate to the page before each test
         await page.goto('https://admin.test.buerokratt.ee/chat/chatbot/settings'); // Replace with your actual page URL
