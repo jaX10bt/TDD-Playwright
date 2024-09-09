@@ -3,11 +3,12 @@ import { openDialog, selectFirstChat, takeOverFirstChat } from '../unanswered/he
 
 // todo: cleaner path
 import {getTranslations} from '../../../../../../translations/languageDetector'
+const translations = await getTranslations(page);
 
 test.beforeEach(async ({ page }) => {
     await page.goto('https://admin.test.buerokratt.ee/chat/unanswered');
 
-    const translations = await getTranslations(page);
+   
 
     // before each test should turn switch on.
     await page.locator('.switch__button').click();
@@ -79,9 +80,10 @@ test('Should close dialog, when "Lõpeta vestlus" button is clicked', async ({ p
     expect(isDialogVisible).toBe(true);
 
     const dialog = page.locator('.dialog--default');
-    const closeButton = dialog.getByRole('button', { name: 'Tühista' });
+    const closeButton = dialog.getByRole('button', { name: translations.cancel });
     await closeButton.click();
     await expect(dialog).not.toBeVisible();
+    
 })
 
 
@@ -135,7 +137,7 @@ test('click "Küsi autentimist" button and verify chat event', async ({ page }) 
     await takeOverFirstChat(page);
 
     // Click on the "Küsi autentimist" button
-    await page.click('button.btn--secondary:has-text("Küsi autentimist")');
+    await page.click(`button.btn--secondary:has-text("${translations.askAuthentication}")`);
 
     // Get all chat messages
     const chatMessages = page.locator('div.active-chat__group.active-chat__group--event div.active-chat__event-message p');
@@ -143,15 +145,16 @@ test('click "Küsi autentimist" button and verify chat event', async ({ page }) 
     // Get last chat message that should be asking for authentication
     const lastMessage = chatMessages.last();
 
+
     // Verify the chat event message content
-    await expect(lastMessage).toHaveText(/Küsiti autentimist/);
+    await expect(lastMessage).toHaveText(new RegExp(translations.requestedAuthentication));
 });
 
 test('click "Küsi kontaktandmeid" button and verify chat event', async ({ page }) => {
     await takeOverFirstChat(page);
 
     // Click on the "Küsi autentimist" button
-    await page.click('button.btn--secondary:has-text("Küsi kontaktandmeid")');
+    await page.click(`button.btn--secondary:has-text("${translations.askContactInformation}")`);
 
     // Get all chat messages
     const chatMessages = page.locator('div.active-chat__group.active-chat__group--event div.active-chat__event-message p');
@@ -160,15 +163,15 @@ test('click "Küsi kontaktandmeid" button and verify chat event', async ({ page 
     const lastMessage = chatMessages.last();
 
     // Verify the chat event message content
-    await expect(lastMessage).toHaveText(/Küsiti kontaktandmeid/);
+    await expect(lastMessage).toHaveText(new RegExp(translations.askedContactInformation));
 });
 
 
 test('click "Küsi nõusolekut" button and verify chat event', async ({ page }) => {
     await takeOverFirstChat(page);
 
-    // Click on the "Küsi autentimist" button
-    await page.click('button.btn--secondary:has-text("Küsi nõusolekut")');
+    // Click on the "Küsi nõusolekut" button
+    await page.click(`button.btn--secondary:has-text("${translations.askPermission}")`);
 
     // Get all chat messages
     const chatMessages = page.locator('div.active-chat__group.active-chat__group--event div.active-chat__event-message p');
@@ -177,21 +180,21 @@ test('click "Küsi nõusolekut" button and verify chat event', async ({ page }) 
     const lastMessage = chatMessages.last();
 
     // Verify the chat event message content
-    await expect(lastMessage).toHaveText(/Küsiti nõusolekut/);
+    await expect(lastMessage).toHaveText(new RegExp(translations.askedPermission));
 });
 
 
 // Test cases
 test('should not send more than 1 event message when "Küsi autentimist" button is clicked', async ({ page }) => {
-    await testEventMessageCount(page, "Küsi autentimist", "Küsiti autentimist");
+    await testEventMessageCount(page, translations.askAuthentication, translations.askedAuthentication);
 });
 
 test('should not send more than 1 event message when "Küsi kontaktandmeid" button is clicked', async ({ page }) => {
-    await testEventMessageCount(page, "Küsi kontaktandmeid", "Küsiti kontaktandmeid");
+    await testEventMessageCount(page, translations.askContactInformation, translations.askedContactInformation);
 });
 
 test('should not send more than 1 event message when "Küsi nõusolekut" button is clicked', async ({ page }) => {
-    await testEventMessageCount(page, "Küsi nõusolekut", "Küsiti nõusolekut");
+    await testEventMessageCount(page, translations.askPermission, translations.askedPermission);
 });
 
 
