@@ -1,9 +1,11 @@
 import { test, expect } from '@playwright/test';
+import { getTranslations } from '../../../../../../translations/languageDetector';
 
 test.describe('"Ootel" page visibility', () => {
 
     test.beforeEach(async ({ page }) => {
         await page.goto('https://admin.test.buerokratt.ee/chat/pending');
+        // const t = await getTranslations(page)
     });
 
     test('should have the correct URL', async ({ page }) => {
@@ -102,7 +104,6 @@ test.describe('"Pending" tab body visibility', () => {
 
         await expect(pElement.filter({ hasText: /Seade/ })).toBeVisible();
         await expect(pElement.filter({ hasText: /Lähtekoht/ })).toBeVisible();
-
 
     });
 });
