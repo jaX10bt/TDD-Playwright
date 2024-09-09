@@ -17,7 +17,7 @@ jobs:
 
       - name: Get package versions
         run: |
-          REPOS=(
+          IMAGES=(
             "buerokratt/Buerokratt-Chatbot"
             "buerokratt/Training-Module"
             "buerokratt/Analytics-Module"
