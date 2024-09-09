@@ -55,7 +55,7 @@ jobs:
           echo "Package versions written to $OUTPUT_FILE."
           
       - name: Upload package versions file
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: package-versions
           path: package_versions.txt
