@@ -1,5 +1,4 @@
 {
-    "conversations": {
-        "search": "Search"
-    }
+    "requested-authentication": "Küsiti autentimist",
+    "ask-permission": "Küsiti nõusolekut"
 }
