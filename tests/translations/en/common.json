@@ -1,5 +1,4 @@
 {
-    "conversations": {
-        "search": "Otsi"
-    }
+    "requested-authentication": "Requested authentication",
+    "ask-permission": "Asked permission"
 }
