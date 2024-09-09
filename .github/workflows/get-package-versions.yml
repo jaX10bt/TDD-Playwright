@@ -36,7 +36,7 @@ jobs:
 
           # Create or clear the output file
           OUTPUT_FILE="docker_image_tags.txt"
-          echo "Docker Image Tags:" > "$OUTPUT_FILE"
+          echo "Latest Docker Image Tags:" > "$OUTPUT_FILE"
 
           # GitHub API token (required for authentication)
           GITHUB_TOKEN="${{ secrets.GITHUB_TOKEN }}"
@@ -59,21 +59,20 @@ jobs:
               continue
             fi
 
-            # Parse the JSON to list all tags (Docker image versions)
-            tags=$(echo "$response" | jq -r '.[].metadata.container.tags[]')
+            # Get the latest version based on the `created_at` date
+            latest_version=$(echo "$response" | jq -r 'sort_by(.created_at) | .[-1] | .metadata.container.tags[]')
 
-            if [ -n "$tags" ]; then
-              echo "Tags for $PACKAGE:" >> "$OUTPUT_FILE"
-              echo "$tags" >> "$OUTPUT_FILE"
+            if [ -n "$latest_version" ]; then
+              echo "Latest tag for $PACKAGE: $latest_version" >> "$OUTPUT_FILE"
             else
               echo "No tags found for $PACKAGE." >> "$OUTPUT_FILE"
             fi
           done
 
-          echo "Docker image tags written to $OUTPUT_FILE."
+          echo "Latest Docker image tags written to $OUTPUT_FILE."
 
       - name: Upload docker tags file
         uses: actions/upload-artifact@v4
         with:
-          name: docker-image-tags
+          name: latest-docker-image-tags
           path: docker_image_tags.txt
