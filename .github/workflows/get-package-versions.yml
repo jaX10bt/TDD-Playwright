@@ -39,7 +39,7 @@ jobs:
           echo "Docker Image Tags:" > "$OUTPUT_FILE"
 
           # GitHub API token (required for authentication)
-          GITHUB_TOKEN="${{ secrets.ACCESS_TOKEN }}"
+          GITHUB_TOKEN="${{ secrets.GITHUB_TOKEN }}"
 
           ORG="buerokratt"
 
