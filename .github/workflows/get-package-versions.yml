@@ -41,7 +41,10 @@ jobs:
             echo "Checking packages in $REPO..."
 
             # Fetch package versions using GitHub API
-            response=$(curl -s "https://api.github.com/repos/$REPO/packages?package_type=npm")
+            response=$(curl -s -H "Accept: application/vnd.github.v3+json" "https://api.github.com/repos/$REPO/packages?package_type=npm")
+
+            # Print the raw response for debugging
+            echo "Response from API for $REPO: $response"
 
             # Parse the JSON to list all packages and their latest versions
             packages=$(echo "$response" | jq -r '.[] | "\(.name): \(.versions | max_by(.version).version)"')
