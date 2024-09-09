@@ -71,6 +71,29 @@ jobs:
 
           echo "Latest Docker image tags written to $OUTPUT_FILE."
 
+      - name: Create YAML from Docker Tags
+        run: |
+          # echo "latest_tags:" > latest_docker_tags.yaml
+          while IFS= read -r line; do
+            if [[ $line == Latest* ]]; then
+              package_name=$(echo $line | cut -d' ' -f3)
+              package_version=$(echo $line | cut -d' ' -f5)
+              echo "  $package_name: $package_version" >> latest_docker_tags.yaml
+            fi
+          done < docker_image_tags.txt
+
+      - name: Write YAML to Remote Server
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_KEY_TODELETE }}
+        run: |
+          # Set up SSH
+          mkdir -p ~/.ssh
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+
+          # Write the YAML file to the remote server
+          scp -o StrictHostKeyChecking=no latest_docker_tags.yaml ubuntu@${{ secrets.DEV_IP }}:/jakob/
+
       - name: Upload docker tags file
         uses: actions/upload-artifact@v4
         with:
