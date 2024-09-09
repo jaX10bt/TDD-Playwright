@@ -1,12 +1,12 @@
 export const translations = {
     en: {
         'Animatsiooni kestus sekundites': 'Widget proactive seconds',
-        'Märguandesõnum': 'Widget bubble message',
+        'Märguandesõnum': 'Widget bubble message text',
         'Aeg animatsiooni alguseni sekundites': 'Widget bubble message seconds',
-        'Märguandesõnum': 'Widget bubble message',
+        'Märguandesõnum': 'Widget bubble message text',
         'Põhivärv': 'Widget color',
         'Animatsioon': 'Widget animation',
-        'Välimus ja käitumine': 'Appearance and behaviour',
+        'Välimus ja käitumine': 'Appearance and behavior',
         'Salvesta': 'Save',
         'Eelvaade': 'Preview',
     },

@@ -1,11 +1,72 @@
 import { test, expect } from '@playwright/test';
-import { timeout } from '../../../../../../../../playwright.config';
+import { getTranslationsForLocale } from '../../../../../../.auth/language_detector';
+
+
+test.describe('Functionality Tests for "Välimus ja käitumine"/"Appearance and Behaviour" Page', () => {
+
+    const translation = getTranslationsForLocale('https://admin.test.buerokratt.ee', 'i18nextLng', __dirname);
+
+    test.beforeEach(async ({ page }) => {
+        await page.goto('https://admin.test.buerokratt.ee/chat/chatbot/appearance');
+    });
+
+    test('Test Animation Duration Input', async ({ page }) => {
+        const newAnimationDuration = '5';
+        await page.locator('input[name="widgetProactiveSeconds"]').fill(newAnimationDuration);
+        await expect(page.locator('input[name="widgetProactiveSeconds"]')).toHaveValue(newAnimationDuration);
+    });
+
+    test('Test Notification Switch Toggle', async ({ page }) => {
+        const notificationSwitch = page.locator('button.switch__button[aria-checked]').nth(1);
+        const originalNotificationState = await notificationSwitch.getAttribute('aria-checked');
+        await notificationSwitch.click();
+        const newNotificationState = originalNotificationState === 'true' ? 'false' : 'true';
+        await expect(notificationSwitch).toHaveAttribute('aria-checked', newNotificationState);
+    });
+
+    test('Test Animation Start Time Input', async ({ page }) => {
+        const newAnimationStartTime = '3';
+        await page.locator('input[name="widgetDisplayBubbleMessageSeconds"]').fill(newAnimationStartTime);
+        await expect(page.locator('input[name="widgetDisplayBubbleMessageSeconds"]')).toHaveValue(newAnimationStartTime);
+    });
+
+    test('Test Notification Message Input', async ({ page }) => {
+        const newNotificationMessage = 'Test notification';
+        await page.locator('input[name="widgetBubbleMessageText"]').fill(newNotificationMessage);
+        await expect(page.locator('input[name="widgetBubbleMessageText"]')).toHaveValue(newNotificationMessage);
+    });
+
+    test('Test Primary Color Picker', async ({ page }) => {
+        await page.locator('input[name="widgetColor"]').click();
+        const editableInput = page.locator('input[id="rc-editable-input-1"]');
+        await editableInput.clear();
+        await editableInput.fill('#FF0000');
+        await expect(editableInput).toHaveValue('#FF0000');
+    });
+
+    test('Test Animation Dropdown', async ({ page }) => {
+        await page.locator('div.select__trigger').click();
+        const dropdownMenu = page.locator('ul.select__menu');
+        await expect(dropdownMenu).toBeVisible();
+        await dropdownMenu.locator('li:has-text("Jump")').click();
+        await expect(page.locator('div.select__trigger')).toHaveText('JumpDropdown icon');
+    });
+
+    test('Test "Eelvaade" Button Functionality', async ({ page }) => {
+        await page.locator(`button:has-text("${translation['Eelvaade']}")`).click();
+        const mockWidget = page.locator('img[alt="Buerokratt logo"]');
+        await expect(mockWidget).toBeVisible();
+    });
+
+});
+
+// Full functionality tests + persistence tests
+
+
 
 test.describe('Functionality Tests for "Välimus ja käitumine"/"Appearance and behaviour" Page', () => {
 
     let originalStates = {};
-
-    
 
     test.beforeEach(async ({ page }) => {
 
@@ -33,7 +94,6 @@ test.describe('Functionality Tests for "Välimus ja käitumine"/"Appearance and 
     });
 
     test('Check functionality of all fields and "Eelvaade" button', async ({ page }) => {
-
         function rgbToHex(rgb) {
             const [r, g, b] = rgb.match(/\d+/g).map(Number);
             return `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1).toUpperCase()}`;
@@ -78,7 +138,7 @@ test.describe('Functionality Tests for "Välimus ja käitumine"/"Appearance and 
         await expect(page.locator('div.select__trigger')).toHaveText('JumpDropdown icon');
 
         // Click the "Eelvaade" button to trigger the mock widget
-        await page.locator('button:has-text("Eelvaade")').click();
+        await page.locator(`button:has-text("${translation['Eelvaade']}")`).click();
 
         // Wait for the mock widget to appear and verify the changes
         const mockWidget = page.locator('img[alt="Buerokratt logo"]'); // Adjust selector to match the actual mock widget

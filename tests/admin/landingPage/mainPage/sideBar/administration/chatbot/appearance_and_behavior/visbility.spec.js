@@ -1,66 +1,61 @@
 import { test, expect } from '@playwright/test';
-import { translations } from './translations.js';
-import userData from '../../../../../../../.auth/user.json';
+import { getTranslationsForLocale } from '../../../../../../.auth/language_detector';
 
-test.describe('Visibility Tests for "Välimus ja käitumine"/"Appearance and Behaviour"  Page', () => {
+test.describe('Visibility Tests for "Välimus ja käitumine"/"Appearance and Behaviour" Page', () => {
 
-    const cookies = userData.cookies;
-
-    const getCookieValueByName = (cookieName) => {
-        const cookie = cookies.find(cookie => cookie.name === cookieName);
-        return cookie ? cookie.value : null;
-    };
+    const translation = getTranslationsForLocale('https://admin.test.buerokratt.ee', 'i18nextLng', __dirname);
 
     test.beforeEach(async ({ page }) => {
         // Navigate to the page before each test
-        await page.goto('https://admin.test.buerokratt.ee/chat/chatbot/appearance'); // Replace with your actual page URL
+        await page.goto('https://admin.test.buerokratt.ee/chat/chatbot/appearance');
     });
 
-    test('Check visibility of all elements', async ({ page }) => {
-        // Check visibility of the header "Välimus ja käitumine"
-
-        const locale = getCookieValueByName('__Host-LOCALE');
-
-        // Use the locale to get translations
-        const translation = translations[locale]
-
-        // Check visibility of the header "Välimus ja käitumine"
+    test('Check visibility of the header', async ({ page }) => {
         const header = page.locator(`h1:has-text("${translation['Välimus ja käitumine']}")`);
         await expect(header).toBeVisible();
+    });
 
-        // Check visibility of the input for "Animatsiooni kestus sekundites"
+    test('Check visibility of animation duration input', async ({ page }) => {
         const animationDurationInput = page.locator(`label:has-text("${translation['Animatsiooni kestus sekundites']}") + div input`);
         await expect(animationDurationInput).toBeVisible();
+    });
 
-        // Check visibility of the switch for "Märguandesõnum"
+    test('Check visibility of notification switch', async ({ page }) => {
         const notificationSwitch = page.locator(`label:has-text("${translation['Märguandesõnum']}") + button.switch__button`);
         await expect(notificationSwitch).toBeVisible();
+    });
 
-        // Check visibility of the input for "Aeg animatsiooni alguseni sekundites"
+    test('Check visibility of animation start time input', async ({ page }) => {
         const animationStartTimeInput = page.locator(`label:has-text("${translation['Aeg animatsiooni alguseni sekundites']}") + div input`);
         await expect(animationStartTimeInput).toBeVisible();
+    });
 
-        // Check visibility of the input for "Märguandesõnum"
+    test('Check visibility of notification message input', async ({ page }) => {
         const notificationMessageInput = page.locator(`label:has-text("${translation['Märguandesõnum']}") + div input`);
         await expect(notificationMessageInput).toBeVisible();
+    });
 
-        // Check visibility of the color picker for "Põhivärv"
+    test('Check visibility of primary color picker', async ({ page }) => {
         const primaryColorPicker = page.locator(`label:has-text("${translation['Põhivärv']}") + div input`);
         await expect(primaryColorPicker).toBeVisible();
+    });
 
-        // Check visibility of the button in the color picker
+    test('Check visibility of color picker button', async ({ page }) => {
         const colorPickerButton = page.locator(`label:has-text("${translation['Põhivärv']}") + div input`);
         await expect(colorPickerButton).toBeVisible();
+    });
 
-        // Check visibility of the dropdown for "Animatsioon"
+    test('Check visibility of animation dropdown', async ({ page }) => {
         const animationDropdown = page.locator(`label:has-text("${translation['Animatsioon']}") + div div.select__trigger`);
         await expect(animationDropdown).toBeVisible();
+    });
 
-        // Check visibility of the "Salvesta" button
+    test('Check visibility of save button', async ({ page }) => {
         const saveButton = page.locator(`button:has-text("${translation['Salvesta']}")`);
         await expect(saveButton).toBeVisible();
+    });
 
-        // Check visibility of the "Eelvaade" button
+    test('Check visibility of preview button', async ({ page }) => {
         const previewButton = page.locator(`button:has-text("${translation['Eelvaade']}")`);
         await expect(previewButton).toBeVisible();
     });
