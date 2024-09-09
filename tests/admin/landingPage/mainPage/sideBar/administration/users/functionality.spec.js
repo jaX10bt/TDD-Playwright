@@ -1,10 +1,10 @@
 const { test, expect } = require('@playwright/test');
-const { getTranslationsForLocale } = require('../../../../../.auth/language_detector');
+const { getTranslations } = require('../../../../../../translations/languageDetector');
 
 
 
 test.describe('Table Sorting and Search Functionality', () => {
-    const translation = getTranslationsForLocale('https://admin.test.buerokratt.ee', 'i18nextLng', __dirname);
+    const translation = getTranslations('https://admin.test.buerokratt.ee/chat/users')
     const pageUrl = 'https://admin.test.buerokratt.ee/chat/users';
 
     //

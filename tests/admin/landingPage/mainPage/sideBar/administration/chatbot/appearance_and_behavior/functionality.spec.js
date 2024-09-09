@@ -1,10 +1,8 @@
 import { test, expect } from '@playwright/test';
-import { getTranslationsForLocale } from '../../../../../../.auth/language_detector';
-
+import { getTranslations } from '../../../../../../../translations/languageDetector.js'
 
 test.describe('Functionality Tests for "Välimus ja käitumine"/"Appearance and Behaviour" Page', () => {
-
-    const translation = getTranslationsForLocale('https://admin.test.buerokratt.ee', 'i18nextLng', __dirname);
+    const translation = getTranslations('https://admin.test.buerokratt.ee/chat/chatbot/appearance')
 
     test.beforeEach(async ({ page }) => {
         await page.goto('https://admin.test.buerokratt.ee/chat/chatbot/appearance');

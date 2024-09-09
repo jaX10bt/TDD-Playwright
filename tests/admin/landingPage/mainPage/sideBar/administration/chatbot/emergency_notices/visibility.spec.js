@@ -2,6 +2,8 @@ const { test, expect } = require('@playwright/test');
 
 test.describe('Erakorralised Teated/Emergency notices Page Visibility', () => {
 
+  // TODO make translations match
+
   test.beforeEach(async ({ page }) => {
     // Visit the page (replace 'your-url' with the actual URL)
     await page.goto('https://admin.test.buerokratt.ee/chat/chatbot/emergency-notices');
