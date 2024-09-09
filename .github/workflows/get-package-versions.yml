@@ -17,21 +17,21 @@ jobs:
 
       - name: Get package versions
         run: |
-          IMAGES=(
-            "buerokratt/Buerokratt-Chatbot"
-            "buerokratt/Training-Module"
-            "buerokratt/Analytics-Module"
-            "buerokratt/Service-Module"
-            "buerokratt/Chat-Widget"
-            "buerokratt/Buerokratt-DSL"
-            "buerokratt/Ruuter"
-            "buerokratt/DataMapper"
-            "buerokratt/Resql"
-            "buerokratt/TIM"
-            "buerokratt/CronManager"
-            "buerokratt/XTR"
-            "buerokratt/Authentication-Layer"
-            "buerokratt/S3-Ferry"
+          PACKAGES=(
+            "buerokratt-chatbot"
+            "training-module"
+            "analytics-module"
+            "service-module"
+            "chat-widget"
+            "buerokratt-dsl"
+            "ruuter"
+            "datamapper"
+            "resql"
+            "tim"
+            "cronmanager"
+            "xtr"
+            "authentication-layer"
+            "s3-ferry"
           )
 
           # Create or clear the output file
@@ -41,19 +41,21 @@ jobs:
           # GitHub API token (required for authentication)
           GITHUB_TOKEN="${{ secrets.ACCESS_TOKEN }}"
 
-          for REPO in "${REPOS[@]}"; do
-            echo "Fetching tags for $REPO..."
+          ORG="buerokratt"
 
-            # Fetch package list using GitHub REST API
+          for PACKAGE in "${PACKAGES[@]}"; do
+            echo "Fetching tags for $ORG ($PACKAGE)..."
+
+            # Fetch package versions using GitHub REST API
             response=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
-                          "https://api.github.com/orgs/buerokratt/packages/container/${REPO#*/}/versions")
+                          "https://api.github.com/orgs/$ORG/packages/container/$PACKAGE/versions")
 
             # Print the raw response for debugging
-            echo "Response for $REPO: $response"
+            echo "Response for $PACKAGE: $response"
 
             # Check for errors in the response
             if echo "$response" | jq -e '.message' > /dev/null; then
-              echo "Error fetching tags for $REPO: $(echo "$response" | jq -r '.message')" >> "$OUTPUT_FILE"
+              echo "Error fetching tags for $PACKAGE: $(echo "$response" | jq -r '.message')" >> "$OUTPUT_FILE"
               continue
             fi
 
@@ -61,10 +63,10 @@ jobs:
             tags=$(echo "$response" | jq -r '.[].metadata.container.tags[]')
 
             if [ -n "$tags" ]; then
-              echo "Tags for $REPO:" >> "$OUTPUT_FILE"
+              echo "Tags for $PACKAGE:" >> "$OUTPUT_FILE"
               echo "$tags" >> "$OUTPUT_FILE"
             else
-              echo "No tags found for $REPO." >> "$OUTPUT_FILE"
+              echo "No tags found for $PACKAGE." >> "$OUTPUT_FILE"
             fi
           done
 
