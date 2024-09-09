@@ -176,6 +176,55 @@ test('click "Küsi nõusolekut" button and verify chat event', async ({ page }) 
 });
 
 
+test('click "Küsi autentimist" button and verify chat event count should not send more than 1', async ({ page }) => {
+    await takeOverFirstChat(page);
+
+    // Get initial messages count
+    const initialMessageCount = await page.locator('div.active-chat__group.active-chat__group--event div.active-chat__event-message p:has-text("Küsiti autentimist")').count();
+
+     // Click on the "Küsi autentimist" button
+     await page.click('button.btn--secondary:has-text("Küsi nõusolekut")');
+
+    // Get the count of event messages after clicking the button
+    const finalMessageCount = await page.locator('div.active-chat__group.active-chat__group--event div.active-chat__event-message p:has-text("Küsiti autentimist")').count();
+
+    // Verify the chat event message content
+    await expect(finalMessageCount).toBe(initialMessageCount + 1);
+});
+
+test('click "Küsi kontaktandmeid" button and verify chat event count should not send more than 1', async ({ page }) => {
+    await takeOverFirstChat(page);
+
+    // Get initial messages count
+    const initialMessageCount = await page.locator('div.active-chat__group.active-chat__group--event div.active-chat__event-message p:has-text("Küsiti kontaktandmeid")').count();
+
+     // Click on the "Küsi autentimist" button
+     await page.click('button.btn--secondary:has-text("Küsi kontaktandmeid")');
+
+    // Get the count of event messages after clicking the button
+    const finalMessageCount = await page.locator('div.active-chat__group.active-chat__group--event div.active-chat__event-message p:has-text("Küsiti kontaktandmeid")').count();
+
+    // Verify the chat event message content
+    await expect(finalMessageCount).toBe(initialMessageCount + 1);
+});
+
+test('click "Küsi nõusolekut" button and verify chat event count should not send more than 1', async ({ page }) => {
+    await takeOverFirstChat(page);
+
+    // Get initial messages count
+    const initialMessageCount = await page.locator('div.active-chat__group.active-chat__group--event div.active-chat__event-message p:has-text("Küsiti nõusolekut")').count();
+
+     // Click on the "Küsi autentimist" button
+     await page.click('button.btn--secondary:has-text("Küsi kontaktandmeid")');
+
+    // Get the count of event messages after clicking the button
+    const finalMessageCount = await page.locator('div.active-chat__group.active-chat__group--event div.active-chat__event-message p:has-text("Küsiti kontaktandmeid")').count();
+
+    // Verify the chat event message content
+    await expect(finalMessageCount).toBe(initialMessageCount + 1);
+});
+
+
 
 
 
