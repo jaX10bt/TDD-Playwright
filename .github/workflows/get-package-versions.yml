@@ -1,4 +1,5 @@
 name: Get Package Versions
+
 on: workflow_dispatch
 
 jobs:
@@ -41,19 +42,19 @@ jobs:
             echo "Checking packages in $REPO..."
 
             # Fetch package versions using GitHub API
-            response=$(curl -s -H "Accept: application/vnd.github.v3+json" "https://api.github.com/repos/$REPO/packages?package_type=npm")
+            response=$(curl -s -H "Accept: application/vnd.github.v3+json" "https://api.github.com/repos/$REPO/packages?package_type=docker")
 
             # Print the raw response for debugging
             echo "Response from API for $REPO: $response"
 
             # Check for 404 error
             if echo "$response" | jq -e '.message | select(. == "Not Found")' > /dev/null; then
-              echo "Repository $REPO not found or no npm packages available." >> "$OUTPUT_FILE"
+              echo "Repository $REPO not found or no packages available." >> "$OUTPUT_FILE"
               continue
             fi
 
             # Parse the JSON to list all packages and their latest versions
-            packages=$(echo "$response" | jq -r '.[] | "\(.name): \(.versions | max_by(.version).version)"')
+            packages=$(echo "$response" | jq -r '.[] | "\(.name): \(.versions | max_by(.updated_at).metadata.container.tags[-1])"')
 
             if [ -n "$packages" ]; then
               echo "Latest packages in $REPO:" >> "$OUTPUT_FILE"
