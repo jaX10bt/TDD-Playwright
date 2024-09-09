@@ -41,26 +41,25 @@ jobs:
           for IMAGE in "${IMAGES[@]}"; do
             echo "Fetching tags for $IMAGE..."
 
-            # Fetch Docker tags using the Docker Registry HTTP API for public repositories
+            # Fetch Docker tags using the corrected Docker Registry HTTP API for public repositories
             response=$(curl -s "https://ghcr.io/v2/$IMAGE/tags/list")
             
             # Print the raw response for debugging
             echo "Response for $IMAGE: $response"
 
-            # Check for errors in response
-            if echo "$response" | jq -e '.errors' > /dev/null; then
-              echo "Error fetching tags for $IMAGE." >> "$OUTPUT_FILE"
-              continue
-            fi
+            # Check if the response contains tags or an error
+            if echo "$response" | jq -e '.tags' > /dev/null; then
+              # Parse the JSON to list all tags (Docker image versions)
+              tags=$(echo "$response" | jq -r '.tags[]')
 
-            # Parse the JSON to list all tags (which are Docker image versions)
-            tags=$(echo "$response" | jq -r '.tags[]')
-
-            if [ -n "$tags" ]; then
-              echo "Tags for $IMAGE:" >> "$OUTPUT_FILE"
-              echo "$tags" >> "$OUTPUT_FILE"
+              if [ -n "$tags" ]; then
+                echo "Tags for $IMAGE:" >> "$OUTPUT_FILE"
+                echo "$tags" >> "$OUTPUT_FILE"
+              else
+                echo "No tags found for $IMAGE." >> "$OUTPUT_FILE"
+              fi
             else
-              echo "No tags found for $IMAGE." >> "$OUTPUT_FILE"
+              echo "Error fetching tags for $IMAGE." >> "$OUTPUT_FILE"
             fi
           done
 
