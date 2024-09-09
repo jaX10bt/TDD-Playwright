@@ -1,0 +1,61 @@
+name: Get Package Versions
+on: workflow_dispatch
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Get package versions
+        run: |
+          REPOS=(
+            "buerokratt/Buerokratt-Chatbot"
+            "buerokratt/Training-Module"
+            "buerokratt/Analytics-Module"
+            "buerokratt/Service-Module"
+            "buerokratt/Chat-Widget"
+            "buerokratt/Buerokratt-DSL"
+            "buerokratt/Ruuter"
+            "buerokratt/DataMapper"
+            "buerokratt/Resql"
+            "buerokratt/TIM"
+            "buerokratt/CronManager"
+            "buerokratt/XTR"
+            "buerokratt/Authentication-Layer"
+            "buerokratt/S3-Ferry"
+          )
+
+          # Create or clear the output file
+          OUTPUT_FILE="package_versions.txt"
+          echo "Package Versions:" > "$OUTPUT_FILE"
+
+          for REPO in "${REPOS[@]}"; do
+            echo "Checking packages in $REPO..."
+
+            # Fetch package versions using GitHub API
+            response=$(curl -s "https://api.github.com/repos/$REPO/packages?package_type=npm")
+
+            # Parse the JSON to list all packages and their latest versions
+            packages=$(echo "$response" | jq -r '.[] | "\(.name): \(.versions | max_by(.version).version)"')
+
+            if [ -n "$packages" ]; then
+              echo "Latest packages in $REPO:" >> "$OUTPUT_FILE"
+              echo "$packages" >> "$OUTPUT_FILE"
+            else
+              echo "No packages found in $REPO." >> "$OUTPUT_FILE"
+            fi
+          done
+
+          echo "Package versions written to $OUTPUT_FILE."
+          
+      - name: Upload package versions file
+        uses: actions/upload-artifact@v2
+        with:
+          name: package-versions
+          path: package_versions.txt
