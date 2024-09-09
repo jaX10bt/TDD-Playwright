@@ -10,6 +10,9 @@ test.describe('Settings/Seaded Functionality Tests ', () => {
         // Navigate to the settings page before each test
         await page.goto('https://admin.test.buerokratt.ee/chat/chatbot/settings'); // Replace with your actual page URL
 
+
+
+        // TODO ADD TRANSLATIONS TO THE TRANSLATION FILE
         // Capture the original states of the switches
         originalRobotActiveState = await page.locator('label:has-text("Vestlusrobot aktiivne") + button.switch__button').getAttribute('data-state');
         originalShowAdvisorNameState = await page.locator('label:has-text("Kuva nõustaja nimi") + button.switch__button').getAttribute('data-state');

@@ -1,10 +1,10 @@
 const { test, expect } = require('@playwright/test');
-const { getTranslationsForLocale } = require('../../../../../.auth/language_detector');
+const { getTranslations } = require('../../../../../../translations/languageDetector');
 
 
 test.describe('Full Visibility Test for User Management Page', () => {
 
-    const translation = getTranslationsForLocale('https://admin.test.buerokratt.ee', 'i18nextLng', __dirname);
+    const translation = getTranslations('https://admin.test.buerokratt.ee/chat/users')
 
     // Navigate to the page before each test
     test.beforeEach(async ({ page }) => {
@@ -13,13 +13,13 @@ test.describe('Full Visibility Test for User Management Page', () => {
 
     // Test 1: Check if the "Kasutajad" heading is visible
     test('should display the "Kasutajad" heading', async ({ page }) => {
-        const heading = await page.locator(`h1:has-text("${translation['Kasutajad']}")`);
+        const heading = await page.locator(`h1:has-text("${translation['Users']}")`);
         await expect(heading).toBeVisible();
     });
 
     // Test 2: Check if the "Lisa kasutaja" button is visible
     test('should display the "Lisa kasutaja" button', async ({ page }) => {
-        const addButton = await page.locator(`button.btn--primary:has-text("${translation['Lisa kasutaja']}")`);
+        const addButton = await page.locator(`button.btn--primary:has-text("${translation['AddUser']}")`);
         await expect(addButton).toBeVisible();
     });
 
@@ -34,7 +34,7 @@ test.describe('Full Visibility Test for User Management Page', () => {
         const headers = await page.locator('table.data-table thead tr th');
         await expect(headers).toHaveCount(8); 
 
-        const headerTexts = [`${translation['Nimi']}`, `${translation['Isikukood']}`, `${translation['Roll']}`, `${translation['Kuvatav nimi']}`, `${translation['Tiitel']}`, `${translation['E-post']}`]; // Adjust as needed
+        const headerTexts = [`${translation['Name']}`, `${translation['IdCode']}`, `${translation['Role']}`, `${translation['DisplayName']}`, `${translation['Title']}`, `${translation['Email']}`]; // Adjust as needed
         for (let i = 0; i < headerTexts.length; i++) {
             await expect(headers.nth(i)).toHaveText(headerTexts[i]);
             await expect(headers.nth(i)).toBeVisible();
@@ -63,13 +63,13 @@ test.describe('Full Visibility Test for User Management Page', () => {
             const row = rows.nth(i);
 
             // Count Edit buttons in the current row
-            const editButtons = row.locator(`button.btn--text:has-text("${translation["Muuda"]}")`);
+            const editButtons = row.locator(`button.btn--text:has-text("${translation["Edit"]}")`);
             const editButtonCount = await editButtons.count();
             expect(editButtonCount).toBe(1); // Ensure exactly one Edit button per row
             editButtonsCount += editButtonCount;
 
             // Count Delete buttons in the current row
-            const deleteButtons = row.locator(`button.btn--text:has-text("${translation["Kustuta"]}")`);
+            const deleteButtons = row.locator(`button.btn--text:has-text("${translation["Delete"]}")`);
             const deleteButtonCount = await deleteButtons.count();
             expect(deleteButtonCount).toBe(1); // Ensure exactly one Delete button per row
             deleteButtonsCount += deleteButtonCount;
