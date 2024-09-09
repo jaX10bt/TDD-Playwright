@@ -21,5 +21,7 @@
     "Widget color": "Põhivärv",
     "Widget animation": "Animatsioon",
     "Appearance and behaviour": "Välimus ja käitumine",
-    "Preview": "Eelvaade"
+    "Preview": "Eelvaade",
+    "requested-authentication": "Küsiti autentimist",
+    "ask-permission": "Küsiti nõusolekut"
 }

@@ -21,5 +21,7 @@
     "Widget color": "Widget color",
     "Widget animation": "Widget animation",
     "Appearance and behaviour": "Appearance and behaviour",
-    "Preview": "Preview"
+    "Preview": "Preview",
+    "requested-authentication": "Requested authentication",
+    "ask-permission": "Asked permission"
 }
