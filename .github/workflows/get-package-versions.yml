@@ -84,7 +84,7 @@ jobs:
             package_version=$(echo "$line" | cut -d'=' -f2)
             
             # Append to the YAML file
-            echo "$package_name: $package_version" >> latest_docker_tags.yaml
+            echo "$package_name=$package_version" >> latest_docker_tags.yaml
           done < docker_image_tags.txt
 
           # Display the YAML content for debugging
