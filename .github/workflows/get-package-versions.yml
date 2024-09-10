@@ -113,7 +113,7 @@ jobs:
           # Transfer the YAML file to the remote server
           if [ -f "latest_docker_tags.yaml" ]; then
             echo "Transferring YAML file to remote server..."
-            scp latest_docker_tags.yaml ubuntu@${{ secrets.DEV_IP }}:/jakob/
+            scp latest_docker_tags.yaml ubuntu@${{ secrets.DEV_IP }}:/jakob/latest_docker_tags.yaml
           else
             echo "Error: YAML file not found!"
             exit 1
