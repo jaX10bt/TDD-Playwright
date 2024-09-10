@@ -137,11 +137,6 @@ test.describe('User Management Functionality Tests', () => {
     });
 
     test('Edit user details', async ({ page }) => {
-        test.info().annotations.push({
-            type: 'Known bug',
-            description: 'The test doesn’t run due to some internal failure, making the editing impossible.',
-        });
-
         // TODO: Implement edit user details test
     });
 

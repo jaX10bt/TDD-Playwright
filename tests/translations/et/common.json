@@ -35,6 +35,9 @@
     "showSupportTitle": "Kuva nõustaja tiitel",
     "greetingActive": "Tervitus Aktiivne",
     "sessionLengthWarning": "Seansi pikkus peab olema vahemikus 30 - 480 minutit",
+    "considerPublicHolidays": "Arvesta riigipühadega",
+    "closedOnWeekends": "Nädalavahetustel suletud",
+    "sameOnAllWorkingDays": "Kõigil tööpäevadel sama",
 
     "askAuthentication": "Küsi autentimist",
     "askedAuthentication": "Küsiti autentimist",
