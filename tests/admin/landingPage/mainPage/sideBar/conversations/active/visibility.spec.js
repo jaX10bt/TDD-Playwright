@@ -8,7 +8,7 @@ test.beforeEach('test', async ({ page }) => {
     // page is authenticated
     await expect(page).toHaveURL('https://admin.test.buerokratt.ee/chat/active');
 
-    const translations = await getTranslations(page);
+    const translation = await getTranslations(page);
 });
 
 

@@ -1,6 +1,11 @@
 import { test, expect } from '@playwright/test';
+import { getTranslations } from '../../../../../../../translations/languageDetector';
 
 test.describe('Seaded/Settings Visibility Tests', () => {
+
+    const translation = getTranslations('https://admin.test.buerokratt.ee/chat/chatbot/settings')
+
+    // TODO Make universal based on translations
 
     test.beforeEach(async ({ page }) => {
         // Navigate to the page before each test
@@ -11,7 +16,7 @@ test.describe('Seaded/Settings Visibility Tests', () => {
         // Verify the main heading is visible
         const mainHeading = page.locator('main.layout__main h1');
         await expect(mainHeading).toBeVisible();
-        await expect(mainHeading).toHaveText('Seaded');
+        await expect(mainHeading).toHaveText(`${translation["Settings"]}`);
     });
 
     test('Check visibility of the first switch ("Vestlusrobot aktiivne")', async ({ page }) => {
@@ -37,7 +42,7 @@ test.describe('Seaded/Settings Visibility Tests', () => {
 
     test('Check visibility of the "Salvesta" button', async ({ page }) => {
         // Verify the "Salvesta" button is visible
-        const saveButton = page.locator('button:has-text("Salvesta")');
+        const saveButton = page.locator(`button:has-text("${translation["Save"]}")`);
         await expect(saveButton).toBeVisible();
     });
 

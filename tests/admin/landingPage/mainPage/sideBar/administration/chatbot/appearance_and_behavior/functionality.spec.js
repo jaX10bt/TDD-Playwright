@@ -1,13 +1,13 @@
 import { test, expect } from '@playwright/test';
-import { getTranslationsForLocale } from '../../../../../../.auth/language_detector';
-
+import { getTranslations } from '../../../../../../../translations/languageDetector.js'
 
 test.describe('Functionality Tests for "Välimus ja käitumine"/"Appearance and Behaviour" Page', () => {
 
-    const translation = getTranslationsForLocale('https://admin.test.buerokratt.ee', 'i18nextLng', __dirname);
+    let translation 
 
     test.beforeEach(async ({ page }) => {
-        await page.goto('https://admin.test.buerokratt.ee/chat/chatbot/appearance');
+        await page.goto('https://admin.prod.buerokratt.ee/chat/chatbot/appearance');
+        translation = await getTranslations(page)
     });
 
     test('Test Animation Duration Input', async ({ page }) => {
@@ -52,19 +52,16 @@ test.describe('Functionality Tests for "Välimus ja käitumine"/"Appearance and 
         await expect(page.locator('div.select__trigger')).toHaveText('JumpDropdown icon');
     });
 
-    test('Test "Eelvaade" Button Functionality', async ({ page }) => {
-        await page.locator(`button:has-text("${translation['Eelvaade']}")`).click();
+    test('Test "Eelvaade"/"Preview" Button Functionality', async ({ page }) => {
+        await page.locator(`button:has-text("${translation['preview']}")`).click();
         const mockWidget = page.locator('img[alt="Buerokratt logo"]');
         await expect(mockWidget).toBeVisible();
     });
 
-});
+
 
 // Full functionality tests + persistence tests
 
-
-
-test.describe('Functionality Tests for "Välimus ja käitumine"/"Appearance and behaviour" Page', () => {
 
     let originalStates = {};
 
@@ -79,9 +76,6 @@ test.describe('Functionality Tests for "Välimus ja käitumine"/"Appearance and 
             type: 'Test working condition',
             description: 'Currently this test passes when the notification message is turned on by default. Since the aforementioned bug runs throught all of the tests and pages, it would be better to focus on this after the bug is fixed.',
         })
-
-        // Navigate to the page before each test
-        await page.goto('https://admin.test.buerokratt.ee/chat/chatbot/appearance'); // Replace with your actual page URL
 
         // Capture original states of all inputs and switches using more reliable selectors
         originalStates.animationDuration = await page.locator('input[name="widgetProactiveSeconds"]').inputValue();
@@ -138,7 +132,7 @@ test.describe('Functionality Tests for "Välimus ja käitumine"/"Appearance and 
         await expect(page.locator('div.select__trigger')).toHaveText('JumpDropdown icon');
 
         // Click the "Eelvaade" button to trigger the mock widget
-        await page.locator(`button:has-text("${translation['Eelvaade']}")`).click();
+        await page.locator(`button:has-text("${translation['preview']}")`).click();
 
         // Wait for the mock widget to appear and verify the changes
         const mockWidget = page.locator('img[alt="Buerokratt logo"]'); // Adjust selector to match the actual mock widget
@@ -168,6 +162,8 @@ test.describe('Functionality Tests for "Välimus ja käitumine"/"Appearance and 
         const hasAnimationClass = await page.locator('div.profile.profile--jump').count() > 0;
         expect(hasAnimationClass).toBe(true);
 
+
+     });   
     });
 
     /* test.afterEach(async ({ page }) => {
@@ -187,4 +183,3 @@ test.describe('Functionality Tests for "Välimus ja käitumine"/"Appearance and 
         await page.locator(`li:has-text("${originalStates.animationDropdown}")`).click();
 
     }); */
-});
