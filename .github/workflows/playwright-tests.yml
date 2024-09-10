@@ -25,11 +25,11 @@ jobs:
       # - name: Run Playwright tests
       #   run: npx playwright test tests/admin/landingPage
           # Run only one
-      - name: Run Playwright tests
-        run: npx playwright test tests/admin/landingPage/visibility.spec.js
-          # Run all tests
       # - name: Run Playwright tests
-      #   run: npx playwright test
+      #   run: npx playwright test tests/admin/landingPage/visibility.spec.js
+          # Run all tests
+      - name: Run Playwright tests
+        run: npx playwright test
       
       - uses: actions/upload-artifact@v4
         if: always()
