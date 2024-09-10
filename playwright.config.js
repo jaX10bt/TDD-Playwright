@@ -28,7 +28,7 @@ module.exports = defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     // viewport: { width: 1366, height: 768 },  
-    video: 'retain-on-failure',
+    video: 'on',
     // launchOptions: {
     //   slowMo: 1000,
     // },

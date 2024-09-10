@@ -1,17 +1,22 @@
 const { test, expect } = require('@playwright/test');
+import { getTranslations } from '../../../../../../translations/languageDetector';
 
 test.describe.serial('Session Length/Sessiooni pikkus Functionality Tests', () => {
 
-    test('Change to same session length, save, and verify persistence', async ({ page }) => {
+    let translation
 
-        // TODO MATCH TRANSLATIONS FILE
+    test.beforeEach(async ({ page }) => {
+      // Navigate to the page before each test
+      await page.goto('https://admin.prod.buerokratt.ee/chat/session-length'); // Replace with your actual page URL
+      translation = await getTranslations(page)
+    });
+
+    test('Change to same session length, save, and verify persistence', async ({ page }) => {
 
         test.info().annotations.push({
             type: 'Note',
             description: 'This test has had some issues with being flaky and failing due to suspected timing issues. Please take this into consideration when running the test.',
         })
-
-        await page.goto('https://admin.test.buerokratt.ee/chat/session-length'); // Replace with your actual URL
 
         await page.waitForTimeout(2000);
 
@@ -59,8 +64,6 @@ test.describe.serial('Session Length/Sessiooni pikkus Functionality Tests', () =
     });
 
     test('Attempt to set an invalid session length and check for error message', async ({ page }) => {
-        await page.goto('https://admin.test.buerokratt.ee/chat/session-length'); // Replace with your actual URL
-
 
         await page.waitForTimeout(2000);
         // Set an invalid session length (e.g., 500 minutes)
@@ -78,7 +81,7 @@ test.describe.serial('Session Length/Sessiooni pikkus Functionality Tests', () =
 
         // You can also check the error message content if needed
         const errorMessage = await page.locator('.toast.toast--error .toast__content').textContent();
-        expect(errorMessage).toContain('Seansi pikkus peab olema vahemikus 30 - 480 minutit');
+        expect(errorMessage).toContain(translation["sessionLengthWarning"]);
     });
 
 
@@ -86,14 +89,12 @@ test.describe.serial('Session Length/Sessiooni pikkus Functionality Tests', () =
 
         test.info().annotations.push({
             type: 'Note',
-            description: 'This test has had some serious timing issues in regard to page load. Please take this into consideration when running the test.',
+            description: 'This test ',
         })
 
         function randomIntFromInterval(min, max) { // min and max included 
             return (Math.floor(Math.random() * (max - min + 1) + min)).toString();
         }
-
-        await page.goto('https://admin.test.buerokratt.ee/chat/session-length'); // Replace with your actual URL
 
         await page.waitForTimeout(2000);
 

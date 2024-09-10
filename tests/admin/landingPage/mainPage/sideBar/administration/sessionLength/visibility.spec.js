@@ -1,10 +1,14 @@
 const { test, expect } = require('@playwright/test');
+const { getTranslations } = require('../../../../../../translations/languageDetector');
 
 test.describe('Session Length/Sessiooni pikkus Visibility Tests', () => {
 
+    let translation
+
     test.beforeEach(async ({ page }) => {
         // Navigate to the page before each test
-        await page.goto('https://admin.test.buerokratt.ee/chat/session-length'); // Replace with your actual URL
+        await page.goto('https://admin.prod.buerokratt.ee/chat/session-length'); // Replace with your actual URL
+        translation = getTranslations(page)
     });
 
     test('Check visibility of the main header', async ({ page }) => {

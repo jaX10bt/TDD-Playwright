@@ -1,12 +1,16 @@
 import { test, expect } from '@playwright/test';
+import { getTranslations } from '../../../../../../../translations/languageDetector.js';
 
 test.describe('Erakorralised Teated/Emergency notices Functionality Tests', () => {
+  
+  
+  let translation
 
   test.beforeEach(async ({ page }) => {
     // Navigate to the page before each test
-    await page.goto('https://admin.test.buerokratt.ee/chat/chatbot/emergency-notices'); // Replace with your actual page URL
+    await page.goto('https://admin.prod.buerokratt.ee/chat/chatbot/emergency-notices'); // Replace with your actual page URL
+    translation = await getTranslations(page)
   });
-
 
 
   //
@@ -48,7 +52,7 @@ test.describe('Erakorralised Teated/Emergency notices Functionality Tests', () =
 
 
   test('Check if "Teade"/"Notice" input field can be edited with keyboard ', async ({ page }) => {
-    const teadeInput = await page.locator('.textarea:has(.textarea__label:has-text("Teade")) textarea');
+    const teadeInput = await page.locator(`.textarea:has(.textarea__label) textarea`);
 
     // Clear existing text and type new message
     await teadeInput.fill('');
@@ -189,7 +193,8 @@ test.describe('Erakorralised Teated/Emergency notices Functionality Tests', () =
 
 test('Check if "Salvesta"/"Save" button can be clicked', async ({ page }) => {
   // Locate the "Salvesta" button using its text
-  const saveButton = await page.locator('button:has-text("Salvesta")');
+
+  const saveButton = await page.locator(`button:has-text("${translation["save"]}")`);
 
   // Click the "Salvesta" button
   await saveButton.click();

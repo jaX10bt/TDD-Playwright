@@ -1,7 +1,7 @@
 {
     "cancel": "Cancel",
     "users": "Users",
-    "addUser": "Add User",
+    "addUser": "Add user",
     "name": "Name",
     "idCode": "ID code",
     "role": "Role",
@@ -27,6 +27,13 @@
     "notice": "Notice",
     "displayPeriod": "Display period",
     "emergencyNotices": "Emergency notices",
+    "settings": "Settings",
+    "chatBotActive": "Chatbot Active",
+    "showSupportName": "Show support name",
+    "showSupportTitle": "Show support title",
+    "welcomeMessage": "Welcome Message",
+    "greetingActive": "Greeting Active",
+    "sessionLengthWarning": "Session length must be between 30 and 480 minuites",
 
 
     "askAuthentication": "Ask for authentication",

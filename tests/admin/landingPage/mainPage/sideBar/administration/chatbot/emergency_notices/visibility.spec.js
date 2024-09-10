@@ -3,7 +3,6 @@ import { getTranslations } from '../../../../../../../translations/languageDetec
 
 test.describe('Erakorralised Teated/Emergency notices Page Visibility', () => {
 
-  // TODO make translations match
 
   let translation
 
