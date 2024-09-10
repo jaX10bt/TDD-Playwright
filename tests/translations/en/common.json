@@ -17,12 +17,16 @@
     "save": "Save",
     "editUser": "Edit user",
     "widgetProactiveSeconds": "Widget proactive seconds",
-    "widgetBubbleMessage": "Widget bubble message",
+    "widgetBubbleMessage": "Widget bubble message text",
     "widgetBubbleMessageSeconds": "Widget bubble message seconds",
     "widgetColor": "Widget color",
     "widgetAnimation": "Widget animation",
-    "appearanceAndBehaviour": "Appearance and behaviour",
+    "appearanceAndBehaviour": "Appearance and behavior",
     "preview": "Preview",
+    "noticeActive": "Notice active",
+    "notice": "Notice",
+    "displayPeriod": "Display period",
+    "emergencyNotices": "Emergency notices",
 
 
     "askAuthentication": "Ask for authentication",
