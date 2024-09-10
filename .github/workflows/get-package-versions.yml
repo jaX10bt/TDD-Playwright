@@ -36,7 +36,7 @@ jobs:
 
           # Create or clear the output file
           OUTPUT_FILE="docker_image_tags.txt"
-          # echo "Latest Docker Image Tags:" > "$OUTPUT_FILE"
+          > "$OUTPUT_FILE"
 
           # GitHub API token (required for authentication)
           GITHUB_TOKEN="${{ secrets.GITHUB_TOKEN }}"
@@ -63,7 +63,8 @@ jobs:
             latest_version=$(echo "$response" | jq -r 'sort_by(.created_at) | .[-1] | .metadata.container.tags[]')
 
             if [ -n "$latest_version" ]; then
-              echo "$PACKAGE=$latest_version" >> "$OUTPUT_FILE"
+              # Format: package_name=ghcr.io/buerokratt/package_name:latest_version
+              echo "$PACKAGE=ghcr.io/buerokratt/$PACKAGE:$latest_version" >> "$OUTPUT_FILE"
             else
               echo "No tags found for $PACKAGE." >> "$OUTPUT_FILE"
             fi
@@ -78,11 +79,12 @@ jobs:
     
           # Parse docker_image_tags.txt and add to the YAML file
           while IFS= read -r line; do
-            if [[ $line == Latest* ]]; then
-              package_name=$(echo $line | cut -d' ' -f3)
-              package_version=$(echo $line | cut -d' ' -f5)
-              echo "  $package_name: $package_version" >> latest_docker_tags.yaml
-            fi
+            # Split the line by '=' to get the package name and version
+            package_name=$(echo "$line" | cut -d'=' -f1)
+            package_version=$(echo "$line" | cut -d'=' -f2)
+            
+            # Append to the YAML file
+            echo "  $package_name: $package_version" >> latest_docker_tags.yaml
           done < docker_image_tags.txt
 
           # Display the YAML content for debugging
@@ -106,9 +108,6 @@ jobs:
           echo "${{ secrets.SSH_KEY_TODELETE }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H ${{ secrets.DEV_IP }} >> ~/.ssh/known_hosts
-
-          # Display SSH key information for debugging
-          # ls -l ~/.ssh/
     
           # Transfer the YAML file to the remote server
           if [ -f "latest_docker_tags.yaml" ]; then
