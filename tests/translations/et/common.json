@@ -34,5 +34,7 @@
     "askPermission": "Küsi nõusolekut",
     "askedPermission": "Küsiti nõusolekut",
     "askContactInformation": "Küsi kontaktandmeid",
-    "askedContactInformation": "Küsiti kontaktandmeid"
+    "askedContactInformation": "Küsiti kontaktandmeid",
+    "endChat": "Lõpeta vestlus",
+    "takeOver": "Võta üle"
 }

@@ -1,5 +1,8 @@
+import {getTranslations} from '../../../../../../translations/languageDetector'
+
 // Function to open dialog
 export async function openDialog(page, buttonText) {
+    console.log(buttonText)
     const button = page.locator(`button:has-text("${buttonText}")`);
     await button.click();
 
@@ -24,11 +27,12 @@ export async function selectFirstChat(page) {
 
 export async function takeOverFirstChat(page) {
     // Select the first chat and return early if none is found
+    const translations = await getTranslations(page);
     const chatOpened = await selectFirstChat(page);
     if (!chatOpened) return;
 
     // Click the "Võta üle" button
-    const takeOverButton = page.locator('button:has-text("Võta üle")');
+    const takeOverButton = page.locator(`button:has-text("${translations.takeOver}")`);
     await takeOverButton.click();
 }
 

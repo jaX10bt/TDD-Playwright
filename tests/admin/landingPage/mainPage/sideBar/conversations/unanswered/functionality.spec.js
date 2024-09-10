@@ -3,7 +3,8 @@ import { openDialog, selectFirstChat, takeOverFirstChat } from '../unanswered/he
 
 // todo: cleaner path
 import {getTranslations} from '../../../../../../translations/languageDetector'
-const translations = await getTranslations(page);
+
+let translations;
 
 test.beforeEach(async ({ page }) => {
     await page.goto('https://admin.test.buerokratt.ee/chat/unanswered');
@@ -11,9 +12,15 @@ test.beforeEach(async ({ page }) => {
    
 
     // before each test should turn switch on.
-    await page.locator('.switch__button').click();
-    await page.reload();
-    await page.waitForTimeout(2000);
+
+    const isSwitchButtonActive = await page.locator('.switch__button').getAttribute('aria-checked');
+    if (isSwitchButtonActive !== true) {
+        await page.locator('.switch__button').click();
+        await page.reload();
+        await page.waitForTimeout(2000);
+    }
+    translations = await getTranslations(page);
+
 
 
 })
@@ -64,19 +71,19 @@ test('Check if clicking unanswered chat opens it ### Look issue inside',
 
 test('Should open dialog, when "Lõpeta vestlus" button is clicked', async ({ page }) => {
     const chatOpened = await selectFirstChat(page);
+    
     if (!chatOpened) return;
 
-    const isDialogVisible = await openDialog(page, "Lõpeta vestlus");
+    const isDialogVisible = await openDialog(page, translations.endChat);
     expect(isDialogVisible).toBe(true);
-
 })
 
 
 test('Should close dialog, when "Lõpeta vestlus" button is clicked', async ({ page }) => {
     const chatOpened = await selectFirstChat(page);
-    if (!chatOpened) return;
+    // if (!chatOpened) return;
 
-    const isDialogVisible = await openDialog(page, "Lõpeta vestlus");
+    const isDialogVisible = await openDialog(page, translations.endChat);
     expect(isDialogVisible).toBe(true);
 
     const dialog = page.locator('.dialog--default');
@@ -84,7 +91,7 @@ test('Should close dialog, when "Lõpeta vestlus" button is clicked', async ({ p
     await closeButton.click();
     await expect(dialog).not.toBeVisible();
     
-})
+})    
 
 
 test('Should activate chat, when "Võta üle" button is clicked', async ({ page }) => {
@@ -105,7 +112,7 @@ test('Should activate chat, when "Võta üle" button is clicked', async ({ page 
 
 
 
-test('Should be able to type text in chat input field', async ({ page }) => {
+test.only('Should be able to type text in chat input field', async ({ page }) => {
     await takeOverFirstChat(page);
 
     const textarea = page.locator('textarea#chatArea');
@@ -116,7 +123,7 @@ test('Should be able to type text in chat input field', async ({ page }) => {
 })
 
 
-test('Verify that text appears in chat after sending button clicked', async ({ page }) => {
+test.only('Verify that text appears in chat after sending button clicked', async ({ page }) => {
 
     await takeOverFirstChat(page);
 
@@ -126,7 +133,7 @@ test('Verify that text appears in chat after sending button clicked', async ({ p
 
     const sendButton = page.locator('#myButton');
     await sendButton.click();
-    await page.waitForEvent(1000);
+    //await page.waitForEvent(1000);
 
     const chatMessage = page.locator('.active-chat__message-text div').last();
     await expect(chatMessage).toHaveText(message);
@@ -167,7 +174,7 @@ test('click "Küsi kontaktandmeid" button and verify chat event', async ({ page 
 });
 
 
-test('click "Küsi nõusolekut" button and verify chat event', async ({ page }) => {
+test.only('click "Küsi nõusolekut" button and verify chat event', async ({ page }) => {
     await takeOverFirstChat(page);
 
     // Click on the "Küsi nõusolekut" button

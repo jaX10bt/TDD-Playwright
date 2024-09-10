@@ -29,10 +29,12 @@
     "emergencyNotices": "Emergency notices",
 
 
-    "askAuthentication": "Request authentication",
+    "askAuthentication": "Ask for authentication",
     "askedAuthentication": "Requested authentication",
     "askPermission": "Ask permission",
     "askedPermission": "Asked permission",
-    "askContactInformation": "Request contact information",
-    "askedContactInformation": "Requested contact information"
+    "askContactInformation": "Ask for contact",
+    "askedContactInformation": "Requested contact information",
+    "endChat": "End chat",
+    "takeOver": "Take over"
 }
