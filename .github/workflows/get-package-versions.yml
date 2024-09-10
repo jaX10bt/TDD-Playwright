@@ -73,7 +73,10 @@ jobs:
 
       - name: Create YAML from Docker Tags
         run: |
-          # echo "latest_tags:" > latest_docker_tags.yaml
+          # Create the YAML file
+          echo "latest_tags:" > latest_docker_tags.yaml
+    
+          # Parse docker_image_tags.txt and add to the YAML file
           while IFS= read -r line; do
             if [[ $line == Latest* ]]; then
               package_name=$(echo $line | cut -d' ' -f3)
@@ -81,6 +84,18 @@ jobs:
               echo "  $package_name: $package_version" >> latest_docker_tags.yaml
             fi
           done < docker_image_tags.txt
+
+          # Display the YAML content for debugging
+          echo "Generated YAML content:"
+          cat latest_docker_tags.yaml
+
+          # Check if the YAML file was created
+          if [ -f "latest_docker_tags.yaml" ]; then
+            echo "YAML file created successfully."
+          else
+            echo "Error: YAML file not created!"
+            exit 1
+          fi
 
       - name: Write YAML to Remote Server
         env:
@@ -92,8 +107,17 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H ${{ secrets.DEV_IP }} >> ~/.ssh/known_hosts
 
-          # Write the YAML file to the remote server
-          scp latest_docker_tags.yaml ubuntu@${{ secrets.DEV_IP }}:/jakob/
+          # Display SSH key information for debugging
+          # ls -l ~/.ssh/
+    
+          # Transfer the YAML file to the remote server
+          if [ -f "latest_docker_tags.yaml" ]; then
+            echo "Transferring YAML file to remote server..."
+            scp latest_docker_tags.yaml ubuntu@${{ secrets.DEV_IP }}:/jakob/
+          else
+            echo "Error: YAML file not found!"
+            exit 1
+          fi
 
       - name: Upload docker tags file
         uses: actions/upload-artifact@v4
