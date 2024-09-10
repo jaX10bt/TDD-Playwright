@@ -24,6 +24,10 @@
     "widgetAnimation": "Animatsioon",
     "appearanceAndBehaviour": "Välimus ja käitumine",
     "preview": "Eelvaade",
+    "noticeActive": "Teade aktiivne",
+    "notice": "Teade",
+    "displayPeriod": "Kuvamisperiood",
+    "emergencyNotices": "Erakorralised teated",
 
     "askAuthentication": "Küsi autentimist",
     "askedAuthentication": "Küsiti autentimist",
