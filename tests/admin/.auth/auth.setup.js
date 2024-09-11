@@ -1,8 +1,8 @@
 const fs = require('fs'); // Import Node.js file system module
 const path = require('path'); // Import Node.js path module
 import { test as setup } from '@playwright/test';
+import { getTranslations } from '../../translations/languageDetector';
 
-// Define the path to the auth file relative to the project root
 const authFile = 'tests/admin/.auth/user.json';
 
 setup('authenticate', async ({ page }) => {
@@ -12,7 +12,7 @@ setup('authenticate', async ({ page }) => {
     }
 
     // Navigate to the login page
-    await page.goto('https://admin.test.buerokratt.ee/en/log-in');
+    await page.goto('https://admin.prod.buerokratt.ee/en/log-in');
 
     // Perform login steps
     await page.getByRole('button', { name: 'enter via TARA' }).click();
@@ -22,7 +22,7 @@ setup('authenticate', async ({ page }) => {
     await page.getByRole('button', { name: 'Jätka' }).click();
 
     // Wait for the navigation to the authenticated page
-    await page.waitForURL('https://admin.test.buerokratt.ee/chat/active');
+    await page.waitForURL('https://admin.prod.buerokratt.ee/chat/active');
 
     // Save the authentication state
     await page.context().storageState({ path: authFile });

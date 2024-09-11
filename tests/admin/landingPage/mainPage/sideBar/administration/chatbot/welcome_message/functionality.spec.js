@@ -1,16 +1,20 @@
 import { test, expect } from '@playwright/test';
+import { getTranslations } from '../../../../../../../translations/languageDetector';
 
 test.describe('Welcome message/Tervitussõnum Functionality Tests', () => {
 
+  let translation
+
   test.beforeEach(async ({ page }) => {
     // Navigate to the page before each test
-    await page.goto('https://admin.test.buerokratt.ee/chat/chatbot/welcome-message'); // Replace with your actual page URL
+    await page.goto('https://admin.prod.buerokratt.ee/chat/chatbot/welcome-message'); // Replace with your actual page URL
+    translation = await getTranslations(page)
   });
 
   test('Check if the switch on "Tervitus aktiivne"/"Greeting active" works',
 
     async ({ page }) => {
-      const textarea = page.locator('//label[text()="Tervitussõnum"]/following-sibling::div//textarea');
+      const textarea = page.locator(`//label[text()="${translation["welcomeMessage"]}"]/following-sibling::div//textarea`);
       const originalText = await textarea.inputValue();
 
       // Locate the "Teade aktiivne" switch by its associated label
@@ -26,7 +30,7 @@ test.describe('Welcome message/Tervitussõnum Functionality Tests', () => {
       await expect(masterSwitch).toHaveAttribute('data-state', 'unchecked');
       await expect(masterSwitch.locator('span.switch__off')).toBeVisible();
 
-      await page.goto('https://test.buerokratt.ee'); // Replace with actual widget page URL
+      await page.goto('https://prod.buerokratt.ee'); // Replace with actual widget page URL
 
       // Wait for any potential elements to load
       await page.waitForTimeout(2000); // Adjust timing as needed
@@ -36,7 +40,7 @@ test.describe('Welcome message/Tervitussõnum Functionality Tests', () => {
       await expect(messageDisplay).toHaveCount(0); // Expect no elements matching the text selector
 
       // Navigate back and toggle the switch back to "Sees"
-      await page.goto('https://admin.test.buerokratt.ee/chat/chatbot/welcome-message');
+      await page.goto('https://admin.prod.buerokratt.ee/chat/chatbot/welcome-message');
       await masterSwitch.click();
 
       // Click again to toggle the switch back to "Sees"
@@ -49,7 +53,7 @@ test.describe('Welcome message/Tervitussõnum Functionality Tests', () => {
 
   test('Check writing to input and character counter updates', async ({ page }) => {
     // Locate the textarea and character count element
-    const textarea = page.locator('//label[text()="Tervitussõnum"]/following-sibling::div//textarea');
+    const textarea = page.locator(`//label[text()="${translation["welcomeMessage"]}"]/following-sibling::div//textarea`);
     const charCount = page.locator('.textarea__max-length-bottom');
 
     // Verify textarea is visible
@@ -71,10 +75,10 @@ test.describe('Welcome message/Tervitussõnum Functionality Tests', () => {
     const expectedCount = sampleText.length;
     await expect(charCount).toHaveText(`${expectedCount}/250`);
 
-    const saveButton = page.locator('text=Salvesta');
+    const saveButton = page.locator(`text=${translation["save"]}`);
     await saveButton.click();
 
-    await page.goto('https://test.buerokratt.ee'); // Replace with actual widget page URL
+    await page.goto('https://prod.buerokratt.ee'); // Replace with actual widget page URL
 
     const logoImage = page.locator('img[alt="Buerokratt logo"]'); // Adjust selector if necessary
     await logoImage.click();
@@ -86,7 +90,7 @@ test.describe('Welcome message/Tervitussõnum Functionality Tests', () => {
     const messageDisplay = page.locator(`text=${sampleText}`); // Adjust selector to match the actual element
     await expect(messageDisplay).toHaveText(sampleText);
 
-    await page.goto('https://admin.test.buerokratt.ee/chat/chatbot/welcome-message');
+    await page.goto('https://admin.prod.buerokratt.ee/chat/chatbot/welcome-message');
     // Verify textarea is visible
     await textarea.fill(originalText);
 
@@ -97,7 +101,7 @@ test.describe('Welcome message/Tervitussõnum Functionality Tests', () => {
     // Save the reverted value
     await saveButton.click();
 
-    await page.goto('https://admin.test.buerokratt.ee/chat/chatbot/welcome-message');
+    await page.goto('https://admin.prod.buerokratt.ee/chat/chatbot/welcome-message');
 
     const checkerTextareaValue = await textarea.inputValue();
     await expect(checkerTextareaValue).toBe(originalText);

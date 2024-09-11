@@ -2,206 +2,206 @@ const { test, expect } = require('@playwright/test');
 const { getTranslations } = require('../../../../../../translations/languageDetector');
 
 
+test.describe.serial('Complete User Management Functionality Tests', () => {
+    test.describe.serial('User Management Functionality Tests', () => {
+        let translation;
+        const pageUrl = 'https://admin.prod.buerokratt.ee/chat/users';
 
-test.describe('Table Sorting and Search Functionality', () => {
-    const translation = getTranslations('https://admin.test.buerokratt.ee/chat/users')
-    const pageUrl = 'https://admin.test.buerokratt.ee/chat/users';
+        test.beforeEach(async ({ page }) => {
+            await page.goto(pageUrl);
+            translation = await getTranslations(page);
+            await page.waitForLoadState('networkidle');
+        });
 
-    //
+        async function testSorting({ page }, translationKey) {
+            const columnName = translation[translationKey];
 
-    // WRITE A SINGLE TEST OR SEQUENTIAL TESTS THAT TEST THE CREATION, EDITING AND DELETION OF AN USER.
+            const headers = await page.locator('//table//thead//th').allTextContents();
+            const columnIndex = headers.indexOf(columnName) + 1;
 
-    //
+            const columnXpath = `xpath=//table//tr/td[${columnIndex}]`;
 
-    test.beforeEach(async ({ page }) => {
-        await page.goto(pageUrl);
-        await page.waitForLoadState('networkidle');
-    });
+            const columnCells = await page.locator(columnXpath);
+            const unsortedValues = (await columnCells.allTextContents()).map(val => val.trim());
 
-    async function testSorting({ page }, translationKey) {
-        const columnName = translation[translationKey];
-        
-        // Log headers and translation key for debugging
-        const headers = await page.locator('//table//thead//th').allTextContents();
-        
-        // Verify column index
-        const columnIndex = headers.indexOf(columnName) + 1;
+            await page.getByRole('cell', { name: columnName, exact: true }).getByRole('button').first().click();
+            await page.waitForTimeout(2000);
 
-        // Construct XPath using the static index for debugging
-        const columnXpath = `xpath=//table//tr/td[${columnIndex}]`;
-        
-        // Locate the cells in the target column before sorting
-        const columnCells = await page.locator(columnXpath);
-        const unsortedValues = (await columnCells.allTextContents()).map(val => val.trim());
+            const sortedValuesAsc = (await columnCells.allTextContents()).map(val => val.trim());
+            const manuallySortedValuesAsc = [...unsortedValues].sort((a, b) => a.localeCompare(b));
 
-        // Click to sort in ascending order
-        await page.getByRole('cell', { name: columnName, exact: true }).getByRole('button').first().click();
-        await page.waitForTimeout(2000); // Wait for sorting to take effect
+            expect(sortedValuesAsc).toEqual(manuallySortedValuesAsc);
 
-        // Locate the cells again after sorting
-        const sortedValuesAsc = (await columnCells.allTextContents()).map(val => val.trim());
-        const manuallySortedValuesAsc = [...unsortedValues].sort((a, b) => a.localeCompare(b));
+            await page.getByRole('cell', { name: columnName, exact: true }).getByRole('button').first().click();
+            await page.waitForTimeout(2000);
 
-        expect(sortedValuesAsc).toEqual(manuallySortedValuesAsc);
-
-        // Click again to sort in descending order
-        await page.getByRole('cell', { name: columnName, exact: true }).getByRole('button').first().click();
-        await page.waitForTimeout(2000); // Wait for sorting to take effect
-
-        // Locate the cells again after sorting
-        const sortedValuesDesc = (await columnCells.allTextContents()).map(val => val.trim());
-        const manuallySortedValuesDesc = [...unsortedValues].sort((a, b) => b.localeCompare(a));
-        expect(sortedValuesDesc).toEqual(manuallySortedValuesDesc);
-    }
-
-    async function testSearching({ page }, translationKey) {
-        const columnName = translation[translationKey];
-        const searchName = translation['Otsi...']; // Assuming 'Otsi...' is the placeholder for the search input
-    
-        const headers = await page.locator('//table//thead//th').allTextContents();
-        const columnIndex = headers.indexOf(columnName) + 1;
-    
-        // Construct XPath using the static index for debugging
-        const columnXpath = `xpath=//table//tr/td[${columnIndex}]`;
-    
-        // Locate the cells in the target column before searching
-        const columnCells = await page.locator(columnXpath);
-        const unsortedValues = (await columnCells.allTextContents()).map(val => val.trim());
-    
-        //Select a random value from the unsortedValues array
-        const randomValue = unsortedValues[Math.floor(Math.random() * unsortedValues.length)];
-    
-        // Click to open the search input (assuming it's the button after the column name)
-        await page.getByRole('cell', { name: columnName, exact: true }).getByRole('button').nth(1).click();
-    
-        await page.waitForTimeout(500); // Wait for the search input to appear
-    
-        // Interact with the search input (e.g., typing a search query)
-        const searchInput = await page.locator(`input[placeholder="${searchName}"]`); // Adjust the selector if needed
-        await searchInput.fill(randomValue); // Use the randomly selected value as the search query
-        await page.waitForTimeout(500); // Wait for results to filter (adjust timing as needed)
-    
-        // Retrieve the column cells again after filtering
-        const filteredValues = (await columnCells.allTextContents()).map(val => val.trim());
-    
-        // Verify that all filtered values match the random value (i.e., search query)
-        for (const value of filteredValues) {
-            expect(value.toLowerCase()).toContain(randomValue.toLowerCase());
+            const sortedValuesDesc = (await columnCells.allTextContents()).map(val => val.trim());
+            const manuallySortedValuesDesc = [...unsortedValues].sort((a, b) => b.localeCompare(a));
+            expect(sortedValuesDesc).toEqual(manuallySortedValuesDesc);
         }
-    }
 
-    // Test cases for all columns
-    test('Sort by Nimi', async ({ page }) => {
-        await testSorting({ page }, 'Nimi');
-        await testSearching({ page }, 'Nimi');
+        async function testSearching({ page }, translationKey) {
+            const columnName = translation[translationKey];
+            const searchName = translation['search...'];
+
+            const headers = await page.locator('//table//thead//th').allTextContents();
+            const columnIndex = headers.indexOf(columnName) + 1;
+
+            const columnXpath = `xpath=//table//tr/td[${columnIndex}]`;
+
+            const columnCells = await page.locator(columnXpath);
+            const unsortedValues = (await columnCells.allTextContents()).map(val => val.trim());
+
+            const randomValue = unsortedValues[Math.floor(Math.random() * unsortedValues.length)];
+
+            await page.getByRole('cell', { name: columnName, exact: true }).getByRole('button').nth(1).click();
+            await page.waitForTimeout(500);
+
+            const searchInput = await page.locator(`input[placeholder="${searchName}"]`);
+            await searchInput.fill(randomValue);
+            await page.waitForTimeout(500);
+
+            const filteredValues = (await columnCells.allTextContents()).map(val => val.trim());
+
+            for (const value of filteredValues) {
+                expect(value.toLowerCase()).toContain(randomValue.toLowerCase());
+            }
+        }
+
+        // Test cases for all columns
+        test('Sort and Search by Nimi', async ({ page }) => {
+            await testSorting({ page }, 'name');
+            await testSearching({ page }, 'name');
+        });
+
+        test('Sort and Search by Isikukood', async ({ page }) => {
+            await testSorting({ page }, 'idCode');
+            await testSearching({ page }, 'idCode');
+        });
+
+        test.fixme('Sort and Search by Roll', async ({ page }) => {
+            test.info().annotations.push({
+                type: 'Known bug',
+                description: 'The sorting is random? All administrator roles should be first, but some are after other roles.',
+            });
+            await testSorting({ page }, 'role');
+            await testSearching({ page }, 'role');
+        });
+
+        test('Sort and Search by Kuvatav nimi', async ({ page }) => {
+            await testSorting({ page }, 'displayName');
+            await testSearching({ page }, 'displayName');
+        });
+
+        test('Sort and Search by Tiitel', async ({ page }) => {
+            await testSorting({ page }, 'userTitle');
+            await testSearching({ page }, 'userTitle');
+        });
+
+        test('Sort and Search by E-post', async ({ page }) => {
+            await testSorting({ page }, 'e-mail');
+            await testSearching({ page }, 'e-mail');
+        });
+
+
     });
 
-    test('Sort by Isikukood', async ({ page }) => {
-        await testSorting({ page }, 'Isikukood');
-        await testSearching({ page }, 'Isikukood');
+    test.describe.serial.only('User Management Functionality Tests for user creation, editing and deletion', () => {
+        let translation;
+        const pageUrl = 'https://admin.prod.buerokratt.ee/chat/users';
+        test.beforeEach(async ({ page }) => {
+            await page.goto(pageUrl);
+            translation = await getTranslations(page);
+            await page.waitForLoadState('networkidle');
+        });
+        test('Add a new user', async ({ page }) => {
+
+            await page.locator(`button.btn--primary:has-text("${translation["addUser"]}")`).click();
+
+            await page.fill('input[name="fullName"]', 'Test User');
+            await page.fill('input[name="idCode"]', 'EE12345678910');
+
+            await page.locator('div').filter({ hasText: translation["choose"] }).nth(2).click();
+            await page.getByRole('option', { name: translation["administrator"] }).click();
+
+            await page.fill('input[name="displayName"]', 'TUser');
+            await page.fill('input[name="csaTitle"]', 'Developer');
+            await page.fill('input[name="csaEmail"]', 'test.user@example.com');
+
+            await page.locator(`button.btn.btn--primary.btn--m:has-text("${translation["addUser"]}")`).nth(1).click();
+
+            page.waitForTimeout(1500);
+
+            const columnName = translation["name"];
+            const headers = await page.locator('//table//thead//th').allTextContents();
+
+            const columnIndex = headers.indexOf(columnName) + 1;
+            const columnXpath = `xpath=//table//tr/td[${columnIndex}]`;
+
+            const columnCells = await page.locator(columnXpath);
+            const allValues = (await columnCells.allTextContents()).map(val => val.trim());
+
+            expect(allValues).toContain('Test User');
+
+            const newUserRow = await page.locator(`table.data-table tbody tr:has-text("Test User")`);
+            await expect(newUserRow).toBeVisible();
+        });
+
+        test('Edit user details', async ({ page }) => {
+            // Locate the row for "Test User" in the table
+            const userRow = page.locator(`table.data-table tbody tr:has-text("Test User")`);
+
+            // Ensure the row for "Test User" is visible
+            await expect(userRow).toBeVisible();
+
+            // Locate and click the "Edit" button within the row
+            await userRow.locator(`button:has-text("${translation["edit"]}")`).click();
+
+            await page.getByLabel(`Remove ${translation["administrator"]}`).click();
+            await page.locator('#react-select-2-input').click();
+            await page.getByRole('option', { name: `${translation["serviceManager"]}` }).click();
+
+            // Update the user details
+            await page.fill('input[name="fullName"]', 'Edited User');
+            await page.fill('input[name="displayName"]', 'EUser');
+            await page.fill('input[name="csaTitle"]', 'Senior Developer');
+            await page.fill('input[name="csaEmail"]', 'edited.user@example.com');
+
+            // Save the changes by clicking the "Save" button
+            await page.locator(`button.btn.btn--primary.btn--m:has-text("${translation["editUser"]}")`).click();
+
+            // Verify the updates in the table
+            const columnName = translation["name"];
+            const headers = await page.locator('//table//thead//th').allTextContents();
+            const columnIndex = headers.indexOf(columnName) + 1;
+            const columnXpath = `xpath=//table//tr/td[${columnIndex}]`;
+
+            const columnCells = await page.locator(columnXpath);
+            const allValues = (await columnCells.allTextContents()).map(val => val.trim());
+
+            expect(allValues).toContain('Edited User');
+
+            // Verify the updated row is visible in the table
+            const editedUserRow = page.locator(`table.data-table tbody tr:has-text("Edited User")`);
+            await expect(editedUserRow).toBeVisible();
+        });
+
+        test('Delete user', async ({ page }) => {
+
+            // Locate the row for "Edited User" in the table
+            const userRow = page.locator(`table.data-table tbody tr:has-text("Edited User")`);
+
+            // Ensure the row for "Edited User" is visible
+            await expect(userRow).toBeVisible();
+
+            // Locate and click the "Delete" button within the row
+            await userRow.locator(`button:has-text("${translation["delete"]}")`).click();
+
+            // Confirm the deletion in the modal (if applicable)
+            await page.locator(`button.btn.btn--error.btn--m:has-text("${translation["yes"]}")`).click();
+
+            // Verify that the user is no longer in the table
+            await expect(page.locator(`table.data-table tbody tr:has-text("Edited User")`)).not.toBeVisible();
+        });
     });
-
-    test('Sort by Roll', async ({ page }) => {
-        test.info().annotations.push({
-            type: 'Known bug',
-            description: 'The sorting is random? All administrator roles should be first, but some are after other roles. ',
-        })
-        await testSorting({ page }, 'Roll');
-        await testSearching({ page }, 'Roll');
-    });
-
-    test('Sort by Kuvatav nimi', async ({ page }) => {
-        await testSorting({ page }, 'Kuvatav nimi');
-        await testSearching({ page }, 'Kuvatav nimi');
-    });
-
-    test('Sort by Tiitel', async ({ page }) => {
-        await testSorting({ page }, 'Tiitel');
-        await testSearching({ page }, 'Tiitel');
-    });
-
-    test('Sort by E-post', async ({ page }) => {
-        await testSorting({ page }, 'E-post');
-        await testSearching({ page }, 'E-post');
-    });
-
-    test.only('should add a new user', async ({ page }) => {
-
-        test.info().annotations.push({
-            type: 'Known bug',
-            description: 'The test doesnt run due to some internal failure, making the creation of an user impossible.',
-        })
-
-        // Click the "Lisa kasutaja" button to open the Add User dialog
-        await page.locator(`button.btn--primary:has-text("${translation["Lisa kasutaja"]}")`).click();
-
-        // Fill in the Full Name field
-        await page.fill('input[name="fullName"]', 'Test User');
-
-        // Fill in the ID Code field (e.g., EE12345678910)
-        await page.fill('input[name="idCode"]', 'EE12345678910');
-
-        // Select a role from the dropdown (assuming it's a multi-select dropdown)
-        //await page.click('.multiSelect__wrapper'); // Click to open the dropdown
-
-
-
-        await page.locator('div').filter({ hasText: translation["Vali"] }).nth(2).click();
-        await page.getByRole('option', { name: translation["Administraator"] }).click();
-
-        // Fill in the Display Name field
-        await page.fill('input[name="displayName"]', 'TUser');
-
-        // Fill in the Title field
-        await page.fill('input[name="csaTitle"]', 'Developer');
-
-        // Fill in the Email field
-        await page.fill('input[name="csaEmail"]', 'test.user@example.com');
-
-        // Click the "Lisa kasutaja" button to submit the form
-        await page.locator(`button.btn.btn--primary.btn--m:has-text("${translation["Lisa kasutaja"]}")`).nth(1).click();
-
-     // Log headers and translation key for debugging
-     const columnName = translation["Nimi"];
-     const headers = await page.locator('//table//thead//th').allTextContents();
- 
-     // Verify column index
-     const columnIndex = headers.indexOf(columnName) + 1;
- 
-     // Construct XPath using the static index for debugging
-     const columnXpath = `xpath=//table//tr/td[${columnIndex}]`;
- 
-     // Locate the cells in the target column after the user is added
-     const columnCells = await page.locator(columnXpath);
-     const allValues = (await columnCells.allTextContents()).map(val => val.trim());
- 
-     // Check if the new user's name exists in the column
-     expect(allValues).toContain(userName);
- 
-     // Assert that the new user has been added to the table (based on expected behavior)
-     const newUserRow = await page.locator(`table.data-table tbody tr:has-text("${userName}")`);
-     await expect(newUserRow).toBeVisible();
-    });
-
-    test('Edit user details', async ({ page }) => {
-
-        test.info().annotations.push({
-            type: 'Known bug',
-            description: 'The test doesnt run due to some internal failure, making the editing impossible.',
-        })
-
-        // TODO
-
-    })
-
-    test.skip('Delete user', async ({ page }) => {
-
-        test.info().annotations.push({
-            type: 'Note',
-            description: 'This test is skipped due to it actually working. THis is currently skipped due to there not being a possibility of creating a new user due to internal failures.',
-        })
-
-        // TODO
-
-    })
 });
