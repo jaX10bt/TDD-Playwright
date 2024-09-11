@@ -37,6 +37,15 @@
     "considerPublicHolidays": "Consider public holidays",
     "closedOnWeekends": "Closed on weekends",
     "sameOnAllWorkingDays": "The same on all working days",
+    "monday": "Monday",
+    "tuesday": "Tuesday",
+    "wednesday": "Wednesday",
+    "thursday": "Thursday",
+    "friday": "Friday",
+    "saturday": "Saturday",
+    "sunday": "Sunday",
+    "workingTime": "Organization working time",
+    
 
 
     "askAuthentication": "Ask for authentication",
