@@ -1,8 +1,7 @@
 const { test, expect } = require('@playwright/test');
 const { getTranslations } = require('../../../../../../translations/languageDetector');
 
-test.describe('Switches Functionality Tests', () => {
-    let initialState = {};
+test.describe.serial('Switches Functionality Tests', () => {
     let translation;
 
     test.beforeEach(async ({ page }) => {
@@ -14,17 +13,15 @@ test.describe('Switches Functionality Tests', () => {
 
         // Fetch translations
         translation = await getTranslations(page);
-
-        // Capture initial state
-        initialState = {};
-        const switches = page.locator('.switch__button');
-
-        // Save initial state of switches
-        for (let i = 1; i < await switches.count(); i++) {
-            const switchElem = switches.nth(i);
-            initialState[`switch_${i}`] = await switchElem.getAttribute('aria-checked');
-        }
     });
+
+    async function saveChanges(page) {
+        const saveButton = page.locator(`text=${translation["save"]}`);
+        await saveButton.click();
+        await expect(page.locator('.toast.toast--success')).toBeVisible();
+        await page.goto(page.url()); // Reload the page by navigating to the current URL
+        await page.waitForTimeout(5000); // Wait for the reload to complete
+    };
 
     test('check functionality of "considerPublicHolidays" switch', async ({ page }) => {
         const switchElem = page.locator('.switch__button').nth(1);
@@ -39,36 +36,47 @@ test.describe('Switches Functionality Tests', () => {
         await switchElem.click();
         await page.waitForTimeout(1000); // Wait for 1 second for the state to update
 
-        const isCheckedAfterToggle = await switchElem.getAttribute('aria-checked');
-        console.log(`State after toggle of "considerPublicHolidays": ${isCheckedAfterToggle}`);
+        // Click the Save button
+        await saveChanges(page);
 
         // Verify the switch has toggled
+        const isCheckedAfterToggle = await switchElem.getAttribute('aria-checked');
         await expect(isCheckedAfterToggle).not.toBe(initialChecked); // Ensure the state has changed
 
         // Toggle back to original state
         await switchElem.click();
         await page.waitForTimeout(1000); // Wait for 1 second for the state to update
 
+        // Click the Save button
+        await saveChanges(page);
+
+        // Verify the state returns to original
         const finalChecked = await switchElem.getAttribute('aria-checked');
-        console.log(`Final state of "considerPublicHolidays": ${finalChecked}`);
         await expect(finalChecked).toBe(initialChecked); // Ensure it returns to original state
     });
 
     test('check functionality of "closedOnWeekends" switch', async ({ page }) => {
-        // Locate the "closedOnWeekends" switch (assuming it's the second switch)
         const closedOnWeekendsSwitch = page.locator('.switch').nth(2).locator('.switch__button');
 
+        // Capture the initial state of the switch
+        const initialChecked = await closedOnWeekendsSwitch.getAttribute('aria-checked') === 'true';
+        
         // Locate Saturday and Sunday divs
         const saturdayDiv = page.locator(`label:has-text("${translation["saturday"]}")`);
         const sundayDiv = page.locator(`label:has-text("${translation["sunday"]}")`);
 
-        // Check visibility of Saturday and Sunday divs before toggling
-        await expect(saturdayDiv).toBeVisible();
-        await expect(sundayDiv).toBeVisible();
+        if (!initialChecked) {
+            // Check visibility of Saturday and Sunday divs before toggling
+            await expect(saturdayDiv).toBeVisible();
+            await expect(sundayDiv).toBeVisible();
 
-        // Toggle the "closedOnWeekends" switch
-        await closedOnWeekendsSwitch.click();
-        await page.waitForTimeout(1000); // Wait for 1 second for the state to update
+            // Toggle the switch to turn it on
+            await closedOnWeekendsSwitch.click();
+            await page.waitForTimeout(1000); // Wait for 1 second for the state to update
+
+            // Click the Save button
+            await saveChanges(page);
+        }
 
         // Verify that Saturday and Sunday divs are hidden
         await expect(saturdayDiv).not.toBeVisible();
@@ -78,9 +86,19 @@ test.describe('Switches Functionality Tests', () => {
         await closedOnWeekendsSwitch.click();
         await page.waitForTimeout(1000); // Wait for 1 second for the state to update
 
+        // Click the Save button
+        await saveChanges(page);
+
         // Verify that Saturday and Sunday divs are visible again
         await expect(saturdayDiv).toBeVisible();
         await expect(sundayDiv).toBeVisible();
+
+        // Restore the original state if it was initially off
+        if (!initialChecked) {
+            await closedOnWeekendsSwitch.click();
+            await page.waitForTimeout(1000); // Wait for 1 second for the state to update
+            await saveChanges(page);
+        }
     });
 
     test('check functionality of "sameOnAllWorkingDays" switch', async ({ page }) => {
@@ -108,7 +126,10 @@ test.describe('Switches Functionality Tests', () => {
         await switchElem.click();
         await page.waitForTimeout(1000); // Wait for 1 second for the state to update
 
-        // Determine expected visible text based on switch stat
+        // Click the Save button
+        await saveChanges(page);
+
+        // Determine expected visible text based on switch state
         const expectedText = closedOnWeekends ? "M-F" : "M-S";
 
         // Find and count visible divs
@@ -128,6 +149,9 @@ test.describe('Switches Functionality Tests', () => {
         await switchElem.click();
         await page.waitForTimeout(1000); // Wait for 1 second for the state to update
 
+        // Click the Save button
+        await saveChanges(page);
+
         // Verify the div counts return to the initial state
         let finalDivCounts = {};
         for (const day of days) {
@@ -139,10 +163,4 @@ test.describe('Switches Functionality Tests', () => {
             await expect(finalDivCounts[day]).toBe(initialDivCounts[day]); // Ensure div counts return to the original state
         }
     });
-
-
-
-
-
-    // Add similar tests for other switches as needed
 });
