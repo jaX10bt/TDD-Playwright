@@ -24,7 +24,6 @@ test.describe('Switch visibility and text tests', () => {
         await labelElem.waitFor({ state: 'visible', timeout: 15000 });
 
         const label = await labelElem.textContent();
-        console.log(`Label found: ${label}`); // Debugging log
 
         // Check visibility
         await expect(switchElem).toBeVisible();
@@ -45,7 +44,6 @@ test.describe('Switch visibility and text tests', () => {
         await labelElem.waitFor({ state: 'visible', timeout: 15000 });
 
         const label = await labelElem.textContent();
-        console.log(`Label found: ${label}`); // Debugging log
 
         // Check visibility
         await expect(switchElem).toBeVisible();
@@ -66,7 +64,6 @@ test.describe('Switch visibility and text tests', () => {
         await labelElem.waitFor({ state: 'visible', timeout: 15000 });
 
         const label = await labelElem.textContent();
-        console.log(`Label found: ${label}`); // Debugging log
 
         // Check visibility
         await expect(switchElem).toBeVisible();
