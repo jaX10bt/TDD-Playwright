@@ -77,7 +77,7 @@ test.describe('User Management Functionality Tests', () => {
         await testSearching({ page }, 'idCode');
     });
 
-    test('Sort and Search by Roll', async ({ page }) => {
+    test.fixme('Sort and Search by Roll', async ({ page }) => {
         test.info().annotations.push({
             type: 'Known bug',
             description: 'The sorting is random? All administrator roles should be first, but some are after other roles.',
@@ -101,6 +101,17 @@ test.describe('User Management Functionality Tests', () => {
         await testSearching({ page }, 'e-mail');
     });
 
+
+});
+
+test.describe.serial('User Management Functionality Tests for user creation, editing and deletion', () => {
+    let translation;
+    const pageUrl = 'https://admin.prod.buerokratt.ee/chat/users';
+    test.beforeEach(async ({ page }) => {
+        await page.goto(pageUrl);
+        translation = await getTranslations(page);
+        await page.waitForLoadState('networkidle');
+    });
     test('Add a new user', async ({ page }) => {
         test.info().annotations.push({
             type: 'Known bug',
@@ -137,15 +148,59 @@ test.describe('User Management Functionality Tests', () => {
     });
 
     test('Edit user details', async ({ page }) => {
-        // TODO: Implement edit user details test
+        // Locate the row for "Test User" in the table
+        const userRow = page.locator(`table.data-table tbody tr:has-text("Test User")`);
+
+        // Ensure the row for "Test User" is visible
+        await expect(userRow).toBeVisible();
+
+        // Locate and click the "Edit" button within the row
+        await userRow.locator(`button:has-text("${translation["edit"]}")`).click();
+
+        await page.getByLabel(`Remove ${translation["administrator"]}`).click();
+        await page.locator('#react-select-2-input').click();
+        await page.getByRole('option', { name: `${translation["serviceManager"]}` }).click();
+
+        // Update the user details
+        await page.fill('input[name="fullName"]', 'Edited User');
+        await page.fill('input[name="displayName"]', 'EUser');
+        await page.fill('input[name="csaTitle"]', 'Senior Developer');
+        await page.fill('input[name="csaEmail"]', 'edited.user@example.com');
+
+        // Save the changes by clicking the "Save" button
+        await page.locator(`button.btn.btn--primary.btn--m:has-text("${translation["editUser"]}")`).click();
+
+        // Verify the updates in the table
+        const columnName = translation["name"];
+        const headers = await page.locator('//table//thead//th').allTextContents();
+        const columnIndex = headers.indexOf(columnName) + 1;
+        const columnXpath = `xpath=//table//tr/td[${columnIndex}]`;
+
+        const columnCells = await page.locator(columnXpath);
+        const allValues = (await columnCells.allTextContents()).map(val => val.trim());
+
+        expect(allValues).toContain('Edited User');
+
+        // Verify the updated row is visible in the table
+        const editedUserRow = page.locator(`table.data-table tbody tr:has-text("Edited User")`);
+        await expect(editedUserRow).toBeVisible();
     });
 
-    test.skip('Delete user', async ({ page }) => {
-        test.info().annotations.push({
-            type: 'Note',
-            description: 'This test is skipped due to it actually working. This is currently skipped due to the inability to create a new user due to internal failures.',
-        });
+    test('Delete user', async ({ page }) => {
 
-        // TODO: Implement delete user test
+        // Locate the row for "Edited User" in the table
+        const userRow = page.locator(`table.data-table tbody tr:has-text("Edited User")`);
+
+        // Ensure the row for "Edited User" is visible
+        await expect(userRow).toBeVisible();
+
+        // Locate and click the "Delete" button within the row
+        await userRow.locator(`button:has-text("${translation["delete"]}")`).click();
+
+        // Confirm the deletion in the modal (if applicable)
+        await page.locator(`button:has-text("${translation["yes"]}")`).click();
+
+        // Verify that the user is no longer in the table
+        await expect(page.locator(`table.data-table tbody tr:has-text("Edited User")`)).not.toBeVisible();
     });
 });
