@@ -46,6 +46,8 @@
     "saturday": "Laupäev",
     "sunday": "Pühapäev",
     "workingTime": "Asutuse tööaeg",
+    "m-s": "E-P",
+    "m-f": "E-R",
 
     "askAuthentication": "Küsi autentimist",
     "askedAuthentication": "Küsiti autentimist",
