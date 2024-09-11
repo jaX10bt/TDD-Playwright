@@ -6,40 +6,72 @@ test.describe('Switch visibility and text tests', () => {
 
     test.beforeEach(async ({ page }) => {
         // Navigate to the page with a longer timeout
-        await page.goto('https://admin.prod.buerokratt.ee/chat/working-time', { timeout: 60000 }); // 60 seconds timeout for navigation
+        await page.goto('https://admin.prod.buerokratt.ee/chat/working-time');
 
         // Fetch translations
-        translation = await getTranslations(page); // Ensure to await if getTranslations is async
+        translation = await getTranslations(page);
     });
 
-    test('check visibility and text of switches', async ({ page }) => {
-        // Define expected texts for each switch
-        const switchLabels = [
-            translation["considerPublicHolidays"],
-            translation["closedOnWeekends"],
-            translation["sameOnAllWorkingDays"]
-        ];
+    test('check visibility and text of "considerPublicHolidays" switch', async ({ page }) => {
+        // Wait for the switch to be visible
+        await page.waitForSelector('.switch', { state: 'visible', timeout: 15000 });
 
-        // Wait for the switches to be visible
-        await page.waitForSelector('.switch', { state: 'visible', timeout: 10000 }); // Wait up to 10 seconds
+        // Select the first switch (assuming it's the one for "considerPublicHolidays")
+        const switchElem = page.locator('.switch').nth(1);
 
-        // Select all switches
-        const switches = page.locator('.switch');
+        // Wait for the label to be visible
+        const labelElem = switchElem.locator('.switch__label');
+        await labelElem.waitFor({ state: 'visible', timeout: 15000 });
 
-        // Iterate through switches and check visibility and text
-        for (let i = 0; i < await switches.count(); i++) {
-            const switchElem = switches.nth(i+1);
+        const label = await labelElem.textContent();
+        console.log(`Label found: ${label}`); // Debugging log
 
-            // Wait for each switch to be visible
-            await switchElem.waitFor({ state: 'visible', timeout: 10000 }); // Wait up to 10 seconds
-            
-            const label = await switchElem.locator('.switch__label').textContent();
+        // Check visibility
+        await expect(switchElem).toBeVisible();
 
-            // Check visibility
-            await expect(switchElem).toBeVisible();
-            
-            // Check text content
-            await expect(label?.trim()).toBe(switchLabels[i]);
-        }
+        // Check text content
+        await expect(label?.trim()).toBe(translation["considerPublicHolidays"]);
+    });
+
+    test('check visibility and text of "closedOnWeekends" switch', async ({ page }) => {
+        // Wait for the switch to be visible
+        await page.waitForSelector('.switch', { state: 'visible', timeout: 15000 });
+
+        // Select the second switch (assuming it's the one for "closedOnWeekends")
+        const switchElem = page.locator('.switch').nth(2);
+
+        // Wait for the label to be visible
+        const labelElem = switchElem.locator('.switch__label');
+        await labelElem.waitFor({ state: 'visible', timeout: 15000 });
+
+        const label = await labelElem.textContent();
+        console.log(`Label found: ${label}`); // Debugging log
+
+        // Check visibility
+        await expect(switchElem).toBeVisible();
+
+        // Check text content
+        await expect(label?.trim()).toBe(translation["closedOnWeekends"]);
+    });
+
+    test('check visibility and text of "sameOnAllWorkingDays" switch', async ({ page }) => {
+        // Wait for the switch to be visible
+        await page.waitForSelector('.switch', { state: 'visible', timeout: 15000 });
+
+        // Select the third switch (assuming it's the one for "sameOnAllWorkingDays")
+        const switchElem = page.locator('.switch').nth(3);
+
+        // Wait for the label to be visible
+        const labelElem = switchElem.locator('.switch__label');
+        await labelElem.waitFor({ state: 'visible', timeout: 15000 });
+
+        const label = await labelElem.textContent();
+        console.log(`Label found: ${label}`); // Debugging log
+
+        // Check visibility
+        await expect(switchElem).toBeVisible();
+
+        // Check text content
+        await expect(label?.trim()).toBe(translation["sameOnAllWorkingDays"]);
     });
 });

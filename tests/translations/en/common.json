@@ -34,9 +34,9 @@
     "welcomeMessage": "Welcome Message",
     "greetingActive": "Greeting Active",
     "sessionLengthWarning": "Session length must be between 30 and 480 minuites",
-    "considerPublicHolidays": "considerPublicHolidays",
-    "closedOnWeekends": "closedOnWeekends",
-    "sameOnAllWorkingDays": "sameOnAllWorkingDays",
+    "considerPublicHolidays": "Consider public holidays",
+    "closedOnWeekends": "Closed on weekends",
+    "sameOnAllWorkingDays": "The same on all working days",
 
 
     "askAuthentication": "Ask for authentication",
