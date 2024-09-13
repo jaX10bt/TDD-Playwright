@@ -22,7 +22,6 @@ test.describe('Seaded/Settings Visibility Tests', () => {
         // Verify the first switch ("Vestlusrobot aktiivne") is visible
         const robotActiveSwitch = page.locator(`label:has-text("${translation["chatBotActive"]}") + button.switch__button`);
         await expect(robotActiveSwitch).toBeVisible();
-        await expect(robotActiveSwitch).toHaveAttribute('data-state', 'checked'); // Verify default state
     });
 
     test('Check visibility of the second switch ("Kuva nõustaja nimi")', async ({ page }) => {

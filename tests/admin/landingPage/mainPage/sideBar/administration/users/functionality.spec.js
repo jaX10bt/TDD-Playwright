@@ -106,7 +106,7 @@ test.describe.serial('Complete User Management Functionality Tests', () => {
 
     });
 
-    test.describe.serial.only('User Management Functionality Tests for user creation, editing and deletion', () => {
+    test.describe.serial('User Management Functionality Tests for user creation, editing and deletion', () => {
         let translation;
         const pageUrl = 'https://admin.prod.buerokratt.ee/chat/users';
         test.beforeEach(async ({ page }) => {

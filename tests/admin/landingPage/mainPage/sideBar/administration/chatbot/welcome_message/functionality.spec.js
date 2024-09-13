@@ -51,7 +51,13 @@ test.describe('Welcome message/Tervitussõnum Functionality Tests', () => {
       await expect(masterSwitch.locator('span.switch__on')).toBeVisible();
     });
 
-  test('Check writing to input and character counter updates', async ({ page }) => {
+  test('Check writing to input and character counter updates ### Look issue inside', async ({ page }) => {
+
+    test.info().annotations.push({
+      type: 'Known issue',
+      description: 'The counter doesnt change if the string is the same as before.',
+  })
+
     // Locate the textarea and character count element
     const textarea = page.locator(`//label[text()="${translation["welcomeMessage"]}"]/following-sibling::div//textarea`);
     const charCount = page.locator('.textarea__max-length-bottom');
