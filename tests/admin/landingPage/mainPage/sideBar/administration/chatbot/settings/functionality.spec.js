@@ -20,7 +20,7 @@ test.describe('Settings/Seaded Functionality Tests', () => {
         originalShowAdvisorTitleState = await page.locator(`label:has-text("${translation["showSupportTitle"]}") + button.switch__button`).getAttribute('data-state');
     });
 
-    test.only('Test toggling of all switches and saving their state ### CHECK ISSUE INSIDE', async ({ page }) => {
+    test('Test toggling of all switches and saving their state ### CHECK ISSUE INSIDE', async ({ page }) => {
 
         test.info().annotations.push({
             type: 'Known bug',
