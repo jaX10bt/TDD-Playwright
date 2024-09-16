@@ -112,7 +112,7 @@ test('Should activate chat, when "Võta üle" button is clicked', async ({ page 
 
 
 
-test.only('Should be able to type text in chat input field', async ({ page }) => {
+test('Should be able to type text in chat input field', async ({ page }) => {
     await takeOverFirstChat(page);
 
     const textarea = page.locator('textarea#chatArea');
@@ -123,7 +123,7 @@ test.only('Should be able to type text in chat input field', async ({ page }) =>
 })
 
 
-test.only('Verify that text appears in chat after sending button clicked', async ({ page }) => {
+test('Verify that text appears in chat after sending button clicked', async ({ page }) => {
 
     await takeOverFirstChat(page);
 
@@ -174,7 +174,7 @@ test('click "Küsi kontaktandmeid" button and verify chat event', async ({ page 
 });
 
 
-test.only('click "Küsi nõusolekut" button and verify chat event', async ({ page }) => {
+test('click "Küsi nõusolekut" button and verify chat event', async ({ page }) => {
     await takeOverFirstChat(page);
 
     // Click on the "Küsi nõusolekut" button
