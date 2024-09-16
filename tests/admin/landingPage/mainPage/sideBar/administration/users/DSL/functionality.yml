@@ -6,14 +6,13 @@ tests:
     steps:
       - name: Before Each Setup
         action:
-          goto: "https://admin.prod.buerokratt.ee/chat/users"
+          navigate: "https://admin.prod.buerokratt.ee/chat/users"
           waitFor: networkidle
 
       - name: Fetch Translations
         action:
           getTranslations: true
-          assignVariable: 
-            translations: "{{ await getTranslations }}"
+          assignVariable: translations
 
       - name: Sorting and Searching by Columns
         action:
