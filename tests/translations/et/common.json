@@ -50,6 +50,13 @@
     "m-s": "E-P",
     "m-f": "E-R",
     "yes": "Jah",
+    "averageChatsPerDayMonth": "Keskmine vestluste arv päevas: kuu / eelmine",
+    "averageChatsPerDayWeek": "Keskmine vestluste arv päevas: nädal / eelmine",
+    "numberOfChatsPerMonth": "Vestluste arv: kuu / eelmine",
+    "averageNumberOfChatsAnsweredByBürokrattWeek": "Keskmine Bürokrati vastatud: nädal / eelmine",
+    "averageNumberOfChatsAnsweredByBürokrattMonth":  "Keskmine Bürokrati vastatud: kuu / eelmine",
+    "answeredByBürokrattToday": "Bürokrati vastatud: täna / eile",
+    
 
     "askAuthentication": "Küsi autentimist",
     "askedAuthentication": "Küsiti autentimist",
