@@ -28,7 +28,7 @@ module.exports = defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     // viewport: { width: 1366, height: 768 },  
-    video: 'on',
+    video: 'on-first-retry',
     // launchOptions: {
     //   slowMo: 1000,
     // },
@@ -36,19 +36,22 @@ module.exports = defineConfig({
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'retain-on-failure',
     //* Base URL to use in actions like `await page.goto('/')`. */
-    baseURL: 'https://prod.buerokratt.ee/',
+    baseURL: 'https://prod.buerokratt.ee/'
   },
+  
+  
 
   /* Configure projects for major browsers */
   projects: [
     { name: 'setup', testMatch: /.*\.setup\.js/ },
     {
-      name: 'chromium',
-      use: { ...devices['Desktop Chrome'],
+      name: 'firefox',
+      use: { ...devices['Desktop Firefox'],
               storageState: 'tests/admin/.auth/user.json',
       },
       dependencies: ['setup'],
     },
+
 
     // { 
     //   name: 'firefox',

@@ -12,18 +12,19 @@ test.beforeEach('test', async ({ page }) => {
 });
 
 
-test.describe('"Aktiivsed" tab visibility', () => {
+test.describe('"Aktiivsed" tab visibility', async () => {
 
+ 
     test('should have the correct URL', async ({ page }) => {
         await expect(page).toHaveURL('https://admin.test.buerokratt.ee/chat/active');
     });
 
-    test('should have "Minu vestlused" header', async ({ page }) => {
+    test.only('should have "Minu vestlused" header', async ({ page }) => {
         const header = page.locator('div.vertical-tabs__group-header');
-        await expect(verticalTabs).toBeVisible();
+        await expect(header).toBeVisible();
     })
 
-    test('should have "Minu vestlused" vertical tabs', async ({ page }) => {
+    test.only('should have "Minu vestlused" vertical tabs', async ({ page }) => {
         const verticalTabs = page.locator('div.vertical-tabs__list');
         await expect(verticalTabs).toBeVisible();
     })

@@ -20,9 +20,6 @@ test.beforeEach(async ({ page }) => {
         await page.waitForTimeout(2000);
     }
     translations = await getTranslations(page);
-
-
-
 })
 
 test('Check if clicking unanswered chat opens it ### Look issue inside',

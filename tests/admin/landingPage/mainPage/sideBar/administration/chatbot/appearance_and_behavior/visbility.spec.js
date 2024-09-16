@@ -1,12 +1,24 @@
 import { test, expect } from '@playwright/test';
 import { getTranslations } from '../../../../../../../translations/languageDetector';
 
-test.describe('Visibility Tests for "Välimus ja käitumine"/"Appearance and Behaviour" Page', () => {
-    let translation
-    test.beforeEach(async ({ page }) => {
-        // Navigate to the page before each test
+test.describe('Visibility Tests for "Välimus ja käitumine"/"Appearance and Behaviour" Page', async ( ) => {
+    let translation;
+    let context;
+    let page;
+
+    test.beforeAll(async ({ browser }) => {
+        // Create a new context and page manually
+        context = await browser.newContext();
+        page = await context.newPage();
         await page.goto('https://admin.prod.buerokratt.ee/chat/chatbot/appearance');
         translation = await getTranslations(page);
+    });
+    
+    test.beforeEach(async ({ page }) => {
+        // Navigate to the page before each test
+        let translation
+        await page.goto('https://admin.prod.buerokratt.ee/chat/chatbot/appearance');
+        //translation = await getTranslations(page);
     });
 
     test('Check visibility of the header', async ({ page }) => {
@@ -32,6 +44,7 @@ test.describe('Visibility Tests for "Välimus ja käitumine"/"Appearance and Beh
     test('Check visibility of notification message input', async ({ page }) => {
         const notificationMessageInput = page.locator(`label:has-text("${translation['widgetBubbleMessage']}") + div input`);
         await expect(notificationMessageInput).toBeVisible();
+        
     });
 
     test('Check visibility of primary color picker', async ({ page }) => {
