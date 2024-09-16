@@ -1,0 +1,53 @@
+name: Full Visibility Tests for User Management Page
+
+tests:
+  - name: Check Visibility of Page Elements
+    serial: true
+    steps:
+      - name: Setup
+        action:
+          navigate: "https://admin.prod.buerokratt.ee/chat/users"
+          waitFor: networkidle
+
+      - name: Fetch Translations
+        action:
+          getTranslations: true
+          assignVariable: translations
+
+      - name: Check "Kasutajad" / "Users" Heading
+        action:
+          assertVisible: "h1:has-text('{{ translations['users'] }}')"
+
+      - name: Check "Lisa kasutaja" / "Add User" Button
+        action:
+          assertVisible: "button.btn--primary:has-text('{{ translations['addUser'] }}')"
+
+      - name: Check User Data Table
+        action:
+          assertVisible: "table.data-table"
+
+      - name: Check Table Headers
+        actions:
+          - name: Verify Header Count
+            action:
+              assertCount: "table.data-table thead tr th"
+              count: 8
+
+          - name: Verify Header Texts
+            action:
+              assertTexts:
+                selector: "table.data-table thead tr th"
+                texts:
+                  - "{{ translations['name'] }}"
+                  - "{{ translations['idCode'] }}"
+                  - "{{ translations['role'] }}"
+                  - "{{ translations['displayName'] }}"
+                  - "{{ translations['userTitle'] }}"
+                  - "{{ translations['e-mail'] }}"
+
+      - name: Check "Muuda" and "Kustuta" / "Edit" and "Delete" Buttons
+        action:
+          verifyButtonsPerRow:
+            editText: "{{ translations['edit'] }}"
+            deleteText: "{{ translations['delete'] }}"
+            count: 1
