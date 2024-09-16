@@ -13,14 +13,14 @@ test.describe('Full Visibility Test for User Management Page', () => {
         
     });
 
-    // Test 1: Check if the "Kasutajad" heading is visible
-    test('should display the "Kasutajad" heading', async ({ page }) => {
+    // Test 1: Check if the "Kasutajad"// "Users" heading is visible
+    test('should display the "Kasutajad" / "Users" heading', async ({ page }) => {
         const heading = await page.locator(`h1:has-text("${translation["users"]}")`);
         await expect(heading).toBeVisible();
     });
 
-    // Test 2: Check if the "Lisa kasutaja" button is visible
-    test('should display the "Lisa kasutaja" button', async ({ page }) => {
+    // Test 2: Check if the "Lisa kasutaja"// "Add user" button is visible
+    test('should display the "Lisa kasutaja"/ "Add user" button', async ({ page }) => {
         const addButton = await page.locator(`button.btn--primary:has-text("${translation["addUser"]}")`);
         await expect(addButton).toBeVisible();
     });

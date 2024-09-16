@@ -69,17 +69,17 @@ test.describe.serial('Complete User Management Functionality Tests', () => {
         }
 
         // Test cases for all columns
-        test('Sort and Search by Nimi', async ({ page }) => {
+        test('Sort and Search by Nimi/Name', async ({ page }) => {
             await testSorting({ page }, 'name');
             await testSearching({ page }, 'name');
         });
 
-        test('Sort and Search by Isikukood', async ({ page,}) => {
+        test('Sort and Search by Isikukood/Id code', async ({ page,}) => {
             await testSorting({ page }, 'idCode');
             await testSearching({ page }, 'idCode');
         });
 
-        test.fixme('Sort and Search by Roll', async ({ page, browserName  }) => {
+        test('Sort and Search by Roĺl/Role', async ({ page }) => {
             test.info().annotations.push({
                 type: 'Known bug',
                 description: 'The sorting is starts from Z-A for some reason instead of A-Z as with other sortings.',
@@ -88,17 +88,17 @@ test.describe.serial('Complete User Management Functionality Tests', () => {
             await testSearching({ page }, 'role');
         });
 
-        test('Sort and Search by Kuvatav nimi', async ({ page }) => {
+        test('Sort and Search by Kuvatav nimi/Display Name', async ({ page }) => {
             await testSorting({ page }, 'displayName');
             await testSearching({ page }, 'displayName');
         });
 
-        test('Sort and Search by Tiitel', async ({ page }) => {
+        test('Sort and Search by Tiitel/Title', async ({ page }) => {
             await testSorting({ page }, 'userTitle');
             await testSearching({ page }, 'userTitle');
         });
 
-        test('Sort and Search by E-post', async ({ page }) => {
+        test('Sort and Search by E-post/E-mail', async ({ page }) => {
             await testSorting({ page }, 'e-mail');
             await testSearching({ page }, 'e-mail');
         });
