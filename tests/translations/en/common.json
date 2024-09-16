@@ -12,6 +12,7 @@
     "delete": "Delete",
     "search...": "Search...",
     "administrator": "Administrator",
+    "serviceManager": "Service manager",
     "firstAndLastName": "First and Last Name",
     "choose": "Choose",
     "save": "Save",
@@ -47,6 +48,7 @@
     "workingTime": "Organization working time",
     "m-s": "M-S",
     "m-f": "M-F",
+    "yes": "Yes",
     
 
 

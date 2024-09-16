@@ -13,6 +13,7 @@
     "delete": "Kustuta",
     "search...": "Otsi...",
     "administrator": "Administraator",
+    "serviceManager": "Teenuse haldur",
     "firstAndLastName": "Ees- ja perekonnanimi",
     "choose": "Vali",
     "save": "Salvesta",
@@ -48,6 +49,7 @@
     "workingTime": "Asutuse tööaeg",
     "m-s": "E-P",
     "m-f": "E-R",
+    "yes": "Jah",
 
     "askAuthentication": "Küsi autentimist",
     "askedAuthentication": "Küsiti autentimist",
