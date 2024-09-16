@@ -1,90 +1,55 @@
+name: Visibility Tests for "Välimus ja käitumine"/"Appearance and Behaviour" Page
+
 tests:
-  - name: Check visibility of "Appearance and Behaviour" header
-    preconditions:
-      - action: navigate
-        url: 'https://admin.prod.buerokratt.ee/chat/chatbot/appearance'
-      - action: load_translations
+  - name: Check Visibility of Page Elements
+    serial: true
     steps:
-      - action: assert_visible
-        selector: 'h1:has-text("{{translations.appearanceAndBehaviour}}")'
+      - name: Setup
+        action:
+          navigate: "https://admin.prod.buerokratt.ee/chat/chatbot/appearance"
+          waitFor: networkidle
 
-  - name: Check visibility of animation duration input
-    preconditions:
-      - action: navigate
-        url: 'https://admin.prod.buerokratt.ee/chat/chatbot/appearance'
-      - action: load_translations
-    steps:
-      - action: assert_visible
-        selector: 'label:has-text("{{translations.widgetProactiveSeconds}}") + div input'
+      - name: Fetch Translations
+        action:
+          getTranslations: true
+          assignVariable: translations
 
-  - name: Check visibility of notification switch
-    preconditions:
-      - action: navigate
-        url: 'https://admin.prod.buerokratt.ee/chat/chatbot/appearance'
-      - action: load_translations
-    steps:
-      - action: assert_visible
-        selector: 'label:has-text("{{translations.widgetBubbleMessage}}") + button.switch__button'
+      - name: Check Visibility of Header
+        action:
+          assertVisible: "h1:has-text('{{ translations['appearanceAndBehaviour'] }}')"
 
-  - name: Check visibility of animation start time input
-    preconditions:
-      - action: navigate
-        url: 'https://admin.prod.buerokratt.ee/chat/chatbot/appearance'
-      - action: load_translations
-    steps:
-      - action: assert_visible
-        selector: 'label:has-text("{{translations.widgetBubbleMessageSeconds}}") + div input'
+      - name: Check Visibility of Animation Duration Input
+        action:
+          assertVisible: "input[name='widgetProactiveSeconds']"
 
-  - name: Check visibility of notification message input
-    preconditions:
-      - action: navigate
-        url: 'https://admin.prod.buerokratt.ee/chat/chatbot/appearance'
-      - action: load_translations
-    steps:
-      - action: assert_visible
-        selector: 'label:has-text("{{translations.widgetBubbleMessage}}") + div input'
+      - name: Check Visibility of Notification Switch
+        action:
+          assertVisible: "button.switch__button[name='widgetBubbleMessage']"
 
-  - name: Check visibility of primary color picker
-    preconditions:
-      - action: navigate
-        url: 'https://admin.prod.buerokratt.ee/chat/chatbot/appearance'
-      - action: load_translations
-    steps:
-      - action: assert_visible
-        selector: 'label:has-text("{{translations.widgetColor}}") + div input'
+      - name: Check Visibility of Animation Start Time Input
+        action:
+          assertVisible: "input[name='widgetBubbleMessageSeconds']"
 
-  - name: Check visibility of color picker button
-    preconditions:
-      - action: navigate
-        url: 'https://admin.prod.buerokratt.ee/chat/chatbot/appearance'
-      - action: load_translations
-    steps:
-      - action: assert_visible
-        selector: 'label:has-text("{{translations.widgetColor}}") + div input'
+      - name: Check Visibility of Notification Message Input
+        action:
+          assertVisible: "textarea[name='widgetBubbleMessage']"
 
-  - name: Check visibility of animation dropdown
-    preconditions:
-      - action: navigate
-        url: 'https://admin.prod.buerokratt.ee/chat/chatbot/appearance'
-      - action: load_translations
-    steps:
-      - action: assert_visible
-        selector: 'label:has-text("{{translations.widgetAnimation}}") + div div.select__trigger'
+      - name: Check Visibility of Primary Color Picker
+        action:
+          assertVisible: "input[name='widgetColor']"
 
-  - name: Check visibility of save button
-    preconditions:
-      - action: navigate
-        url: 'https://admin.prod.buerokratt.ee/chat/chatbot/appearance'
-      - action: load_translations
-    steps:
-      - action: assert_visible
-        selector: 'button:has-text("{{translations.save}}")'
+      - name: Check Visibility of Color Picker Button
+        action:
+          assertVisible: "button.color-picker[name='widgetColorPicker']"
 
-  - name: Check visibility of preview button
-    preconditions:
-      - action: navigate
-        url: 'https://admin.prod.buerokratt.ee/chat/chatbot/appearance'
-      - action: load_translations
-    steps:
-      - action: assert_visible
-        selector: 'button:has-text("{{translations.preview}}")'
+      - name: Check Visibility of Animation Dropdown
+        action:
+          assertVisible: "div.select__trigger[name='widgetAnimation']"
+
+      - name: Check Visibility of Save Button
+        action:
+          assertVisible: "button:has-text('{{ translations['save'] }}')"
+
+      - name: Check Visibility of Preview Button
+        action:
+          assertVisible: "button:has-text('{{ translations['preview'] }}')"
