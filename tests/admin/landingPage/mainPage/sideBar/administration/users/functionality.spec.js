@@ -74,15 +74,15 @@ test.describe.serial('Complete User Management Functionality Tests', () => {
             await testSearching({ page }, 'name');
         });
 
-        test('Sort and Search by Isikukood', async ({ page }) => {
+        test('Sort and Search by Isikukood', async ({ page,}) => {
             await testSorting({ page }, 'idCode');
             await testSearching({ page }, 'idCode');
         });
 
-        test.fixme('Sort and Search by Roll', async ({ page }) => {
+        test.fixme('Sort and Search by Roll', async ({ page, browserName  }) => {
             test.info().annotations.push({
                 type: 'Known bug',
-                description: 'The sorting is random? All administrator roles should be first, but some are after other roles.',
+                description: 'The sorting is starts from Z-A for some reason instead of A-Z as with other sortings.',
             });
             await testSorting({ page }, 'role');
             await testSearching({ page }, 'role');
