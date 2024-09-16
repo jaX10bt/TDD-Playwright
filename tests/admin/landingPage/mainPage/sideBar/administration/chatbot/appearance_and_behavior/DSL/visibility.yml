@@ -1,0 +1,90 @@
+tests:
+  - name: Check visibility of "Appearance and Behaviour" header
+    preconditions:
+      - action: navigate
+        url: 'https://admin.prod.buerokratt.ee/chat/chatbot/appearance'
+      - action: load_translations
+    steps:
+      - action: assert_visible
+        selector: 'h1:has-text("{{translations.appearanceAndBehaviour}}")'
+
+  - name: Check visibility of animation duration input
+    preconditions:
+      - action: navigate
+        url: 'https://admin.prod.buerokratt.ee/chat/chatbot/appearance'
+      - action: load_translations
+    steps:
+      - action: assert_visible
+        selector: 'label:has-text("{{translations.widgetProactiveSeconds}}") + div input'
+
+  - name: Check visibility of notification switch
+    preconditions:
+      - action: navigate
+        url: 'https://admin.prod.buerokratt.ee/chat/chatbot/appearance'
+      - action: load_translations
+    steps:
+      - action: assert_visible
+        selector: 'label:has-text("{{translations.widgetBubbleMessage}}") + button.switch__button'
+
+  - name: Check visibility of animation start time input
+    preconditions:
+      - action: navigate
+        url: 'https://admin.prod.buerokratt.ee/chat/chatbot/appearance'
+      - action: load_translations
+    steps:
+      - action: assert_visible
+        selector: 'label:has-text("{{translations.widgetBubbleMessageSeconds}}") + div input'
+
+  - name: Check visibility of notification message input
+    preconditions:
+      - action: navigate
+        url: 'https://admin.prod.buerokratt.ee/chat/chatbot/appearance'
+      - action: load_translations
+    steps:
+      - action: assert_visible
+        selector: 'label:has-text("{{translations.widgetBubbleMessage}}") + div input'
+
+  - name: Check visibility of primary color picker
+    preconditions:
+      - action: navigate
+        url: 'https://admin.prod.buerokratt.ee/chat/chatbot/appearance'
+      - action: load_translations
+    steps:
+      - action: assert_visible
+        selector: 'label:has-text("{{translations.widgetColor}}") + div input'
+
+  - name: Check visibility of color picker button
+    preconditions:
+      - action: navigate
+        url: 'https://admin.prod.buerokratt.ee/chat/chatbot/appearance'
+      - action: load_translations
+    steps:
+      - action: assert_visible
+        selector: 'label:has-text("{{translations.widgetColor}}") + div input'
+
+  - name: Check visibility of animation dropdown
+    preconditions:
+      - action: navigate
+        url: 'https://admin.prod.buerokratt.ee/chat/chatbot/appearance'
+      - action: load_translations
+    steps:
+      - action: assert_visible
+        selector: 'label:has-text("{{translations.widgetAnimation}}") + div div.select__trigger'
+
+  - name: Check visibility of save button
+    preconditions:
+      - action: navigate
+        url: 'https://admin.prod.buerokratt.ee/chat/chatbot/appearance'
+      - action: load_translations
+    steps:
+      - action: assert_visible
+        selector: 'button:has-text("{{translations.save}}")'
+
+  - name: Check visibility of preview button
+    preconditions:
+      - action: navigate
+        url: 'https://admin.prod.buerokratt.ee/chat/chatbot/appearance'
+      - action: load_translations
+    steps:
+      - action: assert_visible
+        selector: 'button:has-text("{{translations.preview}}")'
