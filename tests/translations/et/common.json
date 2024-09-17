@@ -7,11 +7,13 @@
     "idCode": "Isikukood",
     "role": "Roll",
     "displayName": "Kuvatav nimi",
+    "status": "Staatus",
     "userTitle": "Tiitel",
     "e-mail": "E-post",
     "edit": "Muuda",
     "delete": "Kustuta",
     "search...": "Otsi...",
+    "searchByName": "Otsi nime järgi...",
     "administrator": "Administraator",
     "serviceManager": "Teenuse haldur",
     "firstAndLastName": "Ees- ja perekonnanimi",
@@ -65,5 +67,21 @@
     "askContactInformation": "Küsi kontaktandmeid",
     "askedContactInformation": "Küsiti kontaktandmeid",
     "endChat": "Lõpeta vestlus",
-    "takeOver": "Võta üle"
+    "takeOver": "Võta üle",
+    "unansweredChats": "Vastamata vestlused",
+    "chooseChatToBegin": "Alustamiseks vali vestlus",
+    "forwardToColleague": "Suuna kolleegile",
+    "id": "ID",
+    "endUserName": "Vestleja nimi",
+    "chatStartedAt": "Vestlus alustatud",
+    "device": "Seade",
+    "location": "Lähtekoht",
+    "acceptedResponse": "Aktsepteeritud",
+    "hateSpeech": "Vihakõne",
+    "otherReasons": "Muud põhjused",
+    "responseSentToClient": "Kliendile vastati tema jäetud kontaktile",
+    "whoToForward": "Kellele vestlus suunata?",
+    "showOnlyActiveAgents": "Näita ainult kohal olevaid nõustajaid"
+
+    
 }
