@@ -28,7 +28,7 @@ module.exports = defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     // viewport: { width: 1366, height: 768 },  
-    video: 'on-first-retry',
+    video: 'on',
     // launchOptions: {
     //   slowMo: 1000,
     // },
@@ -45,8 +45,8 @@ module.exports = defineConfig({
   projects: [
     { name: 'setup', testMatch: /.*\.setup\.js/ },
     {
-      name: 'firefox',
-      use: { ...devices['Desktop Firefox'],
+      name: 'chromium',
+      use: { ...devices['Desktop Chrome'],
               storageState: 'tests/admin/.auth/user.json',
       },
       dependencies: ['setup'],
