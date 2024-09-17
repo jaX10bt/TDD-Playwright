@@ -19,7 +19,7 @@ test.describe('Metrics Cards Visibility Test', () => {
   // Test for visibility of the card with dynamic text
   test('Check card with text "Keskmine vestluste arv päevas: kuu / eelmine" visibility', async ({ page }) => {
     const card = page.locator(`.draggable-card:has(.title:text("${translation["averageChatsPerDayMonth"]}"))`);
-    await expect(card).toBeVisible();
+    await expect(card).toBeVisible({timeout: 2000});
   });
 
   // Test for visibility of the card with dynamic text
