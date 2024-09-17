@@ -30,7 +30,7 @@ jobs:
           TASK_TITLE=${{ github.event.client_payload.task_title }}
 
           # Step 1: Try to extract a specific test file or folder path from task description
-          TEST_PATHS=$(echo "$TASK_DESCRIPTION" | grep -oP '/\S+\.spec\.ts')
+          TEST_PATHS=$(echo "$TASK_DESCRIPTION" | grep -oP '/\S+\.spec\.js')
           FOLDER_PATH=$(echo "$TASK_DESCRIPTION" | grep -oP '/\S+/')
 
           # If a specific test path is found in the task description, use it
