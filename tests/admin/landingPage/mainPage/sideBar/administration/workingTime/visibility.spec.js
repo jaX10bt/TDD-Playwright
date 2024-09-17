@@ -3,13 +3,48 @@ const { getTranslations } = require('../../../../../../translations/languageDete
 
 test.describe('Switch visibility and text tests', () => {
     let translation;
+    let sameOnAllWorkingDaysState;
+    let closedOnWeekendsState;
 
     test.beforeEach(async ({ page }) => {
         // Navigate to the page with a longer timeout
         await page.goto('https://admin.prod.buerokratt.ee/chat/working-time');
 
+        // Check and store the initial state of the closedOnWeekends switch
+        const closedOnWeekendsSwitch = page.locator('.switch').nth(2).locator('.switch__button');
+        closedOnWeekendsState = await closedOnWeekendsSwitch.getAttribute('aria-checked') === 'true';
+        
+        const sameOnAllWorkingDaysSwitch = page.locator('.switch').nth(3).locator('.switch__button');
+        sameOnAllWorkingDaysState = await sameOnAllWorkingDaysSwitch.getAttribute('aria-checked') === 'true';
+
+        // Update state if necessary
+        if (sameOnAllWorkingDaysState) {
+            await sameOnAllWorkingDaysSwitch.click();
+            await page.waitForTimeout(1000); // Wait for 1 second for the state to update
+        }
+
+        if (closedOnWeekendsState) {
+            await closedOnWeekendsSwitch.click();
+            await page.waitForTimeout(1000); // Wait for 1 second for the state to update
+        }
+
         // Fetch translations
         translation = await getTranslations(page);
+    });
+
+    test.afterEach(async ({ page }) => {
+        // Turn the switches back to their original states
+        const sameOnAllWorkingDaysSwitch = page.locator('.switch').nth(3).locator('.switch__button');
+        if (sameOnAllWorkingDaysState) {
+            await sameOnAllWorkingDaysSwitch.click();
+            await page.waitForTimeout(1000); // Wait for 1 second for the state to update
+        }
+
+        const closedOnWeekendsSwitch = page.locator('.switch').nth(2).locator('.switch__button');
+        if (closedOnWeekendsState) {
+            await closedOnWeekendsSwitch.click();
+            await page.waitForTimeout(1000); // Wait for 1 second for the state to update
+        }
     });
 
     test('check for visibility of the header', async ({ page }) => {
