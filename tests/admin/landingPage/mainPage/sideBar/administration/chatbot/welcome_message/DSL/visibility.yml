@@ -1,0 +1,44 @@
+name: Welcome Message/Tervitussõnum Visibility Tests
+
+tests:
+  - name: Welcome Message Elements Visibility
+    serial: true
+    steps:
+      - name: Navigate to the welcome message page
+        actions:
+          - navigate: "https://admin.prod.buerokratt.ee/chat/chatbot/welcome-message"
+      - name: Fetch Translations
+        action:
+          getTranslations: true
+          assignVariable: translations
+      
+      - description: Verify visibility of the main title
+        actions:
+          - check visibility of `h1:has-text("{{ translation['welcomeMessage'] }}")`
+      
+      - description: Ensure the textarea is visible and contains text
+        actions:
+          - check visibility of `.textarea__wrapper textarea`
+          - check textarea is not empty
+      
+      - description: Check visibility of the switch label
+        actions:
+          - check visibility of `label:has-text("{{ translation['greetingActive'] }}")`
+      
+      - description: Verify visibility of the switch button
+        actions:
+          - check visibility of `.switch__button[data-state="checked"]`
+      
+      - description: Confirm visibility of the textarea label
+        actions:
+          - check visibility of `label:has-text("{{ translation['welcomeMessage'] }}")`
+      
+      - description: Ensure textarea contains text and character count is accurate
+        actions:
+          - check textarea contains text
+          - verify character count reflects text length
+          - note: Known bug with initial character count display
+      
+      - description: Check visibility of the "Save" button
+        actions:
+          - check visibility of `button.btn--primary:has-text("{{ translation['save'] }}")`
