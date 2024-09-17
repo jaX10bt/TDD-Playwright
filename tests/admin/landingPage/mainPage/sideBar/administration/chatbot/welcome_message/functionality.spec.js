@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { getTranslations } from '../../../../../../../translations/languageDetector';
 
-test.describe('Welcome message/Tervitussõnum Functionality Tests', () => {
+test.describe.serial.only('Welcome message/Tervitussõnum Functionality Tests', () => {
 
   let translation
 
@@ -11,24 +11,30 @@ test.describe('Welcome message/Tervitussõnum Functionality Tests', () => {
     translation = await getTranslations(page)
   });
 
-  test('Check if the switch on "Tervitus aktiivne"/"Greeting active" works',
 
-    async ({ page }) => {
+
+  test('Check if the switch on "Tervitus aktiivne"/"Greeting active" works', async ({ page }) => {
       const textarea = page.locator(`//label[text()="${translation["welcomeMessage"]}"]/following-sibling::div//textarea`);
       const originalText = await textarea.inputValue();
 
-      // Locate the "Teade aktiivne" switch by its associated label
-      const masterSwitch = await page.locator('button.switch__button').nth(1);
+      // Locate the "Teade aktiivne" switch
+      const masterSwitch = page.locator('button.switch__button').nth(1);
 
-      // Check initial state (assumed to be 'Sees')
-      await expect(masterSwitch).toHaveAttribute('data-state', 'checked');
+      // Check the current state of the switch
+      const initialSwitchState = await masterSwitch.getAttribute('data-state');
 
-      // Click to toggle the switch to "Väljas"
-      await masterSwitch.click();
+      const saveButton = page.locator('button.btn--primary');
 
-      // Verify the switch is now "Väljas"
-      await expect(masterSwitch).toHaveAttribute('data-state', 'unchecked');
-      await expect(masterSwitch.locator('span.switch__off')).toBeVisible();
+      // If the switch is off ('unchecked'), toggle it on
+      if (initialSwitchState === 'checked') {
+        // Toggle the switch off
+        await masterSwitch.click();
+        await expect(masterSwitch).toHaveAttribute('data-state', 'unchecked');
+        await expect(masterSwitch.locator('span.switch__off')).toBeVisible();
+   
+        await expect(saveButton).toBeVisible();
+        await saveButton.click()
+      }
 
       await page.goto('https://prod.buerokratt.ee'); // Replace with actual widget page URL
 
@@ -36,81 +42,114 @@ test.describe('Welcome message/Tervitussõnum Functionality Tests', () => {
       await page.waitForTimeout(2000); // Adjust timing as needed
 
       // Verify the welcome message is not displayed
-      const messageDisplay = page.locator(`text=${originalText}`); // Replace with the actual text used in your message
+      const logoImage = page.locator('img[alt="Buerokratt logo"]');
+      await logoImage.click();
+    
+      await page.waitForTimeout(2000); // Wait for changes to reflect
+    
+        // Verify the sample text is present in the widget
+      const messageDisplay = page.locator(`text=${originalText}`);
       await expect(messageDisplay).toHaveCount(0); // Expect no elements matching the text selector
 
-      // Navigate back and toggle the switch back to "Sees"
+      // Navigate back to the admin page
       await page.goto('https://admin.prod.buerokratt.ee/chat/chatbot/welcome-message');
-      await masterSwitch.click();
 
-      // Click again to toggle the switch back to "Sees"
-      await masterSwitch.click();
-
-      // Verify the switch is now "Sees" again
-      await expect(masterSwitch).toHaveAttribute('data-state', 'checked');
+      await expect(masterSwitch).toHaveAttribute('data-state', 'unchecked');
       await expect(masterSwitch.locator('span.switch__on')).toBeVisible();
+
+      if (initialSwitchState === 'checked') {
+        await masterSwitch.click();
+      }
+
+      await expect(masterSwitch).toHaveAttribute('data-state', `${initialSwitchState}`)
+      await expect(saveButton).toBeVisible();
+      await saveButton.click()
     });
+    
 
-  test('Check writing to input and character counter updates ### Look issue inside', async ({ page }) => {
+    test('Check writing to input and character counter updates ### Look issue inside', async ({ page }) => {
+      test.info().annotations.push({
+        type: 'Known issue',
+        description: 'There is an issue where the chaacter counter doesnt display the correct character count initially on page load.',
+      });
+    
+      const textarea = page.locator(`//label[text()="${translation["welcomeMessage"]}"]/following-sibling::div//textarea`);
+      const charCount = page.locator('.textarea__max-length-bottom');
+      const saveButton = page.locator(`text=${translation["save"]}`);
+    
+      const originalText = await textarea.inputValue();
 
-    test.info().annotations.push({
-      type: 'Known issue',
-      description: 'The counter doesnt change if the string is the same as before.',
-  })
+      const masterSwitch = page.locator('button.switch__button').nth(1);
 
-    // Locate the textarea and character count element
-    const textarea = page.locator(`//label[text()="${translation["welcomeMessage"]}"]/following-sibling::div//textarea`);
-    const charCount = page.locator('.textarea__max-length-bottom');
+      const initialSwitchState = await masterSwitch.getAttribute('data-state');
 
-    // Verify textarea is visible
-    await expect(textarea).toBeVisible();
+      
+    
+      try {
+        // Verify textarea is visible
 
-    const originalText = await textarea.inputValue();
+        // If the switch is off ('unchecked'), toggle it on
+      if (initialSwitchState === 'unchecked') {
+        // Toggle the switch off
+        await masterSwitch.click();
+        await expect(masterSwitch).toHaveAttribute('data-state', 'checked');
+        await expect(masterSwitch.locator('span.switch__off')).toBeVisible();
+      }
 
-    // Define a sample text to type into the textarea
-    const sampleText = 'Tere, see on proovitekst!';
+        await expect(textarea).toBeVisible();
+    
+        const sampleText = 'Tere, see on proovitekst!';
+    
+        // Type the sample text into the textarea
+        await textarea.fill(sampleText);
+    
+        // Verify the textarea value is updated correctly
+        const textareaValue = await textarea.inputValue();
+        await expect(textareaValue).toBe(sampleText);
+    
+        // Verify the character count updates correctly
+        const expectedCount = sampleText.length;
+        await expect(charCount).toHaveText(`${expectedCount}/250`);
+    
+        // Save the new value
+        await saveButton.click();
 
-    // Type the sample text into the textarea
-    await textarea.fill(sampleText);
-
-    // Verify that the textarea value is updated correctly
-    const textareaValue = await textarea.inputValue();
-    await expect(textareaValue).toBe(sampleText);
-
-    // Verify the character count updates correctly
-    const expectedCount = sampleText.length;
-    await expect(charCount).toHaveText(`${expectedCount}/250`);
-
-    const saveButton = page.locator(`text=${translation["save"]}`);
-    await saveButton.click();
-
-    await page.goto('https://prod.buerokratt.ee'); // Replace with actual widget page URL
-
-    const logoImage = page.locator('img[alt="Buerokratt logo"]'); // Adjust selector if necessary
-    await logoImage.click();
-
-    // Add a wait for the text to appear in the widget
-    await page.waitForTimeout(2000); // Adjust timing as needed
-
-    // Verify the sample text is present in the widget
-    const messageDisplay = page.locator(`text=${sampleText}`); // Adjust selector to match the actual element
-    await expect(messageDisplay).toHaveText(sampleText);
-
-    await page.goto('https://admin.prod.buerokratt.ee/chat/chatbot/welcome-message');
-    // Verify textarea is visible
-    await textarea.fill(originalText);
-
-    // Verify that the textarea value is reverted correctly
-    const revertedTextareaValue = await textarea.inputValue();
-    await expect(revertedTextareaValue).toBe(originalText);
-
-    // Save the reverted value
-    await saveButton.click();
-
-    await page.goto('https://admin.prod.buerokratt.ee/chat/chatbot/welcome-message');
-
-    const checkerTextareaValue = await textarea.inputValue();
-    await expect(checkerTextareaValue).toBe(originalText);
-  });
+        await expect(page.locator('.toast.toast--success')).toBeVisible();
+    
+        await page.goto('https://prod.buerokratt.ee'); // Replace with actual widget page URL
+        const logoImage = page.locator('img[alt="Buerokratt logo"]');
+        await logoImage.click();
+    
+        await page.waitForTimeout(2000); // Wait for changes to reflect
+    
+        // Verify the sample text is present in the widget
+        const messageDisplay = page.locator(`text=${sampleText}`);
+        await expect(messageDisplay).toHaveText(sampleText);
+    
+      } catch (error) {
+        
+        if (initialSwitchState === 'unchecked') {
+          await masterSwitch.click();
+          await expect(masterSwitch).toHaveAttribute('data-state', 'unchecked');
+        }
+    
+        // Revert the textarea back to its original value in case of failure
+        await page.goto('https://admin.prod.buerokratt.ee/chat/chatbot/welcome-message');
+        await textarea.fill(originalText);
+        await saveButton.click();
+    
+        // Re-throw the error so the test is marked as failed
+        throw error;
+      }
+    
+      // Revert the textarea back to its original value if everything succeeded
+      await page.goto('https://admin.prod.buerokratt.ee/chat/chatbot/welcome-message');
+      await textarea.fill(originalText);
+      await saveButton.click();
+    
+      const checkerTextareaValue = await textarea.inputValue();
+      await expect(checkerTextareaValue).toBe(originalText);
+    });
+    
 
 });

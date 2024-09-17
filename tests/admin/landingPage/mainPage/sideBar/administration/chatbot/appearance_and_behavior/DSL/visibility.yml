@@ -7,7 +7,6 @@ tests:
       - name: Setup
         action:
           navigate: "https://admin.prod.buerokratt.ee/chat/chatbot/appearance"
-          waitFor: networkidle
 
       - name: Fetch Translations
         action:

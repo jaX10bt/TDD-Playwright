@@ -20,10 +20,7 @@ tests:
             columns:
               - "{{ translations['name'] }}"
               - "{{ translations['idCode'] }}"
-              - column: "{{ translations['role'] }}"
-                annotation:
-                  type: Known bug
-                  description: "The sorting starts from Z-A for some reason instead of A-Z as with other sortings."
+              - "{{ translations['role'] }}"
               - "{{ translations['displayName'] }}"
               - "{{ translations['userTitle'] }}"
               - "{{ translations['e-mail'] }}"

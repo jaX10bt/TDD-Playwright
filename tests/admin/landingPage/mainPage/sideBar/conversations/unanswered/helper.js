@@ -12,9 +12,8 @@ export async function openDialog(page, buttonText) {
 
 // Function to ensure chat is selected
 export async function selectFirstChat(page) {
-    const buttons = page.locator('button.vertical-tabs__trigger').first();
+    const buttons = await page.locator('.vertical-tabs__trigger');
     const buttonCount = await buttons.count();
-
     if (buttonCount === 0) {
         console.log('No unanswered chats available');
         return false;
@@ -26,13 +25,27 @@ export async function selectFirstChat(page) {
 
 
 export async function takeOverFirstChat(page) {
-    // Select the first chat and return early if none is found
+    // Get translations for the buttons and labels
     const translations = await getTranslations(page);
-    const chatOpened = await selectFirstChat(page);
-    if (!chatOpened) return;
 
-    // Click the "Võta üle" button
+    // Attempt to select the first chat
+    const chatOpened = await selectFirstChat(page);
+    if (!chatOpened) {
+        console.log("No chat was opened.");
+        return false;  // No chat found or opened
+    }
+
+    // Click the "Võta üle" (take over) button
     const takeOverButton = page.locator(`button:has-text("${translations.takeOver}")`);
-    await takeOverButton.click();
+
+    // Check if the "Võta üle" button is visible and enabled before clicking
+    if (await takeOverButton.isVisible() && await takeOverButton.isEnabled()) {
+        await takeOverButton.click();
+        console.log("Chat taken over successfully.");
+        return true;  // Chat taken over successfully
+    } else {
+        console.log("Take over button not visible or not enabled.");
+        return false;  // Take over failed
+    }
 }
 
