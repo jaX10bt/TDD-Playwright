@@ -38,8 +38,7 @@ test.describe('Welcome message/Tervitussõnum Visibility Tests', () => {
     });
 
     test('Check visibility of the switch button', async ({ page }) => {
-        // Check if the correct switch button associated with "Tervitus aktiivne" is visible
-        const switchButton = page.locator('.switch__button[data-state="checked"]');
+        const switchButton = page.locator('.switch__button').nth(1);
         await expect(switchButton).toBeVisible();
     });
 

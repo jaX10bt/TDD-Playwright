@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { getTranslations } from '../../../../../../../translations/languageDetector';
 
-test.describe.serial.only('Welcome message/Tervitussõnum Functionality Tests', () => {
+test.describe.serial('Welcome message/Tervitussõnum Functionality Tests', () => {
 
   let translation
 
@@ -25,10 +25,9 @@ test.describe.serial.only('Welcome message/Tervitussõnum Functionality Tests', 
 
       const saveButton = page.locator('button.btn--primary');
 
-      // If the switch is off ('unchecked'), toggle it on
       if (initialSwitchState === 'checked') {
         // Toggle the switch off
-        await masterSwitch.click();
+        await masterSwitch.click({ clickCount: 1 });
         await expect(masterSwitch).toHaveAttribute('data-state', 'unchecked');
         await expect(masterSwitch.locator('span.switch__off')).toBeVisible();
    
@@ -76,19 +75,12 @@ test.describe.serial.only('Welcome message/Tervitussõnum Functionality Tests', 
       const textarea = page.locator(`//label[text()="${translation["welcomeMessage"]}"]/following-sibling::div//textarea`);
       const charCount = page.locator('.textarea__max-length-bottom');
       const saveButton = page.locator(`text=${translation["save"]}`);
-    
       const originalText = await textarea.inputValue();
-
       const masterSwitch = page.locator('button.switch__button').nth(1);
-
       const initialSwitchState = await masterSwitch.getAttribute('data-state');
 
-      
-    
       try {
-        // Verify textarea is visible
 
-        // If the switch is off ('unchecked'), toggle it on
       if (initialSwitchState === 'unchecked') {
         // Toggle the switch off
         await masterSwitch.click();
