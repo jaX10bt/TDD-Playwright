@@ -1,6 +1,6 @@
 name: Full Visibility Tests for User Management Page
 
-tests:
+setup:
   - name: Check Visibility of Page Elements
     serial: true
     steps:
@@ -13,47 +13,47 @@ tests:
         action:
           getTranslations: true
           assignVariable: translations
+tests:
+  - name: Check Heading Visibility
+    action:
+      assertVisible:
+        element: "heading"
+        text: "translations['users']"
 
-      - name: Check Heading Visibility
+  - name: Check Add User Button Visibility
+    action:
+      assertVisible:
+        element: "button"
+        text: "translations['addUser']"
+
+  - name: Check User Data Table Visibility
+    action:
+      assertVisible:
+        element: "data-table"
+
+  - name: Check Table Headers
+    actions:
+      - name: Verify Header Count
         action:
-          assertVisible: 
-            element: "heading"
-            text: "translations['users']"
+          assertCount:
+            element: "header"
+            count: 8
 
-      - name: Check Add User Button Visibility
+      - name: Verify Header Texts
         action:
-          assertVisible: 
-            element: "button"
-            text: "translations['addUser']"
+          assertTexts:
+            element: "header"
+            texts:
+              - "translations['name']"
+              - "translations['idCode']"
+              - "translations['role']"
+              - "translations['displayName']"
+              - "translations['userTitle']"
+              - "translations['e-mail']"
 
-      - name: Check User Data Table Visibility
-        action:
-          assertVisible: 
-            element: "data-table"
-
-      - name: Check Table Headers
-        actions:
-          - name: Verify Header Count
-            action:
-              assertCount:
-                element: "header"
-                count: 8
-
-          - name: Verify Header Texts
-            action:
-              assertTexts:
-                element: "header"
-                texts:
-                  - "translations['name']"
-                  - "translations['idCode']"
-                  - "translations['role']"
-                  - "translations['displayName']"
-                  - "translations['userTitle']"
-                  - "translations['e-mail']"
-
-      - name: Check Edit and Delete Buttons
-        action:
-          verifyButtonsPerRow:
-            editText: "translations['edit']"
-            deleteText: "translations['delete']"
-            count: 1
+  - name: Check Edit and Delete Buttons
+    action:
+      verifyButtonsPerRow:
+        editText: "translations['edit']"
+        deleteText: "translations['delete']"
+        count: 1

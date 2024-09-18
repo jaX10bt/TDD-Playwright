@@ -1,6 +1,6 @@
 name: Visibility Tests for "Välimus ja käitumine"/"Appearance and Behaviour" Page
 
-tests:
+setup:
   - name: Check Visibility of Page Elements
     serial: true
     steps:
@@ -13,6 +13,7 @@ tests:
           getTranslations: true
           assignVariable: translations
 
+tests:
       - name: Check Visibility of Header
         action:
           assertVisible: "h1:has-text('{{ translations['appearanceAndBehaviour'] }}')"

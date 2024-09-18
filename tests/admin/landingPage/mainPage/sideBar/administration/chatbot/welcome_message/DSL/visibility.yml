@@ -1,6 +1,6 @@
 name: Welcome Message/Tervitussõnum Visibility Tests
 
-tests:
+setup:
   description: Welcome Message Elements Visibility
   serial: true
   steps:
@@ -13,7 +13,7 @@ tests:
         getTranslations: true
         assignVariable: translations
 
-cases:
+tests:
   - name: Verify main title visibility
     check: h1:has-text("translations['welcomeMessage']")
 

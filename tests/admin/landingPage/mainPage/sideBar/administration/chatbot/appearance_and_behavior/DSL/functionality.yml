@@ -1,6 +1,6 @@
 name: "Appearance and Behaviour Page Functionality Tests"
 
-tests:
+setup:
   describe: Appearance and Behaviour Page Functionality Tests
   beforeEach:
     - name: Setup Test
@@ -11,7 +11,7 @@ tests:
         - getTranslations: true
         - assignVariable: translations
 
-cases:
+tests:
   - name: Test Animation Duration Input
     description: Ensure the Animation Duration Input is updated correctly.
     steps:

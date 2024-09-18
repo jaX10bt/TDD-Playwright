@@ -1,5 +1,6 @@
 name: "Welcome message/Tervitussõnum Functionality Tests"
-tests:
+
+setup:
     description: "Test suite to verify the functionality of the welcome message page"
     serial: true
     steps:
@@ -11,7 +12,7 @@ tests:
               gettranslations: true
               assignVariable: s
 
-cases:
+tests:
     - name: 'Check if the switch on "Tervitus aktiivne"/"Greeting active" works'
       actions:
           - findElement:

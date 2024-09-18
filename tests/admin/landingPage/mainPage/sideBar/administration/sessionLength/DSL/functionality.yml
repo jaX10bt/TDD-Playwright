@@ -1,6 +1,6 @@
 name: Session Length Functionality Tests
 
-tests:
+setup:
   - name: Session Length Functionality
     serial: true
 
@@ -14,7 +14,7 @@ tests:
           getTranslations: true
           assignVariable: translations
 
-cases:
+tests:
   - name: Update Session Length to Same Value
     actions:
       - find: 'input[name="session-length"]'
