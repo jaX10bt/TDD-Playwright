@@ -132,7 +132,7 @@ tests:
     steps:
   - name: Click Save Button
     action:
-      click: "button:has-text('{{ translations['save'] }}')"
+      click: "button:has-text('translations['save']')"
 
   - name: Verify Success Toast
     action:
