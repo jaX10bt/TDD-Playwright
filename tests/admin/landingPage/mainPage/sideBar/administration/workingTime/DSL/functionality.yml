@@ -34,8 +34,8 @@ tests:
 
     - name: Validate "Closed on Weekends" Switch Behavior
       preConditions:
-        - ensureSwitchState: "sameOnAllWorkingDays" is off
-        - ensureSwitchState: "closedOnWeekends" is off
+        - ensureSwitchState: "sameOnAllWorkingDays is off"
+        - ensureSwitchState: "closedOnWeekends is off" 
       actions:
         - toggleSwitch: "closedOnWeekends"
         - verifyVisibilityChange:
