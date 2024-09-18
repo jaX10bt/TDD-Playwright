@@ -118,7 +118,7 @@ test.describe('Switch visibility and text tests', () => {
         await expect(label?.trim()).toBe(translation["sameOnAllWorkingDays"]);
     });
 
-    async function checkDayVisibility(page, dayEn, dayEt) {
+    async function checkDayVisibility(page, dayEt) {
         // Check the visibility of the day label
         const dayLabel = page.locator(`.Label.switch:has-text("${dayEt}")`);
         await expect(dayLabel).toBeVisible();
@@ -137,30 +137,30 @@ test.describe('Switch visibility and text tests', () => {
     }
 
     test('check visibility and translation of Monday', async ({ page }) => {
-        await checkDayVisibility(page, "monday", translation["monday"]);
+        await checkDayVisibility(page, translation["monday"]);
     });
 
     test('check visibility and translation of Tuesday', async ({ page }) => {
-        await checkDayVisibility(page, "tuesday", translation["tuesday"]);
+        await checkDayVisibility(page, translation["tuesday"]);
     });
 
     test('check visibility and translation of Wednesday', async ({ page }) => {
-        await checkDayVisibility(page, "wednesday", translation["wednesday"]);
+        await checkDayVisibility(page, translation["wednesday"]);
     });
 
     test('check visibility and translation of Thursday', async ({ page }) => {
-        await checkDayVisibility(page, "thursday", translation["thursday"]);
+        await checkDayVisibility(page, translation["thursday"]);
     });
 
     test('check visibility and translation of Friday', async ({ page }) => {
-        await checkDayVisibility(page, "friday", translation["friday"]);
+        await checkDayVisibility(page, translation["friday"]);
     });
 
     test('check visibility and translation of Saturday', async ({ page }) => {
-        await checkDayVisibility(page, "saturday", translation["saturday"]);
+        await checkDayVisibility(page, translation["saturday"]);
     });
 
     test('check visibility and translation of Sunday', async ({ page }) => {
-        await checkDayVisibility(page, "sunday", translation["sunday"]);
+        await checkDayVisibility(page, translation["sunday"]);
     });
 });
