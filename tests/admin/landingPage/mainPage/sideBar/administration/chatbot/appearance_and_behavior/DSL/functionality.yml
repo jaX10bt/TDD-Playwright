@@ -15,8 +15,6 @@ tests:
   - name: Test Animation Duration Input
     description: Ensure the Animation Duration Input is updated correctly.
     steps:
-      - action: navigate
-        url: "https://admin.prod.buerokratt.ee/chat/chatbot/appearance"
       - action: fill
         target: "input[name='widgetProactiveSeconds']"
         value: "5"
@@ -27,8 +25,7 @@ tests:
   - name: Test Notification Switch Toggle
     description: Ensure the notification switch can be toggled.
     steps:
-      - action: navigate
-        url: "https://admin.prod.buerokratt.ee/chat/chatbot/appearance"
+
       - action: getAttribute
         target: "button.switch__button[aria-checked]:nth(1)"
         attribute: "aria-checked"
@@ -43,8 +40,7 @@ tests:
   - name: Test Animation Start Time Input
     description: Ensure the Animation Start Time Input is updated correctly.
     steps:
-      - action: navigate
-        url: "https://admin.prod.buerokratt.ee/chat/chatbot/appearance"
+
       - action: fill
         target: "input[name='widgetDisplayBubbleMessageSeconds']"
         value: "3"
@@ -55,8 +51,7 @@ tests:
   - name: Test Notification Message Input
     description: Ensure the Notification Message Input is updated correctly.
     steps:
-      - action: navigate
-        url: "https://admin.prod.buerokratt.ee/chat/chatbot/appearance"
+
       - action: fill
         target: "input[name='widgetBubbleMessageText']"
         value: "Test notification"
@@ -67,8 +62,7 @@ tests:
   - name: Test Primary Color Picker
     description: Ensure the Primary Color Picker updates the color correctly.
     steps:
-      - action: navigate
-        url: "https://admin.prod.buerokratt.ee/chat/chatbot/appearance"
+
       - action: click
         target: "input[name='widgetColor']"
       - action: clear
@@ -83,8 +77,7 @@ tests:
   - name: Test Animation Dropdown
     description: Ensure the Animation Dropdown menu works as expected.
     steps:
-      - action: navigate
-        url: "https://admin.prod.buerokratt.ee/chat/chatbot/appearance"
+
       - action: click
         target: "div.select__trigger"
       - action: assertVisible
@@ -98,8 +91,7 @@ tests:
   - name: Test "Eelvaade" Button Functionality
     description: Ensure the "Preview" button works and the widget updates with the new settings.
     steps:
-      - action: navigate
-        url: "https://admin.prod.buerokratt.ee/chat/chatbot/appearance"
+
       - action: click
         target: "button:has-text('{translation['preview']}')"
       - action: assertVisible
@@ -108,8 +100,6 @@ tests:
   - name: Test All Fields and "Eelvaade" Button (Full Functionality)
     description: Check all form fields and ensure the changes are reflected in the widget.
     steps:
-      - action: navigate
-        url: "https://admin.prod.buerokratt.ee/chat/chatbot/appearance"
 
       # Animation Duration Input
       - action: fill
