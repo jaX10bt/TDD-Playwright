@@ -81,15 +81,24 @@ test.describe.serial.only('Switches Functionality Tests', () => {
         await expect(newChecked).not.toBe(initialStates["considerPublicHolidays"]); // Ensure the state has changed
     });
 
-    test('check functionality of "closedOnWeekends" switch', async ({ page }) => {
+    test.only('check functionality of "closedOnWeekends" switch', async ({ page }) => {
         const closedOnWeekendsSwitch = page.locator('.switch__button').nth(2);
         const closedOnWeekendsState = await closedOnWeekendsSwitch.getAttribute('aria-checked');
+
+        const sameOnAllWorkingDaysSwitch = page.locator('.switch__button').nth(3);
+        const sameOnAllWorkingDaysState = await sameOnAllWorkingDaysSwitch.getAttribute('aria-checked');
+
         const saturdayDiv = page.locator(`label:has-text("${translation["saturday"]}")`).locator('..');
         const sundayDiv = page.locator(`label:has-text("${translation["sunday"]}")`).locator('..');
 
         // Toggle the "closedOnWeekends" switch
         if (closedOnWeekendsState === 'false') {
             await closedOnWeekendsSwitch.click();
+            await saveChanges(page)
+        }
+
+        if (sameOnAllWorkingDaysState === 'true') {
+            await sameOnAllWorkingDaysSwitch.click();
             await saveChanges(page)
         }
 
@@ -110,7 +119,6 @@ test.describe.serial.only('Switches Functionality Tests', () => {
         const switchElem = page.locator('.switch__button').nth(3);
         const switchState = await switchElem.getAttribute('aria-checked');
         
-
         if (switchState === 'false') {
             // Toggle the "sameOnAllWorkingDays" switch
             await switchElem.click();
@@ -125,7 +133,6 @@ test.describe.serial.only('Switches Functionality Tests', () => {
         const visibleDiv = page.locator(`label:has-text("${expectedText}")`).locator('..');
         await expect(visibleDiv).toHaveCount(1);
         await expect(visibleDiv.locator('.switch__button')).toHaveCount(0);
-
         
     });
 });
