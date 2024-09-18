@@ -20,8 +20,8 @@ tests:
   afterEach:
     - name: Restore Initial Setup
       actions:
-        - resetSwitches: initialStates # Reset switches to their original state
-        - verifyDivCounts: initialDivCounts # Ensure div counts match initial counts
+        - resetSwitches: initialStates 
+        - verifyDivCounts: initialDivCounts 
 
   cases:
     - name: Validate "Consider Public Holidays" Switch Behavior

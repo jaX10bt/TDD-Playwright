@@ -1,136 +1,134 @@
+name: "Welcome message/Tervitussõnum Functionality Tests"
 tests:
-  - name: 'Welcome message/Tervitussõnum Functionality Tests'
-    description: 'Test suite to verify the functionality of the welcome message page'
+    description: "Test suite to verify the functionality of the welcome message page"
     serial: true
     steps:
-      - name: Navigate to the welcome message page
-        actions:
-          - navigate: "https://admin.prod.buerokratt.ee/chat/chatbot/welcome-message"
-      - name: Fetch translationss
-        action:
-          gettranslations: true
-          assignVariable: s
+        - name: Navigate to the welcome message page
+          actions:
+              - navigate: "https://admin.prod.buerokratt.ee/chat/chatbot/welcome-message"
+        - name: Fetch translationss
+          action:
+              gettranslations: true
+              assignVariable: s
 
-    cases:
-      - name: 'Check if the switch on "Tervitus aktiivne"/"Greeting active" works'
-        actions:
+cases:
+    - name: 'Check if the switch on "Tervitus aktiivne"/"Greeting active" works'
+      actions:
           - findElement:
-              selector: 'label:text-is("${translations["welcomeMessage"]}") + div textarea'
-              alias: textarea
+                selector: 'label:text-is("${translations["welcomeMessage"]}") + div textarea'
+                alias: textarea
           - getText:
-              from: textarea
-              alias: originalText
+                from: textarea
+                alias: originalText
           - findElement:
-              selector: 'button.switch__button'
-              nth: 1
-              alias: masterSwitch
+                selector: "button.switch__button"
+                nth: 1
+                alias: masterSwitch
           - getAttribute:
-              from: masterSwitch
-              attribute: 'data-state'
-              alias: initialSwitchState
+                from: masterSwitch
+                attribute: "data-state"
+                alias: initialSwitchState
           - findElement:
-              selector: 'button.btn--primary'
-              alias: saveButton
+                selector: "button.btn--primary"
+                alias: saveButton
           - if:
-              condition: '${initialSwitchState} == "checked"'
-              actions:
-                - click: masterSwitch
-                - expectAttribute:
-                    element: masterSwitch
-                    attribute: 'data-state'
-                    value: 'unchecked'
-                - expectVisible: 
-                    element: masterSwitch
-                    subElement: 'span.switch__off'
-                - expectVisible: saveButton
-                - click: saveButton
-          - goto: 'https://prod.buerokratt.ee'
+                condition: '${initialSwitchState} == "checked"'
+                actions:
+                    - click: masterSwitch
+                    - expectAttribute:
+                          element: masterSwitch
+                          attribute: "data-state"
+                          value: "unchecked"
+                    - expectVisible:
+                          element: masterSwitch
+                          subElement: "span.switch__off"
+                    - expectVisible: saveButton
+                    - click: saveButton
+          - goto: "https://prod.buerokratt.ee"
           - findElement:
-              selector: 'img[alt="Buerokratt logo"]'
-              alias: logoImage
+                selector: 'img[alt="Buerokratt logo"]'
+                alias: logoImage
           - expectVisible: logoImage
           - click: logoImage
-          - wait: 2000
           - expectNoText:
-              text: '${originalText}'
-          - goto: 'https://admin.prod.buerokratt.ee/chat/chatbot/welcome-message'
+                text: "${originalText}"
+          - goto: "https://admin.prod.buerokratt.ee/chat/chatbot/welcome-message"
           - expectAttribute:
-              element: masterSwitch
-              attribute: 'data-state'
-              value: 'unchecked'
+                element: masterSwitch
+                attribute: "data-state"
+                value: "unchecked"
           - expectVisible:
-              element: masterSwitch
-              subElement: 'span.switch__on'
+                element: masterSwitch
+                subElement: "span.switch__on"
           - if:
-              condition: '${initialSwitchState} == "checked"'
-              actions:
-                - click: masterSwitch
+                condition: '${initialSwitchState} == "checked"'
+                actions:
+                    - click: masterSwitch
           - expectAttribute:
-              element: masterSwitch
-              attribute: 'data-state'
-              value: '${initialSwitchState}'
+                element: masterSwitch
+                attribute: "data-state"
+                value: "${initialSwitchState}"
           - expectVisible: saveButton
           - click: saveButton
 
-      - name: 'Check writing to input and character counter updates'
-        annotations:
-          - type: 'Known issue'
-            description: 'The character counter doesn’t display the correct count initially on page load.'
-        actions:
+    - name: "Check writing to input and character counter updates"
+      annotations:
+          - type: "Known issue"
+            description: "The character counter doesn’t display the correct count initially on page load."
+      actions:
           - findElement:
-              selector: 'label:text-is("${translations["welcomeMessage"]}") + div textarea'
-              alias: textarea
+                selector: 'label:text-is("${translations["welcomeMessage"]}") + div textarea'
+                alias: textarea
           - findElement:
-              selector: '.textarea__max-length-bottom'
-              alias: charCount
+                selector: ".textarea__max-length-bottom"
+                alias: charCount
           - findElement:
-              selector: 'button.switch__button'
-              nth: 1
-              alias: masterSwitch
+                selector: "button.switch__button"
+                nth: 1
+                alias: masterSwitch
           - getAttribute:
-              from: masterSwitch
-              attribute: 'data-state'
-              alias: initialSwitchState
+                from: masterSwitch
+                attribute: "data-state"
+                alias: initialSwitchState
           - if:
-              condition: '${initialSwitchState} == "unchecked"'
-              actions:
-                - click: masterSwitch
-                - expectAttribute:
-                    element: masterSwitch
-                    attribute: 'data-state'
-                    value: 'checked'
-                - expectVisible:
-                    element: masterSwitch
-                    subElement: 'span.switch__off'
+                condition: '${initialSwitchState} == "unchecked"'
+                actions:
+                    - click: masterSwitch
+                    - expectAttribute:
+                          element: masterSwitch
+                          attribute: "data-state"
+                          value: "checked"
+                    - expectVisible:
+                          element: masterSwitch
+                          subElement: "span.switch__off"
           - fill:
-              element: textarea
-              text: 'Tere, see on proovitekst!'
+                element: textarea
+                text: "Tere, see on proovitekst!"
           - expectText:
-              element: textarea
-              value: 'Tere, see on proovitekst!'
+                element: textarea
+                value: "Tere, see on proovitekst!"
           - expectText:
-              element: charCount
-              value: '23/250'
+                element: charCount
+                value: "23/250"
           - findElement:
-              selector: 'button.btn--primary'
-              alias: saveButton
+                selector: "button.btn--primary"
+                alias: saveButton
           - click: saveButton
           - expectVisible:
-              element: '.toast.toast--success'
-          - goto: 'https://prod.buerokratt.ee'
+                element: ".toast.toast--success"
+          - goto: "https://prod.buerokratt.ee"
           - findElement:
-              selector: 'img[alt="Buerokratt logo"]'
-              alias: logoImage
+                selector: 'img[alt="Buerokratt logo"]'
+                alias: logoImage
           - click: logoImage
-          - wait: 2000
           - expectText:
-              element: 'text=Tere, see on proovitekst!'
-              value: 'Tere, see on proovitekst!'
-          - goto: 'https://admin.prod.buerokratt.ee/chat/chatbot/welcome-message'
+                element: "text=Tere, see on proovitekst!"
+                value: "Tere, see on proovitekst!"
+          - goto: "https://admin.prod.buerokratt.ee/chat/chatbot/welcome-message"
           - fill:
-              element: textarea
-              text: '${originalText}'
+                element: textarea
+                text: "${originalText}"
           - click: saveButton
           - expectText:
-              element: textarea
-              value: '${originalText}'
+                element: textarea
+                value: "${originalText}"

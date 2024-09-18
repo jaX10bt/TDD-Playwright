@@ -12,33 +12,29 @@ tests:
           getTranslations: true
           assignVariable: translations
       
-      - description: Verify visibility of the main title
-        actions:
-          - check visibility of `h1:has-text("{{ translation['welcomeMessage'] }}")`
+      - description: Verify main title visibility
+        check: h1:has-text("translations['welcomeMessage']")
       
-      - description: Ensure the textarea is visible and contains text
-        actions:
-          - check visibility of `.textarea__wrapper textarea`
-          - check textarea is not empty
+      - description: Ensure textarea is visible and not empty
+        checks:
+          - `.textarea__wrapper textarea`
+          - textareaNotEmpty: true
       
-      - description: Check visibility of the switch label
-        actions:
-          - check visibility of `label:has-text("{{ translation['greetingActive'] }}")`
+      - description: Check switch label visibility
+        check: label:has-text(translations['greetingActive']")
       
-      - description: Verify visibility of the switch button
-        actions:
-          - check visibility of `.switch__button[data-state="checked"]`
+      - description: Verify switch button visibility
+        check: .switch__button
+        nth: 1
       
-      - description: Confirm visibility of the textarea label
-        actions:
-          - check visibility of `label:has-text("{{ translation['welcomeMessage'] }}")`
+      - description: Confirm textarea label visibility
+        check: label:has-text("translations['welcomeMessage']")
       
-      - description: Ensure textarea contains text and character count is accurate
-        actions:
-          - check textarea contains text
-          - verify character count reflects text length
+      - description: Check textarea text and character count (known bug)
+        checks:
+          - textareaContainsText: true
+          - charCountMatchesTextLength: true
           - note: Known bug with initial character count display
       
-      - description: Check visibility of the "Save" button
-        actions:
-          - check visibility of `button.btn--primary:has-text("{{ translation['save'] }}")`
+      - description: Verify "Save" button visibility
+        check: button.btn--primary:has-text("translations['save']")

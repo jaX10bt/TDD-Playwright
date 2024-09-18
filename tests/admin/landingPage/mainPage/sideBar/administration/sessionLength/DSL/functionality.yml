@@ -1,128 +1,71 @@
+name: Session Length Functionality Tests
+
 tests:
-  - name: 'Session Length/Sessiooni pikkus Functionality Tests'
-    description: 'Test suite to verify functionality related to session length settings.'
+  - name: Session Length Functionality
+    serial: true
+
     beforeEach:
-      steps:
-      - name: Navigate to the session-length page
-        actions:
-          - navigate: "https://admin.prod.buerokratt.ee/chat/chatbot/session-length"
+      - name: Before Each Setup
+        action:
+          navigate: "https://admin.prod.buerokratt.ee/chat/chatbot/session-length"
+
       - name: Fetch Translations
         action:
           getTranslations: true
           assignVariable: translations
 
-    cases:
-      - name: 'Change to same session length, save, and verify persistence'
-        description: 'Change the session length to the same value, save, verify persistence, and revert.'
-        annotations:
-          - type: 'Note'
-            description: 'This test has had some issues with being flaky and failing due to suspected timing issues. Please take this into consideration when running the test.'
-        actions:
-          - findElement:
-              selector: 'input[name="session-length"]'
-              alias: sessionLengthInput
-          - storeValue:
-              element: sessionLengthInput
-              alias: originalValue
-          - fill:
-              element: sessionLengthInput
-              value: originalValue
-          - click:
-              selector: 'button.btn--primary'
-          - findElement:
-              selector: 'li.toast.toast--success'
-              alias: successToast
-          - expectVisible: successToast
-          - reload: true
-          - findElement:
-              selector: 'input[name="session-length"]'
-              alias: savedValueInput
-          - expectValue:
-              element: savedValueInput
-              value: originalValue
-          - fill:
-              element: sessionLengthInput
-              value: originalValue
-          - click:
-              selector: 'button.btn--primary'
-          - findElement:
-              selector: 'li.toast.toast--success'
-              alias: successToast2
-          - expectVisible: successToast2
-          - reload: true
-          - findElement:
-              selector: 'input[name="session-length"]'
-              alias: revertedValueInput
-          - expectValue:
-              element: revertedValueInput
-              value: originalValue
+cases:
+  - name: Update Session Length to Same Value
+    actions:
+      - find: 'input[name="session-length"]'
+        storeAs: originalValue
+      - setValue: 'input[name="session-length"]'
+        value: "originalValue"
+      - click: button.btn--primary:has-text("translations['save']")
+      - verifyVisible: "li.toast.toast--success"
+      - reload
+      - verifyValue: 'input[name="session-length"]'
+        expectedValue: "originalValue "
+      - setValue: 'input[name="session-length"]'
+        value: "originalValue"
+      - click: button.btn--primary:has-text("translations['save']")
+      - verifyVisible: "li.toast.toast--success"
+      - reload
+      - verifyValue: 'input[name="session-length"]'
+        expectedValue: "originalValue"
 
-      - name: 'Attempt to set an invalid session length and check for error message'
-        description: 'Attempt to set an invalid session length, verify error message.'
-        actions:
-          - fill:
-              element: 'input[name="session-length"]'
-              value: '500'
-          - click:
-              selector: 'button.btn--primary'
-          - findElement:
-              selector: 'li.toast.toast--error'
-              alias: errorToast
-          - expectVisible: errorToast
-          - findElement:
-              selector: '.toast.toast--error .toast__content'
-              alias: errorMessage
-          - expectText:
-              element: errorMessage
-              text: translation["sessionLengthWarning"]
+  - name: Attempt to Set Invalid Session Length
+    actions:
+      - setValue: 'input[name="session-length"]'
+        value: "500"
+      - click: button.btn--primary:has-text("translations['save']")
+      - verifyVisible: "li.toast.toast--error"
+      - find: ".toast.toast--error .toast__content"
+        storeAs: errorMessage
+      - verifyText: "errorMessage"
+        expectedText: 'translations["sessionLengthWarning"]'
 
-      - name: 'Change to different session length, save, and verify persistence'
-        description: 'Change the session length to a different value, save, verify persistence, and revert.'
-        annotations:
-          - type: 'Note'
-            description: 'This test tests changing to a random valid session length.'
-        actions:
-          - findElement:
-              selector: 'input[name="session-length"]'
-              alias: sessionLengthInput
-          - storeValue:
-              element: sessionLengthInput
-              alias: originalValue
-          - fill:
-              element: sessionLengthInput
-              value: randomIntFromInterval(30, 480)
-          - click:
-              selector: 'button.btn--primary'
-          - findElement:
-              selector: 'li.toast.toast--success'
-              alias: successToast
-          - expectVisible: successToast
-          - reload: true
-          - findElement:
-              selector: 'input[name="session-length"]'
-              alias: savedValueInput
-          - expectValue:
-              element: savedValueInput
-              value: sessionLengthInput
-          - fill:
-              element: sessionLengthInput
-              value: originalValue
-          - click:
-              selector: 'button.btn--primary'
-          - findElement:
-              selector: 'li.toast.toast--success'
-              alias: successToast2
-          - expectVisible: successToast2
-          - reload: true
-          - findElement:
-              selector: 'input[name="session-length"]'
-              alias: revertedValueInput
-          - expectValue:
-              element: revertedValueInput
-              value: originalValue
+  - name: Change Session Length to Different Value
+    actions:
+      - find: 'input[name="session-length"]'
+        storeAs: originalValue
+      - setValue: 'input[name="session-length"]'
+        value: randomIntInRange(30, 480)
+      - click: button.btn--primary:has-text("translations['save']")
+      - verifyVisible: "li.toast.toast--success"
+      - reload
+      - verifyValue: 'input[name="session-length"]'
+        expectedValue: "newValue"
+      - setValue: 'input[name="session-length"]'
+        value: "originalValue"
+      - click: button.btn--primary:has-text("translations['save']")
+      - verifyVisible: "li.toast.toast--success"
+      - reload
+      - verifyValue: 'input[name="session-length"]'
+        expectedValue: "originalValue"
 
 functions:
-  - name: 'randomIntFromInterval'
+  - name: randomIntInRange
     parameters:
       - name: min
         type: integer
