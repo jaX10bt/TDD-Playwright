@@ -14,40 +14,46 @@ tests:
           getTranslations: true
           assignVariable: translations
 
-      - name: Check "Kasutajad" / "Users" Heading
+      - name: Check Heading Visibility
         action:
-          assertVisible: "h1:has-text('{{ translations['users'] }}')"
+          assertVisible: 
+            element: "heading"
+            text: "translations['users']"
 
-      - name: Check "Lisa kasutaja" / "Add User" Button
+      - name: Check Add User Button Visibility
         action:
-          assertVisible: "button.btn--primary:has-text('{{ translations['addUser'] }}')"
+          assertVisible: 
+            element: "button"
+            text: "translations['addUser']"
 
-      - name: Check User Data Table
+      - name: Check User Data Table Visibility
         action:
-          assertVisible: "table.data-table"
+          assertVisible: 
+            element: "data-table"
 
       - name: Check Table Headers
         actions:
           - name: Verify Header Count
             action:
-              assertCount: "table.data-table thead tr th"
-              count: 8
+              assertCount:
+                element: "header"
+                count: 8
 
           - name: Verify Header Texts
             action:
               assertTexts:
-                selector: "table.data-table thead tr th"
+                element: "header"
                 texts:
-                  - "{{ translations['name'] }}"
-                  - "{{ translations['idCode'] }}"
-                  - "{{ translations['role'] }}"
-                  - "{{ translations['displayName'] }}"
-                  - "{{ translations['userTitle'] }}"
-                  - "{{ translations['e-mail'] }}"
+                  - "translations['name']"
+                  - "translations['idCode']"
+                  - "translations['role']"
+                  - "translations['displayName']"
+                  - "translations['userTitle']"
+                  - "translations['e-mail']"
 
-      - name: Check "Muuda" and "Kustuta" / "Edit" and "Delete" Buttons
+      - name: Check Edit and Delete Buttons
         action:
           verifyButtonsPerRow:
-            editText: "{{ translations['edit'] }}"
-            deleteText: "{{ translations['delete'] }}"
+            editText: "translations['edit']"
+            deleteText: "translations['delete']"
             count: 1
