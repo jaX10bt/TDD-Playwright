@@ -14,8 +14,8 @@ tests:
         action:
           getTranslations: true
           assignVariable: translations
-
 cases:
+subcases_1:
       - name: Sorting and Searching by Columns
         action:
           testSorting:
@@ -38,7 +38,7 @@ cases:
 
 
 
-cases:
+subcases_2:
   - name: User Management Functionality Tests for user creation, editing, and deletion
     serial: true
     steps:

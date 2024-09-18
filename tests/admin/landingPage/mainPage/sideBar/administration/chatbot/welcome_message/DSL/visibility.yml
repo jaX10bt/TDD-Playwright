@@ -1,40 +1,41 @@
 name: Welcome Message/Tervitussõnum Visibility Tests
 
 tests:
-  - name: Welcome Message Elements Visibility
-    serial: true
-    steps:
-      - name: Navigate to the welcome message page
-        actions:
-          - navigate: "https://admin.prod.buerokratt.ee/chat/chatbot/welcome-message"
-      - name: Fetch Translations
-        action:
-          getTranslations: true
-          assignVariable: translations
-      
-      - description: Verify main title visibility
-        check: h1:has-text("translations['welcomeMessage']")
-      
-      - description: Ensure textarea is visible and not empty
-        checks:
-          - `.textarea__wrapper textarea`
-          - textareaNotEmpty: true
-      
-      - description: Check switch label visibility
-        check: label:has-text(translations['greetingActive']")
-      
-      - description: Verify switch button visibility
-        check: .switch__button
-        nth: 1
-      
-      - description: Confirm textarea label visibility
-        check: label:has-text("translations['welcomeMessage']")
-      
-      - description: Check textarea text and character count (known bug)
-        checks:
-          - textareaContainsText: true
-          - charCountMatchesTextLength: true
-          - note: Known bug with initial character count display
-      
-      - description: Verify "Save" button visibility
-        check: button.btn--primary:has-text("translations['save']")
+  description: Welcome Message Elements Visibility
+  serial: true
+  steps:
+    - name: Navigate to the welcome message page
+      actions:
+        - navigate: "https://admin.prod.buerokratt.ee/chat/chatbot/welcome-message"
+
+    - name: Fetch Translations
+      action:
+        getTranslations: true
+        assignVariable: translations
+
+cases:
+  - name: Verify main title visibility
+    check: h1:has-text("translations['welcomeMessage']")
+
+  - name: Ensure textarea is visible and not empty
+    checks:
+      - .textarea__wrapper textarea
+      - textareaNotEmpty: true
+
+  - name: Check switch label visibility
+    check: label:has-text(translations['greetingActive']")
+
+  - name: Verify switch button visibility
+    check: .switch__button
+    nth: 1
+
+  - name: Confirm textarea label visibility
+    check: label:has-text("translations['welcomeMessage']")
+
+  - name: Check textarea text and character count (known bug)
+    checks:
+      - textareaContainsText: true
+      - charCountMatchesTextLength: true
+
+  - name: Verify "Save" button visibility
+    check: button.btn--primary:has-text("translations['save']")

@@ -5,7 +5,7 @@ tests:
   serial: true # Ensure tests are executed in sequence
 
   beforeEach:
-    - name: Setup Test Environment
+    - name: Setup Test
       actions:
         - navigate_to: "https://admin.prod.buerokratt.ee/chat/working-time"
         - capture_initial_state: 
