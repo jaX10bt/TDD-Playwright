@@ -1,7 +1,7 @@
 const { test, expect } = require('@playwright/test');
 const { getTranslations } = require('../../../../../../translations/languageDetector');
 
-test.describe.serial.only('Switches Functionality Tests', () => {
+test.describe.serial('Working time Functionality Tests', () => {
     let translation;
     let initialStates = {}; // To store the initial states of all switches
     const days = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
