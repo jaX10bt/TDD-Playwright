@@ -81,7 +81,7 @@ test.describe.serial.only('Switches Functionality Tests', () => {
         await expect(newChecked).not.toBe(initialStates["considerPublicHolidays"]); // Ensure the state has changed
     });
 
-    test.only('check functionality of "closedOnWeekends" switch', async ({ page }) => {
+    test('check functionality of "closedOnWeekends" switch', async ({ page }) => {
         const closedOnWeekendsSwitch = page.locator('.switch__button').nth(2);
         const closedOnWeekendsState = await closedOnWeekendsSwitch.getAttribute('aria-checked');
 
