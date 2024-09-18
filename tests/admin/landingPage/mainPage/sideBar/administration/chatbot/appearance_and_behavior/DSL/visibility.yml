@@ -16,7 +16,7 @@ setup:
 tests:
       - name: Check Visibility of Header
         action:
-          assertVisible: "h1:has-text('{{ translations['appearanceAndBehaviour'] }}')"
+          assertVisible: "h1:has-text('translations['appearanceAndBehaviour']')"
 
       - name: Check Visibility of Animation Duration Input
         action:
@@ -48,8 +48,8 @@ tests:
 
       - name: Check Visibility of Save Button
         action:
-          assertVisible: "button:has-text('{{ translations['save'] }}')"
+          assertVisible: "button:has-text('translations['save']')"
 
       - name: Check Visibility of Preview Button
         action:
-          assertVisible: "button:has-text('{{ translations['preview'] }}')"
+          assertVisible: "button:has-text('translations['preview']')"
