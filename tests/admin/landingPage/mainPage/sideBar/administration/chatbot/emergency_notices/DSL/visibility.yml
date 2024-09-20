@@ -7,7 +7,6 @@ setup:
       - name: Setup
         action:
           navigate: "https://admin.prod.buerokratt.ee/chat/chatbot/emergency-notices"
-          waitFor: networkidle
 
       - name: Fetch Translations
         action:
