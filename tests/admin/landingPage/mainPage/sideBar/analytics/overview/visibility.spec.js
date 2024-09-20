@@ -16,10 +16,15 @@ test.describe('Metrics Cards Visibility Test', () => {
     await expect(header).toBeVisible();
   });
 
+  test('Check "Change" button visibility', async ({ page }) => {
+    const changeButton = page.locator(`button:has-text("${translation["edit"]}")`); // Locate the button
+    await expect(changeButton).toBeVisible();
+  });
+
   // Test for visibility of the card with dynamic text
   test('Check card with text "Keskmine vestluste arv päevas: kuu / eelmine" visibility', async ({ page }) => {
     const card = page.locator(`.draggable-card:has(.title:text("${translation["averageChatsPerDayMonth"]}"))`);
-    await expect(card).toBeVisible({timeout: 2000});
+    await expect(card).toBeVisible();
   });
 
   // Test for visibility of the card with dynamic text
