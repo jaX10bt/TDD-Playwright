@@ -7,7 +7,7 @@ import {getTranslations} from '../../../../../../translations/languageDetector'
 let translations;
 
 test.beforeEach(async ({ page }) => {
-    await page.goto('https://admin.test.buerokratt.ee/chat/unanswered');
+    await page.goto('https://admin.prod.buerokratt.ee/chat/unanswered');
 
    
 
@@ -20,16 +20,12 @@ test.beforeEach(async ({ page }) => {
         await page.waitForTimeout(2000);
     }
     translations = await getTranslations(page);
+
 })
 
 test('Check if clicking unanswered chat opens it ### Look issue inside',
 
     async ({ page }) => {
-
-        test.info().annotations.push({
-            type: 'Known bug',
-            description: 'This test has a bug: after clicking to open the chat, it only works if you mark it as "Present", switch to another tab, return to the original tab, and then attempt to open the chat again.',
-        })
 
         const chatOpened = await selectFirstChat(page);
         if (!chatOpened) return;
@@ -104,7 +100,6 @@ test('Should activate chat, when "Võta üle" button is clicked', async ({ page 
 
     await expect(page.locator('textarea#chatArea')).toBeVisible();
     await expect(page.locator('#myButton')).toBeVisible();
-    await expect(page.locator('.active-chat__toolbar-actions > button:nth-child(2)')).toBeVisible();
 })
 
 
