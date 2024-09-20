@@ -7,7 +7,6 @@
     "idCode": "Isikukood",
     "role": "Roll",
     "displayName": "Kuvatav nimi",
-    "status": "Staatus",
     "userTitle": "Tiitel",
     "e-mail": "E-post",
     "edit": "Muuda",
@@ -36,6 +35,7 @@
     "emergencyNotices": "Erakorralised teated",
     "chatBotActive": "Vestlusrobot aktiivne",
     "showSupportName": "Kuva nõustaja nimi",
+    "supportName": "Nõustaja nimi",
     "showSupportTitle": "Kuva nõustaja tiitel",
     "greetingActive": "Tervitus Aktiivne",
     "sessionLengthWarning": "Seansi pikkus peab olema vahemikus 30 - 480 minutit",
@@ -67,6 +67,7 @@
     "askedPermission": "Küsiti nõusolekut",
     "askContactInformation": "Küsi kontaktandmeid",
     "askedContactInformation": "Küsiti kontaktandmeid",
+    "contactInformation": "Kontaktandmed",
     "endChat": "Lõpeta vestlus",
     "takeOver": "Võta üle",
     "unansweredChats": "Vastamata vestlused",
@@ -84,6 +85,12 @@
     "whoToForward": "Kellele vestlus suunata?",
     "showOnlyActiveAgents": "Näita ainult kohal olevaid nõustajaid",
     "startTime": "Algusaeg",
-    "endTime": "Lõppaeg"
-    
+    "endTime": "Lõppaeg",
+    "comment": "Kommentaar",
+    "rating" : "Hinnang",
+    "feedback" : "Tagasiside",
+    "status" : "Staatus",
+    "history" : "Ajalugu",
+    "from" : "Alates",
+    "to" : "Kuni"
 }
