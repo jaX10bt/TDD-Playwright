@@ -55,36 +55,28 @@ test.describe('Visibility Tests for "Aktiivsed" / "Active" tab body', () => {
         
     });
 
-    test('should have body', async ({ page }) => {
+    test('should have all parts of active chat body', async ({ page }) => {
         
         const body = await page.locator('.active-chat__body');
         await expect(body).toBeVisible();
-    })
 
-    test('should have header', async ({ page }) => {
         const header = await page.locator('.active-chat__header');
         await expect(header).toBeVisible();
-    })
 
-    test('should have chat wrapper', async ({ page }) => {
         const wrapper = await page.locator('.active-chat__group-wrapper');
         await expect(header).toBeVisible();
-    })
 
-    test('should have chat toolbar', async ({ page }) => {
         const toolbar = await page.locator('.active-chat__toolbar');
         await expect(toolbar).toBeVisible();
-    })
 
-    test('should have toolbar button', async ({ page }) => {
         const button = await page.locator('.active-chat__toolbar-actions button');
         await expect(button).toBeVisible();
+
+        const chatSide = await page.locator('.active-chat__side');
+        await expect(chatSide).toBeVisible();
     })
 
-    test('should have chat side', async ({ page }) => {
-        const button = await page.locator('.active-chat__side');
-        await expect(button).toBeVisible();
-    })
+   
 
 
     test('Should have individual meta information fields', async ({ page }) => {
