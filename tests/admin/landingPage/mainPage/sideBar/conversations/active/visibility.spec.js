@@ -10,37 +10,38 @@ test.beforeEach('test', async ({ page }) => {
 });
 
 
-test.describe('"Aktiivsed" tab visibility', async () => {
+test.describe('Visibility Tests for "Aktiivsed" / "Active" Page', async () => {
 
  
     test('should have the correct URL', async ({ page }) => {
         await expect(page).toHaveURL('https://admin.prod.buerokratt.ee/chat/active');
     });
 
-    test('should have "Minu vestlused" header', async ({ page }) => {
+    test('should have conversations header', async ({ page }) => {
         const header = page.locator('div.vertical-tabs__group-header');
         await expect(header).toBeVisible();
     })
 
-    test('should have "Minu vestlused" vertical tabs', async ({ page }) => {
+    test('should have conversations vertical tabs', async ({ page }) => {
         const verticalTabs = page.locator('div.vertical-tabs__list');
         await expect(verticalTabs).toBeVisible();
     })
 
 });
 
-test.describe('"Aktiivsed" tab body visibility', () => {
-
+test.describe('Visibility Tests for "Aktiivsed" / "Active" tab body', () => {
+    let translation;
     test.beforeEach('test2', async ({ page }) => {
         // This needs to be runned because 
         await page.goto('https://admin.prod.buerokratt.ee/chat/unanswered');
        
-        
-        const switchButton = page.locator('.switch__button');
-        if (switchButton.getAttribute('aria-expanded', 'true') !== 'true') {
+        translation = await getTranslations(page);
+
+        const switchButton = await page.locator('.switch__button');
+        const isChecked = await switchButton.getAttribute('aria-checked');
+        if (isChecked !== 'true' ) {
             await switchButton.click();
         }
-
 
         const isChatAvailable = await takeOverFirstChat(page);
 
@@ -49,39 +50,39 @@ test.describe('"Aktiivsed" tab body visibility', () => {
             await provideData(page);
         }
     
-        await page.goto('https://admin.prod.buerokratt.ee/chat/active');
         await selectFirstChat(page);
+        await page.waitForTimeout(2000)
         
     });
 
-    test.only('should have body', async ({ page }) => {
+    test('should have body', async ({ page }) => {
         
-        const body = await page.waitForSelector('div.active-chat__body');
+        const body = await page.locator('.active-chat__body');
         await expect(body).toBeVisible();
     })
 
     test('should have header', async ({ page }) => {
-        const header = page.locator('div.active-chat__header');
+        const header = await page.locator('.active-chat__header');
         await expect(header).toBeVisible();
     })
 
     test('should have chat wrapper', async ({ page }) => {
-        const wrapper = page.locator('div.active-chat__group-wrapper');
+        const wrapper = await page.locator('.active-chat__group-wrapper');
         await expect(header).toBeVisible();
     })
 
     test('should have chat toolbar', async ({ page }) => {
-        const toolbar = page.locator('div.active-chat__toolbar');
+        const toolbar = await page.locator('.active-chat__toolbar');
         await expect(toolbar).toBeVisible();
     })
 
     test('should have toolbar button', async ({ page }) => {
-        const button = page.locator('div.active-chat__toolbar-actions button');
+        const button = await page.locator('.active-chat__toolbar-actions button');
         await expect(button).toBeVisible();
     })
 
     test('should have chat side', async ({ page }) => {
-        const button = page.locator('div.active-chat__side');
+        const button = await page.locator('.active-chat__side');
         await expect(button).toBeVisible();
     })
 
@@ -92,12 +93,11 @@ test.describe('"Aktiivsed" tab body visibility', () => {
 
         // Verify individual meta information fields
         const pElement = page.locator('p strong')
-        await expect(pElement.filter({ hasText: /ID/ })).toBeVisible();
-        await expect(pElement.filter({ hasText: /Vestleja nimi/ })).toBeVisible();
-        await expect(pElement.filter({ hasText: /Vestlus alustatud/ })).toBeVisible();
-
-        await expect(pElement.filter({ hasText: /Seade/ })).toBeVisible();
-        await expect(pElement.filter({ hasText: /Lähtekoht/ })).toBeVisible();
+        await expect(pElement.filter({ hasText: new RegExp(translation.id) })).toBeVisible();
+        await expect(pElement.filter({ hasText: new RegExp(translation.endUserName) })).toBeVisible();
+        await expect(pElement.filter({ hasText: new RegExp(translation.chatStartedAt) })).toBeVisible();
+        await expect(pElement.filter({ hasText: new RegExp(translation.device) })).toBeVisible();
+        await expect(pElement.filter({ hasText: new RegExp(translation.location) })).toBeVisible();
 
 
     });
