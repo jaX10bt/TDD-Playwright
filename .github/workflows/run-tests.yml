@@ -98,7 +98,7 @@ jobs:
           # Update the custom 'Status' field via the GraphQL API
           curl -X POST -H "Authorization: bearer ${{ secrets.PAT_TO_REPLACE }}" \
                -H "Content-Type: application/json" \
-               -d '{"query": "mutation { updateProjectNextItemField(input: { projectId: \\"47\\", itemId: \\"'$PROJECT_ITEM_ID'\\", fieldId: \\"'$STATUS_FIELD_ID'\\", value: \\"'$NEW_STATUS'\\" }) { projectNextItem { id } } }"}' \
+               -d '{"query": "mutation { updateProjectNextItemField(input: { projectId: \\"1\\", itemId: \\"'$PROJECT_ITEM_ID'\\", fieldId: \\"'$STATUS_FIELD_ID'\\", value: \\"'$NEW_STATUS'\\" }) { projectNextItem { id } } }"}' \
                https://api.github.com/graphql
 
           # Post comment on the task
@@ -117,7 +117,7 @@ jobs:
           # Update the custom 'Status' field via the GraphQL API
           curl -X POST -H "Authorization: bearer ${{ secrets.PAT_TO_REPLACE }}" \
                -H "Content-Type: application/json" \
-               -d '{"query": "mutation { updateProjectNextItemField(input: { projectId: \\"47\\", itemId: \\"'$PROJECT_ITEM_ID'\\", fieldId: \\"'$STATUS_FIELD_ID'\\", value: \\"'$NEW_STATUS'\\" }) { projectNextItem { id } } }"}' \
+               -d '{"query": "mutation { updateProjectNextItemField(input: { projectId: \\"1\\", itemId: \\"'$PROJECT_ITEM_ID'\\", fieldId: \\"'$STATUS_FIELD_ID'\\", value: \\"'$NEW_STATUS'\\" }) { projectNextItem { id } } }"}' \
                https://api.github.com/graphql
 
           # Post comment on the task
