@@ -1,5 +1,5 @@
 #  Playwright testing
-This project is built to test GUI functionality of buerokratt chat widget
+This project is built to test GUI functionality of buerokratt admin panel
 
 ## Description:
 Current project help to test Buerokratt chat Widget GUI.  
@@ -220,9 +220,12 @@ NB! All tests are saved (including video, screenshot and trace) in the local dir
 
 * **Authentication:**
   * All tests are conducted in an authenticated state. Playwright logs in before all tests, saves the cookie, and uses it to access the pages and correct translations.
+  * The login logic is handled in `auth.setup.js`, where the authentication flow and cookie saving is described in detail. Additionally, the configuration related to authentication can be found in `playwright.config.js`, which includes settings required to properly simulate and test authentication in the application.
 
 * **Translations:**
-  * Tests dynamically handle translations in English and Estonian. For example, `translation["yes"]` returns "Jah" in Estonian if the cookie is set to the Estonian locale.
+  * Tests are dynamically designed to handle translations in both English and Estonian. For example, `translation["yes"]` returns "Jah" when the cookie is set to the Estonian locale. This allows tests to seamlessly switch between languages based on the locale setting, ensuring all user-facing text is verified in the appropriate language.
+
+
 
 ## Administration
 
@@ -557,3 +560,341 @@ This test suite verifies the visibility of various elements on the **Appearance 
 * **Preview Button Visibility:**
 
   Verifies that the "Preview" button is visible on the "Appearance and Behaviour" page.
+
+
+## Conversations/Active
+
+### visibility.spec.js
+
+This test suite verifies the visibility of various elements on the **Active Conversations** page in the **Bürokratt Admin Panel**.
+
+#### Test Suite Overview
+
+* **Header Visibility:**
+
+    Verifies that the header on the "Active Conversations" page is visible and contains the correct text according to the translation.
+
+* **Vertical Tabs Visibility:**
+
+    Checks that the Conversations vertical tabs are visible on the page.
+
+* **Body Visibility:**
+
+    Ensures that the main chat body is visible when a chat is active.
+
+* **Header Visibility in Chat Body:**
+
+    Verifies that the chat header within the active chat body is visible.
+
+* **Chat Wrapper Visibility:**
+
+    Ensures that the chat wrapper is visible in the active chat section.
+
+* **Toolbar Visibility:**
+
+    Checks that the chat toolbar is visible in the active chat.
+
+* **Toolbar Button Visibility:**
+
+    Verifies that the buttons inside the chat toolbar are visible.
+
+* **Chat Side Panel Visibility:**
+
+    Confirms that the chat side panel is visible in the active chat section.
+
+* **Meta Information Fields Visibility:**
+
+    Ensures that the meta information fields in the side panel, such as ID, user name, chat started at, device, and location, are visible and correctly displayed.
+
+### functionality.spec.js
+This test suite verifies the functionality of various elements on the **Active Conversations** page in the **Bürokratt Admin Panel**.
+* to be coming soon....
+
+
+
+## Conversations/History
+
+### visibility.spec.js
+
+This test suite verifies the visibility of various elements on the **History** page in the **Bürokratt Admin Panel**.
+
+#### Test Suite Overview
+
+* **Header Visibility:**
+
+    Verifies that the header is visible on the History page and displays the correct translated text.
+
+* **Search and Filter Bar Header Visibility:**
+
+    Ensures that the Search and Filter bar is visible and includes essential parts such as the search field, date filtering options, and a dropdown menu.
+
+* **Search Field Visibility and Placeholder Text:**
+
+    Checks that the search field is visible and has the correct placeholder.
+
+* **Date Filter Fields Visibility:**
+
+    Verifies that both date pickers are visible for filtering the chat history by date.
+
+* **Dropdown Menu Visibility:**
+
+    Confirms that the dropdown menu in the Filter and Search bar is visible and includes the default text "Vali".
+
+* **Filter and Search Results Table Visibility:**
+
+    Ensures that the Filter and Search results table is visible and includes all necessary fields and chat result data.
+
+* **Table and Headers Visibility:**
+
+    Checks that the data table is visible and contains the correct column headers, including.
+
+* **Sorting Buttons Presence:**
+
+    Verifies that sorting buttons are present in each column of the data table.
+
+* **Pagination Controls:**
+
+    Ensures that the pagination controls are visible and functioning, allowing users to change the number of rows per page (10, 20, 30, 40, 50).
+
+
+### functionality.spec.js
+
+This test suite verifies the functionality of various elements on the **History** page in the **Bürokratt Admin Panel**.
+
+#### Test Suite Overview
+
+* **Table Horizontal Scrollability:**
+
+    Verifies that the table on the history page is horizontally scrollable, ensuring large datasets can be easily viewed.
+
+* **Date Input Modification:**
+
+    Ensures that the "Ajalugu" date inputs (From and To fields) can be changed and properly reflect the new date values.
+
+* **Invalid Date Format Rejection (From Date):**
+
+    Verifies that the From date input rejects invalid date formats and displays an appropriate validation error message.
+
+* **Invalid Date Format Rejection (To Date):**
+
+    Ensures that the To date input rejects invalid date formats and shows the correct validation feedback.
+
+* **Date Input Validation:**
+
+    Verifies that the date inputs only accept valid date formats, ensuring proper data entry for both From and To fields.
+
+* **Dropdown Menu Selection:**
+
+    Ensures that the dropdown menu expands correctly, displays available options, and allows the user to select a different option.
+
+* **Dropdown Menu Column Visibility:**
+
+    Confirms that selecting an option from the dropdown menu updates the table to show the corresponding column.
+
+* **Search Functionality:**
+
+    Verifies that the search input field accepts text and triggers the search, updating the results in the data table based on the search query.
+
+* **Table Column Sorting (From Date):**
+
+    Ensures that the columns in the data table can be sorted by clicking the column headers, specifically testing sorting by the From date.
+
+* **Table Column Sorting (To Date):**
+
+    Verifies that the columns in the data table can be sorted by clicking the column headers, specifically testing sorting by the To date.
+
+* **Chat Menu Expansion:**
+
+    Ensures that clicking the open chat button expands the chat menu, allowing users to view detailed information about individual chats.
+
+## Conversations/Pending
+
+### visibility.spec.js
+
+This test suite verifies the visibility of various elements on the **Pending Conversations** page in the **Bürokratt Admin Panel**.
+
+#### Test Suite Overview
+
+* **Section Titles Visibility:**
+
+    Verifies that the section titles are visible in the vertical tabs.
+
+* **Conversations List Section Visibility:**
+
+    Ensures that the section where all conversations are listed is visible.
+
+* **"To Delete" Title Visibility:**
+
+    Verifies that the "to delete" title is visible in the vertical tabs after activating the corresponding chat status.
+
+* **Main Chat Window Visibility:**
+
+    Ensures that the main chat window is visible.
+
+* **Prompt Text Visibility:**
+
+    Verifies that the correct prompt text is visible in the chat window.
+
+### Body Visibility
+
+* **Chat Body Visibility:**
+
+    Ensures that the main chat body is visible when a chat is selected.
+
+* **Header Visibility:**
+
+    Verifies that the chat header is visible in the active chat.
+
+* **Chat Wrapper Visibility:**
+
+    Ensures that the chat wrapper is visible in the active chat section.
+
+* **Toolbar Visibility:**
+
+    Verifies that the chat toolbar is visible, along with the buttons inside the toolbar.
+
+* **Chat Side Panel Visibility:**
+
+    Confirms that the chat side panel is visible in the active chat section.
+
+* **Meta Information Fields Visibility:**
+
+    Ensures that the meta information fields on the chat side panel are visible.
+  
+
+## Conversations/Unanswered
+
+### visibility.spec.js
+
+This test suite verifies the visibility of various elements on the **Unanswered Conversations** page in the **Bürokratt Admin Panel**.
+
+#### Test Suite Overview
+
+* **"Unanswered Conversations" Vertical Tabs:**
+
+    Verifies that the vertical tabs for Unanswered chats are visible.
+
+* **Unanswered Conversations Section:**
+
+    Ensures that the section where all unanswered conversations are listed is visible.
+
+* **"Vastamata vestlused" / "Unanswered Chats" Title:**
+
+    Verifies that the title (Unanswered Chats) is displayed correctly based on the translation.
+
+* **Main Chat Window Visibility:**
+
+    Confirms that the main chat window for unanswered conversations is visible.
+
+* **Prompt Text Visibility:**
+
+    Verifies that the text "Alustamiseks vali vestlus" / "Choose a chat to begin" is visible in the chat window.
+
+### Selected Conversation Open Chat Visibility Tests
+
+* **Meta Information Fields:**
+
+    Ensures that individual meta information fields, such as ID, user name, chat started at, device, and location, are visible in the chat side panel.
+
+* **Active Chat Side Actions:**
+
+    Confirms that the active chat side actions, including buttons for ending the chat, asking for authentication, contact information, permission, and forwarding to a colleague, are visible.
+
+* **"Take Over" Button:**
+
+    Verifies that the "Take Over" button is visible in the toolbar for unanswered chats.
+
+* **Active Chat Header:**
+
+    Ensures that the header of the active chat, including text and heading elements, is visible.
+
+### "Vali vestluse staatus" Dialog Visibility
+
+* **Dialog Visibility:**
+
+    Confirms that the "Vali vestluse staatus" (Choose chat status) dialog is visible after selecting to end the chat.
+
+* **Dialog Header and Body Visibility:**
+
+    Verifies that both the header and body of the dialog are visible.
+
+* **Radio Buttons Visibility:**
+
+    Ensures that all radio buttons are visible.
+
+* **Radio Button Labels:**
+
+    Confirms that the labels for the radio buttons are visible and correctly translated.
+
+### "Forward to a colleague" Active Chat Actions Dialog Visibility
+
+* **Dialog Header and Body Visibility:**
+
+    Ensures that the "Suuna kolleegile" (Forward to colleague) dialog header and body are visible, including the dialog title, close button, and body content.
+
+* **Search Field Visibility:**
+
+    Verifies that the search field in the dialog is visible with the correct placeholder text.
+
+* **Checkbox and Table Visibility:**
+
+    Confirms that the checkbox for showing only active agents and the table with sorting buttons are visible.
+
+* **Pagination Controls:**
+
+    Ensures that pagination controls for changing the number of rows per page are visible and functional, allowing selection of various page sizes (10, 20, 30, 40, 50).
+
+
+### functionality.spec.js
+
+This test suite verifies the functionality of various elements on the **Unanswered Conversations** page in the **Bürokratt Admin Panel**.
+
+#### Test Suite Overview
+
+* **Open Unanswered Chat:**
+
+    Verifies that clicking on an unanswered chat successfully opens the chat and displays the chat body, header, wrapper, toolbar, side panel, and associated actions.
+
+* **Open "Lõpeta vestlus" Dialog:**
+
+    Ensures that clicking the (End chat) button opens the corresponding dialog.
+
+* **Close "Lõpeta vestlus" Dialog:**
+
+    Confirms that clicking the "Cancel" button inside the (End chat) dialog closes the dialog.
+
+* **Activate Chat:**
+
+    Verifies that clicking the (Take Over) button activates the chat and enables all associated chat actions.
+
+* **Type in Chat Input Field:**
+
+    Ensures that users can type text into the chat input field.
+
+* **Send Text in Chat:**
+
+    Verifies that after typing a message and clicking the send button, the message appears in the chat as expected.
+
+* **Ask for Authentication Event:**
+
+    Confirms that clicking the "Küsi autentimist" (Ask for Authentication) button triggers an event in the chat, and the corresponding message appears.
+
+* **Ask for Contact Information Event:**
+
+    Verifies that clicking the (Ask for Contact Information) button triggers an event in the chat, and the appropriate message appears.
+
+* **Ask for Permission Event:**
+
+    Ensures that clicking the "Küsi nõusolekut" (Ask for Permission) button triggers an event in the chat, and the relevant message appears.
+
+* **Prevent Multiple Event Messages for Authentication:**
+
+    Verifies that clicking the (Ask for Authentication) button multiple times only sends one event message.
+
+* **Prevent Multiple Event Messages for Contact Information:**
+
+    Confirms that clicking the (Ask for Contact Information) button multiple times only sends one event message.
+
+* **Prevent Multiple Event Messages for Permission:**
+
+    Ensures that clicking the (Ask for Permission) button multiple times only sends one event message.

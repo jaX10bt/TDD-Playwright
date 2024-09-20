@@ -8,7 +8,7 @@ test.beforeEach('test', async ({ page }) => {
 });
 
 
-test.describe('"Ajalugu" page visibility', () => {
+test.describe('Visibility Tests for "Ajalugu" / "History" Page', () => {
 
     const headers = [
         /Algusaeg/, /Lõppaeg/, /Nõustaja nimi/, /Nimi/, /Isikukood/,

@@ -178,7 +178,7 @@ test.describe('"Vali vestluse staatus" dialog visibility', () => {
         await expect(radios).toHaveCount(4); // Check if there are 4 radio buttons
     });
 
-    test('Should have all radio labels (Aktsepteeritud, Vihakone, Muud pohjused, Kliendile vastati tema jäetud kontaktile) visible', async ({ page }) => {
+    test('Should have all radio labels visible', async ({ page }) => {
         const radioItems = page.locator('fieldset.radios .radios__item');
 
         // Expected labels and their corresponding texts
