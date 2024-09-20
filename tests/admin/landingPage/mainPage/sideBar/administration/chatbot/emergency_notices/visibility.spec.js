@@ -2,8 +2,6 @@ const { test, expect } = require('@playwright/test');
 import { getTranslations } from '../../../../../../../translations/languageDetector.js'
 
 test.describe('Erakorralised Teated/Emergency notices Page Visibility', () => {
-
-
   let translation
 
   test.beforeEach(async ({ page }) => {
