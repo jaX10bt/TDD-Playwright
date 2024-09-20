@@ -1,63 +1,56 @@
+---
 name: Visibility Tests for "Seaded"/"Settings" Page
-
 setup:
-  - name: Check Visibility of Page Elements
+  - beforeEach:
+      - action:
+          navigate: https://admin.prod.buerokratt.ee/chat/chatbot/settings
+          waitFor: networkidle
+        name: Setup
+      - action:
+          assignVariable: translations
+          getTranslations: true
+        name: Fetch Translations
+    describe: Check Visibility of Page Elements
+    serial: true
+tests:
+  - name: Check Visibility of Main Heading
     serial: true
     steps:
-      - name: Setup
-        action:
-          navigate: "https://admin.prod.buerokratt.ee/chat/chatbot/settings"
-          waitFor: networkidle
-
-      - name: Fetch Translations
-        action:
-          getTranslations: true
-          assignVariable: translations
-
-tests:
-      - name: Check Visibility of Main Heading
-        serial: true
-        steps:
-          - name: Check Heading is Visible
-            action:
-              assertVisible: "main.layout__main h1"
-          - name: Check Heading Text
-            action:
-              assertTexts: 
-                selector: "main.layout__main h1"
-                text: "{{ translations['settings'] }}"
-
-
-      - name: Check Visibility of "Vestlusrobot aktiivne" Switch
-        action:
-          assertVisible: "label:has-text('{{ translations['chatBotActive'] }}') + button.switch__button"
-
-      - name: Check Visibility of "Kuva nõustaja nimi" Switch
-        serial: true
-        steps:
-          - name: Check Switch Visibility
-            action:
-              assertVisible: "label:has-text('{{ translations['showSupportName'] }}') + button.switch__button"
-          - name: Verify Default State
-            action:
-              assertAttributes:
-                selector: "label:has-text('{{ translations['showSupportName'] }}') + button.switch__button"
-                attribute: "data-state"
-                value: "checked"
-
-      - name: Check Visibility of "Kuva nõustaja tiitel" Switch
-        serial: true
-        steps:
-          - name: Check Switch Visibility
-            action:
-              assertVisible: "label:has-text('{{ translations['showSupportTitle'] }}') + button.switch__button"
-          - name: Verify Default State
-            action:
-              assertAttributes:
-                selector: "label:has-text('{{ translations['showSupportTitle'] }}') + button.switch__button"
-                attribute: "data-state"
-                value: "checked"
-
-      - name: Check Visibility of "Salvesta" Button
-        action:
-          assertVisible: "button:has-text('{{ translations['save'] }}')"
+      - action:
+          assertVisible: main.layout__main h1
+        name: Check Heading is Visible
+      - action:
+          assertTexts:
+            selector: main.layout__main h1
+            text: {{ translations['settings'] }}
+        name: Check Heading Text
+  - action:
+      assertVisible: label:has-text({{ translations['chatBotActive'] }}) + button.switch__button
+    name: Check Visibility of "Vestlusrobot aktiivne" Switch
+  - name: Check Visibility of "Kuva nõustaja nimi" Switch
+    serial: true
+    steps:
+      - action:
+          assertVisible: label:has-text({{ translations['showSupportName'] }}) + button.switch__button
+        name: Check Switch Visibility
+      - action:
+          assertAttributes:
+            attribute: data-state
+            selector: label:has-text({{ translations['showSupportName'] }}) + button.switch__button
+            value: checked
+        name: Verify Default State
+  - name: Check Visibility of "Kuva nõustaja tiitel" Switch
+    serial: true
+    steps:
+      - action:
+          assertVisible: label:has-text({{ translations['showSupportTitle'] }}) + button.switch__button
+        name: Check Switch Visibility
+      - action:
+          assertAttributes:
+            attribute: data-state
+            selector: label:has-text({{ translations['showSupportTitle'] }}) + button.switch__button
+            value: checked
+        name: Verify Default State
+  - action:
+      assertVisible: button:has-text({{ translations['save'] }})
+    name: Check Visibility of "Salvesta" Button

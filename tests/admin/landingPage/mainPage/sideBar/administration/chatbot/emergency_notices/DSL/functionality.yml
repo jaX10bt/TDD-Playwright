@@ -1,9 +1,9 @@
 name: Functionality Tests for "Erakorralised Teated"/"Emergency Notices" Page
 
 setup:
-  - name: Check if "Teade aktiivne" switch button toggles
+  - desrcribe: Check if "Teade aktiivne" switch button toggles
     serial: true
-    steps:
+    beforeEach:
       - name: Setup
         action:
           navigate: "https://admin.prod.buerokratt.ee/chat/chatbot/emergency-notices"

@@ -473,6 +473,55 @@ This test suite verifies the visibility of various elements on the **Settings** 
 
   Ensures that the "Salvesta" button is visible on the Settings page.
 
+### emergency_notices
+
+### functionality.spec.js 
+
+This test suite is designed to verify the functionality of the Emergency Notices section in the Bürokrat chatbot admin interface. The tests ensure that key features, such as toggling switches, editing input fields, and selecting dates, work as expected, while also documenting known issues and bugs.
+
+#### Test Suite Overview
+
+* __Check if "Teade aktiivne"/"Notice active" switch button toggles__
+        Verifies that the switch for activating notices changes state correctly when clicked. This test includes documentation of a known bug related to the switch's initial state and expected behavior.
+
+* __Check if "Teade"/"Notice" input field can be edited with keyboard__
+        Ensures that users can clear and input new text in the notice input field. It confirms that the text entered is displayed correctly.
+
+* __Check if "Kuvamisperiood" date inputs can be changed__
+        Tests the ability to modify start and end date fields. This test notes critical bugs related to input handling, such as clearing the HTML when backspace is pressed or invalid dates are entered.
+
+* __Check if "Kuvamisperiood"/"Display period" dates can be changed by choosing a date__
+        Validates that users can select valid dates from a date picker. It includes checks to ensure that past dates and logically inconsistent dates (start date after end date) cannot be selected.
+
+*    __Check if "Salvesta"/"Save" button can be clicked__
+        Confirms that the "Save" button functions correctly and that a success message is displayed after the button is clicked.
+
+### visibility.spec.js
+
+This test suite focuses on verifying the visibility of key elements on the Emergency Notices page within the Bürokrat chatbot admin interface. The tests ensure that all essential components are present and visible to users.
+
+#### Test Suite Overview
+
+* __Check if "Erakorralised teated" header is present__ 
+
+    Verifies that the main header for the Emergency Notices section is visible on the page.
+
+* __Check if "Teade aktiivne" switch button is present__
+
+    Ensures that the switch button for activating notices is displayed and accessible to users.
+
+* __Check if "Teade" input field is present__
+
+    Confirms the presence of the input field for entering the notice text.
+
+* __Check if "Kuvamisperiood" date inputs are present__
+
+    Validates that both the start and end date input fields for the display period are visible. Includes a check for the associated label.
+
+* __Check if "Salvesta" button is present__
+
+    Ensures that the "Save" button is visible and ready for user interaction.
+
 ### appearance_and_behavior
 
 ### functionality.spec.js
@@ -560,6 +609,8 @@ This test suite verifies the visibility of various elements on the **Appearance 
 * **Preview Button Visibility:**
 
   Verifies that the "Preview" button is visible on the "Appearance and Behaviour" page.
+
+
 
 
 ## Conversations/Active

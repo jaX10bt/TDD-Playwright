@@ -3,7 +3,7 @@ name: Welcome Message/Tervitussõnum Visibility Tests
 setup:
   description: Welcome Message Elements Visibility
   serial: true
-  steps:
+  beforeEach:
     - name: Navigate to the welcome message page
       actions:
         - navigate: "https://admin.prod.buerokratt.ee/chat/chatbot/welcome-message"
