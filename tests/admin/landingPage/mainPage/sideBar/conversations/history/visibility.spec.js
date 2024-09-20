@@ -19,7 +19,7 @@ test.describe('Visibility Tests for "Ajalugu" / "History" Page', () => {
         await expect(header).toBeVisible();
     });
 
-    test.only('header card should include all necessary parts like search field, filtering from, to fields, and dropdown menu', async ({ page }) => {
+    test('header card should include all necessary parts like search field, filtering from, to fields, and dropdown menu', async ({ page }) => {
         const card = page.locator('.card').first();
         await expect(card).toBeVisible();
 

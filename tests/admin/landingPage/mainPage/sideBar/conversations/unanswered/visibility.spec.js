@@ -3,7 +3,7 @@ import { openDialog, selectFirstChat, takeOverFirstChat } from '../unanswered/he
 const { getTranslations } = require('../../../../../../translations/languageDetector');
 
 
-test.describe('"Vastamata" page visibility', () => {
+test.describe('"Vastamata" page visibility', async () => {
     let translation;
 
     test.beforeEach(async ({ page }) => {
@@ -128,15 +128,9 @@ test.describe('Selected conversation open chat visibility tests', () => {
 });
 
 
-test.describe('"Vali vestluse staatus" dialog visibility', () => {
+test.describe('"Vali vestluse staatus" dialog visibility', async () => {
     let translation;
     test.beforeEach(async ({ page }) => {
-
-        test.info().annotations.push({
-            type: 'Known bug',
-            description: 'This test has a bug: after clicking to open the chat, it only works if you mark it as "Present", switch to another tab, return to the original tab, and then attempt to open the chat again.',
-        })
-
         await page.goto('https://admin.prod.buerokratt.ee/chat/unanswered');
 
 
@@ -154,28 +148,23 @@ test.describe('"Vali vestluse staatus" dialog visibility', () => {
 
         await endChatButtonSelector.click();
 
+        await page.waitForTimeout(2000);
 
     })
 
 
-    test('Should have dialog visible', async ({ page }) => {
+    test('Should have all dialog parts', async ({ page }) => {
         const dialog = page.locator('div.dialog')
         await expect(dialog).toBeVisible();
-    });
 
-    test('Should have dialog header visible', async ({ page }) => {
         const title = page.locator('div.dialog__header')
         await expect(title).toBeVisible();
-    });
-
-    test('Should have dialog body visible', async ({ page }) => {
+    
         const body = page.locator('div.dialog__body')
         await expect(body).toBeVisible();
-    });
 
-    test('Should have all radio buttons visible', async ({ page }) => {
         const radios = page.locator('fieldset.radios .radios__item input[type="radio"]');
-        await expect(radios).toHaveCount(4); // Check if there are 4 radio buttons
+        await expect(radios).toHaveCount(4); 
     });
 
     test('Should have all radio labels visible', async ({ page }) => {
