@@ -1,9 +1,9 @@
 name: Visibility Tests for "Erakorralised Teated"/"Emergency Notices" Page
 
 setup:
-  - name: Check Visibility of Page Elements
+  - describe: Check Visibility of Page Elements
     serial: true
-    steps:
+    beforeEach:
       - name: Setup
         action:
           navigate: "https://admin.prod.buerokratt.ee/chat/chatbot/emergency-notices"
