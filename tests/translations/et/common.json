@@ -14,6 +14,7 @@
     "delete": "Kustuta",
     "search...": "Otsi...",
     "searchByName": "Otsi nime järgi...",
+    "searchChats": "Otsi üle vestluste...",
     "administrator": "Administraator",
     "serviceManager": "Teenuse haldur",
     "firstAndLastName": "Ees- ja perekonnanimi",
@@ -81,7 +82,8 @@
     "otherReasons": "Muud põhjused",
     "responseSentToClient": "Kliendile vastati tema jäetud kontaktile",
     "whoToForward": "Kellele vestlus suunata?",
-    "showOnlyActiveAgents": "Näita ainult kohal olevaid nõustajaid"
-
+    "showOnlyActiveAgents": "Näita ainult kohal olevaid nõustajaid",
+    "startTime": "Algusaeg",
+    "endTime": "Lõppaeg"
     
 }

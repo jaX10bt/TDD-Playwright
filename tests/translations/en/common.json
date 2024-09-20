@@ -81,5 +81,7 @@
     "otherReasons": "Other reasons",
     "responseSentToClient": "Response was sent to client email",
     "whoToForward": "Who to forward the chat?",
-    "showOnlyActiveAgents": "Show only active client support agents"
+    "showOnlyActiveAgents": "Show only active client support agents",
+    "startTime": "Start time",
+    "endTime": "End time"
 }
