@@ -502,29 +502,24 @@ This test suite focuses on verifying the visibility of key elements on the Emerg
 
 #### Test Suite Overview
 
-* __Check if "Erakorralised teated" header is present__
+* __Check if "Erakorralised teated" header is present__ 
 
-    
     Verifies that the main header for the Emergency Notices section is visible on the page.
 
 * __Check if "Teade aktiivne" switch button is present__
 
-    
     Ensures that the switch button for activating notices is displayed and accessible to users.
 
 * __Check if "Teade" input field is present__
 
-    
     Confirms the presence of the input field for entering the notice text.
 
 * __Check if "Kuvamisperiood" date inputs are present__
-              
-   
-   Validates that both the start and end date input fields for the display period are visible. Includes a check for the associated label.
+
+    Validates that both the start and end date input fields for the display period are visible. Includes a check for the associated label.
 
 * __Check if "Salvesta" button is present__
 
-    
     Ensures that the "Save" button is visible and ready for user interaction.
 
 ### appearance_and_behavior
