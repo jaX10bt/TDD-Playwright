@@ -92,5 +92,8 @@
     "status" : "Staatus",
     "history" : "Ajalugu",
     "from" : "Alates",
-    "to" : "Kuni"
+    "to" : "Kuni",
+    "new": "Uued",
+    "inProcess": "Töös",
+    "toDelete": "Kustutamiseks"
 }

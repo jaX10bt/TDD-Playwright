@@ -92,5 +92,9 @@
     "status" : "Status",
     "history" : "History",
     "from" : "From",
-    "to" : "To"
+    "to" : "To",
+    "new": "New",
+    "inProcess": "In Process",
+    "toDelete": "To Delete"
+
 }
