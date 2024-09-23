@@ -59,6 +59,10 @@
     "averageNumberOfChatsAnsweredByBürokrattWeek": "Keskmine Bürokrati vastatud: nädal / eelmine",
     "averageNumberOfChatsAnsweredByBürokrattMonth":  "Keskmine Bürokrati vastatud: kuu / eelmine",
     "answeredByBürokrattToday": "Bürokrati vastatud: täna / eile",
+    "numberOfChatsToday": "Vestluste arv: täna / eile",
+    "forwardedChatsYesterday": "Suunatud vestluse eile: sisesed / välised",
+    "averageWaitingTimeToday": "Keskmine ooteaeg: täna / eile",
+    "averageWaitingTimeWeek": "Keskmine ooteaeg: nädal / eelmine",
     
 
     "askAuthentication": "Küsi autentimist",
