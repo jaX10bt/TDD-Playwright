@@ -1,59 +1,70 @@
 const { test, expect } = require('@playwright/test');
 const { getTranslations } = require('../../../../../../translations/languageDetector');
 
-test.describe('Metrics Cards Visibility Test', () => {
+test.describe.only('Metrics Cards Visibility Test', () => {
   let translation;
+  let checkboxStates = {};
+  let checkboxStatesInitialized = false;
 
-  // Navigate to the page before each test
   test.beforeEach(async ({ page }) => {
-    await page.goto('https://admin.prod.buerokratt.ee/analytics/overview');  // Replace with the actual URL
+    await page.goto('https://admin.prod.buerokratt.ee/analytics/overview');
     translation = await getTranslations(page);
+    await page.getByRole('button', { name: `${translation["edit"]}` }).click();
+
+    if (!checkboxStatesInitialized) {
+      const drawerBody = page.locator('.drawer__body');
+      const sections = drawerBody.locator('.section');
+      const sectionCount = await sections.count();
+
+      for (let i = 0; i < sectionCount; i++) {
+        const section = sections.nth(i);
+        const label = await section.locator('label').innerText();
+        const checkbox = section.locator('input[type="checkbox"]');
+        const isChecked = await checkbox.isChecked();
+        checkboxStates[label.trim()] = isChecked ? 'checked' : 'unchecked';
+      }
+
+      checkboxStatesInitialized = true;
+    }
   });
 
-  // Test for visibility of the h1 header
+  async function checkCardVisibility(cardSelector, translatedLabel, page) {
+    const card = page.locator(cardSelector);
+    if (checkboxStates[translatedLabel] === 'checked') {
+      await expect(card).toBeVisible();
+    } else {
+      await expect(card).not.toBeVisible();
+    }
+  }
+
   test('Check h1 header visibility', async ({ page }) => {
-    const header = page.locator('h1');  // Locate the h1 element
-    await expect(header).toBeVisible();
+    await expect(page.locator('h1')).toBeVisible();
   });
 
   test('Check "Change" button visibility', async ({ page }) => {
-    const changeButton = page.locator(`button:has-text("${translation["edit"]}")`); // Locate the button
-    await expect(changeButton).toBeVisible();
+    await expect(page.locator(`button:has-text("${translation["edit"]}")`)).toBeVisible();
   });
 
-  // Test for visibility of the card with dynamic text
-  test('Check card with text "Keskmine vestluste arv päevas: kuu / eelmine" visibility', async ({ page }) => {
-    const card = page.locator(`.draggable-card:has(.title:text("${translation["averageChatsPerDayMonth"]}"))`);
-    await expect(card).toBeVisible();
-  });
+  const cardTests = [
+    { key: "numberOfChatsToday", description: "Number of chats: today / previous" },
+    { key: "forwardedChatsYesterday", description: "Forwarded chats yesterday: internal / external" },
+    { key: "averageWaitingTimeToday", description: "Average waiting time: today / yesterday" },
+    { key: "averageWaitingTimeWeek", description: "Average waiting time: week / previous" },
+    { key: "averageChatsPerDayMonth", description: "Average chats per day: month / previous" },
+    { key: "averageChatsPerDayWeek", description: "Average chats per day: week / previous" },
+    { key: "numberOfChatsPerMonth", description: "Number of chats: month / previous" },
+    { key: "averageNumberOfChatsAnsweredByBürokrattWeek", description: "Average chats answered by Bürokratt: week / previous" },
+    { key: "averageNumberOfChatsAnsweredByBürokrattMonth", description: "Average chats answered by Bürokratt: month / previous" },
+    { key: "answeredByBürokrattToday", description: "Answered by Bürokratt: today / yesterday" },
+  ];
 
-  // Test for visibility of the card with dynamic text
-  test('Check card with text "Keskmine vestluste arv päevas: nädal / eelmine" visibility', async ({ page }) => {
-    const card = page.locator(`.draggable-card:has(.title:text("${translation["averageChatsPerDayWeek"]}"))`);
-    await expect(card).toBeVisible();
-  });
-
-  // Test for visibility of the card with dynamic text
-  test('Check card with text "Vestluste arv: kuu / eelmine" visibility', async ({ page }) => {
-    const card = page.locator(`.draggable-card:has(.title:text("${translation["numberOfChatsPerMonth"]}"))`);
-    await expect(card).toBeVisible();
-  });
-
-  // Test for visibility of the card with dynamic text
-  test('Check card with text "Keskmine Bürokrati vastatud: nädal / eelmine" visibility', async ({ page }) => {
-    const card = page.locator(`.draggable-card:has(.title:text("${translation["averageNumberOfChatsAnsweredByBürokrattWeek"]}"))`);
-    await expect(card).toBeVisible();
-  });
-
-  // Test for visibility of the card with dynamic text
-  test('Check card with text "Keskmine Bürokrati vastatud: kuu / eelmine" visibility', async ({ page }) => {
-    const card = page.locator(`.draggable-card:has(.title:text("${translation["averageNumberOfChatsAnsweredByBürokrattMonth"]}"))`);
-    await expect(card).toBeVisible();
-  });
-
-  // Test for visibility of the card with dynamic text
-  test('Check card with text "Bürokrati vastatud: täna / eile" visibility', async ({ page }) => {
-    const card = page.locator(`.draggable-card:has(.title:text("${translation["answeredByBürokrattToday"]}"))`);
-    await expect(card).toBeVisible();
-  });
+  for (const { key, description } of cardTests) {
+    test(`Check card for "${description}" visibility`, async ({ page }) => {
+      await checkCardVisibility(
+        `.draggable-card:has(.title:text("${translation[key]}"))`, 
+        translation[key], 
+        page
+      );
+    });
+  }
 });

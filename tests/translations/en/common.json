@@ -58,6 +58,10 @@
     "averageNumberOfChatsAnsweredByBürokrattWeek": "Average chats answered by Bürokrat: week / previous",
     "averageNumberOfChatsAnsweredByBürokrattMonth":  "Average chats answered by Bürokrat: month / previous",
     "answeredByBürokrattToday": "Answered by Bürokrat: today / yesterday",
+    "numberOfChatsToday": "Number of chats: today / previous",
+    "forwardedChatsYesterday": "Forwarded chats yesterday: internal / external",
+    "averageWaitingTimeToday": "Average waiting time: today / yesterday",
+    "averageWaitingTimeWeek": "Average waiting time: week / previous",
     
 
 
