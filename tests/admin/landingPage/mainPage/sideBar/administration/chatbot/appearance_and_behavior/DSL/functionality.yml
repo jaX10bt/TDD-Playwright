@@ -14,33 +14,25 @@ setup:
 tests:
   - name: Test Animation Duration Input
     description: Ensure the Animation Duration Input is updated correctly.
-    steps:
-      - action: fill
-        target: "input[name='widgetProactiveSeconds']"
-        value: "5"
-      - action: assertValue
-        target: "input[name='widgetProactiveSeconds']"
-        expectedValue: "5"
+    actions:
+      - fill:
+          selector: "input[name='widgetProactiveSeconds']"
+          value: "5"
+      - assertValue:
+          selector: "input[name='widgetProactiveSeconds']"
+          expected: "5"
 
   - name: Test Notification Switch Toggle
     description: Ensure the notification switch can be toggled.
-    steps:
-
-      - action: getAttribute
-        target: "button.switch__button[aria-checked]:nth(1)"
-        attribute: "aria-checked"
-        alias: originalNotificationState
-      - action: click
-        target: "button.switch__button[aria-checked]:nth(1)"
-      - action: assertAttribute
-        target: "button.switch__button[aria-checked]:nth(1)"
-        attribute: "aria-checked"
-        expectedValue: "{% if originalNotificationState == 'true' %} false {% else %} true {% endif %}"
+    actions:
+      - toggleSwitch:
+          selector: ".notification-switch"  # More specific class or ID
+      - assertToggle:
+          selector: ".notification-switch"
 
   - name: Test Animation Start Time Input
     description: Ensure the Animation Start Time Input is updated correctly.
     steps:
-
       - action: fill
         target: "input[name='widgetDisplayBubbleMessageSeconds']"
         value: "3"
