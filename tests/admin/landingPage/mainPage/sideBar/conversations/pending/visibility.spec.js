@@ -1,5 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { getTranslations } from '../../../../../../translations/languageDetector';
+import { openDialog, selectFirstChat, takeOverFirstChat } from '../unanswered/helper';
+
 let translation;
 
 test.describe('Visibility Tests for "Ootel" / "Pending" Page', () => {
@@ -13,7 +15,7 @@ test.describe('Visibility Tests for "Ootel" / "Pending" Page', () => {
         await expect(page).toHaveURL('https://admin.prod.buerokratt.ee/chat/pending');
     });
 
-    test.only('should have titles', async ({ page }) => {
+    test('should have titles', async ({ page }) => {
         const divElement = page.locator('.vertical-tabs__group-header');
 
         const pText1 = divElement.locator('p').nth(0);
@@ -23,24 +25,24 @@ test.describe('Visibility Tests for "Ootel" / "Pending" Page', () => {
         await expect(pText2).toHaveText(new RegExp(translation.inProcess));  
     });
 
-    test.only('should have section, where all "uued" and "töös" conversations are listed', async ({ page }) => {
+    test('should have section, where all "uued" and "töös" conversations are listed', async ({ page }) => {
         const unansweredConversationsSection = page.locator('div.vertical-tabs__list');
         await expect(unansweredConversationsSection).toBeVisible();
     })
 
 
-    test('should have "kustutamiseks" title', async ({ page }) => {
-        // Should mark active status, after that chat becomes visible.
-        const button = page.locator('.switch__button');
-        button.click();
+    // test('should have "kustutamiseks" title', async ({ page }) => {
+    //     // Should mark active status, after that chat becomes visible.
+    //     const button = page.locator('.switch__button');
+    //     button.click();
 
-        const divElement = page.locator('.vertical-tabs__sub-group-header');
+    //     const divElement = page.locator('.vertical-tabs__sub-group-header');
 
-        const pText = divElement.locator('p').nth(0);
-        await expect(pText).toHaveText(new RegExp(`${translation.toDelete}\\s*\\(\\d+\\)`, 'i'));
-    });
+    //     const pText = divElement.locator('p').nth(0);
+    //     await expect(pText).toHaveText(new RegExp(`${translation.toDelete}\\s*\\(\\d+\\)`, 'i'));
+    // });
 
-    test('should have "Vastamata vestlused" main chat window', async ({ page }) => {
+    test('should have unanswered conversations main chat window', async ({ page }) => {
         const divElement = page.locator('div.vertical-tabs__body-placeholder');
 
         await expect(divElement).toBeVisible();

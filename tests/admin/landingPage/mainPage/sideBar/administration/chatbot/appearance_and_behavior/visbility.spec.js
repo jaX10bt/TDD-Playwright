@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { getTranslations } from '../../../../../../../translations/languageDetector';
 
-test.describe('Visibility Tests for "Välimus ja käitumine"/"Appearance and Behaviour" Page', async ( ) => {
+test.describe('Visibility Tests for "Välimus ja käitumine"/"Appearance and Behaviour" Page', async () => {
     let translation;
     let context;
     let page;
@@ -13,7 +13,7 @@ test.describe('Visibility Tests for "Välimus ja käitumine"/"Appearance and Beh
         await page.goto('https://admin.prod.buerokratt.ee/chat/chatbot/appearance');
         translation = await getTranslations(page);
     });
-    
+
     test.beforeEach(async ({ page }) => {
         // Navigate to the page before each test
         let translation
@@ -44,7 +44,7 @@ test.describe('Visibility Tests for "Välimus ja käitumine"/"Appearance and Beh
     test('Check visibility of notification message input', async ({ page }) => {
         const notificationMessageInput = page.locator(`label:has-text("${translation['widgetBubbleMessage']}") + div input`);
         await expect(notificationMessageInput).toBeVisible();
-        
+
     });
 
     test('Check visibility of primary color picker', async ({ page }) => {
@@ -70,6 +70,19 @@ test.describe('Visibility Tests for "Välimus ja käitumine"/"Appearance and Beh
     test('Check visibility of preview button', async ({ page }) => {
         const previewButton = page.locator(`button:has-text("${translation['preview']}")`);
         await expect(previewButton).toBeVisible();
+    });
+
+
+    test('test label input visibility', async ({ page }) => {
+        // Locate the label based on its text
+        const labelLocator = page.locator('label', { hasText: translation['widgetProactiveSeconds'] });
+
+        // Locate the input field based on the label
+        const inputContainer = labelLocator.locator('..'); // Move to parent container
+        const inputLocator = inputContainer.locator('input');
+
+        // Example usage: Assert the input is visible and interact with it
+        await expect(inputLocator).toBeVisible();
     });
 
 });

@@ -24,7 +24,7 @@ tests:
 
       - name: Check Visibility of Notification Switch
         action:
-          assertVisible: "button.switch__button[name='widgetBubbleMessage']"
+          assertVisible: template.label_switch[label=widgetBubbleMessage]
 
       - name: Check Visibility of Animation Start Time Input
         action:

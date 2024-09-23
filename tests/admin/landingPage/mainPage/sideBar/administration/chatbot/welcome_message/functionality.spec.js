@@ -39,7 +39,6 @@ test.describe.serial('Welcome message/Tervitussõnum Functionality Tests', () =>
   });
 
   test('Check if the switch on "Tervitus aktiivne"/"Greeting active" works', async ({ page }) => {
-    const textarea = page.locator(`//label[text()="${translation["welcomeMessage"]}"]/following-sibling::div//textarea`);
     const masterSwitch = page.locator('button.switch__button').nth(1);
     const saveButton = page.locator('button.btn--primary');
 

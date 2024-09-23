@@ -1,0 +1,16 @@
+templates: 
+  - name: label_switch
+  - components: 
+      parent: switch
+      children: Label + Switch
+      - name: Label
+        type: Label
+        props:
+          label: "translations['labelSwitch']"
+          
+      - name: Switch
+        type: Switch
+        props:
+          switch: "button.switch__button"
+          
+        
