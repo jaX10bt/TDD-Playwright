@@ -48,6 +48,7 @@
     "friday": "Friday",
     "saturday": "Saturday",
     "sunday": "Sunday",
+    "dateUntil": "to", 
     "workingTime": "Organization working time",
     "m-s": "M-S",
     "m-f": "M-F",
