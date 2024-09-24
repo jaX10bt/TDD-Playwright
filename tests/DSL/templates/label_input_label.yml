@@ -1,0 +1,23 @@
+template: 
+  name: label_input_label
+  components: 
+    parent: track
+    children: Label1 + Input + Label2
+    - name: Label1
+      type: Label
+      props:
+        label: "translations['labelInput']"
+        
+    - name: Input
+      type: Input
+      props:
+        input: "input"
+        attributes:
+          name: "{{ inputName }}"
+          type: "{{ inputType }}"
+
+        
+    - name: Label2
+      type: Label
+      props:
+        label: "translations['labelInput']"

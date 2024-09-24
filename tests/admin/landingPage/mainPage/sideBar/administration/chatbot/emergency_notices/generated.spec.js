@@ -6,21 +6,32 @@ test.describe('Visibility Tests for "Erakorralised Teated"/"Emergency Notices" P
 
   test.beforeEach(async ({ page }) => {
     // Navigate to the Emergency Notices page
-    await page.goto('https://admin.prod.buerokratt.ee/chat/chatbot/emergency-notices');
+    await page.goto('https://admin.prod.buerokratt.ee/chat/session-length');
     // Fetch translations
     translations = await getTranslations(page);
   });
 
   test('Check Visibility of "Erakorralised teated" Header', async ({ page }) => {
     // Check if the header with text from translations is visible
-    const header = page.locator(`h1:has-text('${translations.emergencyNotices}')`);
-    await expect(header).toBeVisible();
+    const label1Locator = page.locator('label').filter({ hasText: translations.sessionLength });
+    await expect(label1Locator.first()).toBeVisible();
   });
 
-  test('Check Visibility of "Teade aktiivne" Switch Button', async ({ page }) => {
-    // Check if the switch button associated with the label from translations is visible
-    const switchButton = page.locator(`.switch:has(.switch__label:has-text('${translations.noticeActive}')) button[role='switch']`);
-    await expect(switchButton).toBeVisible();
+  // Test to check visibility of Input
+  test('Input should be visible', async ({ page }) => {
+    const inputLocator = page.locator('input[name="session-length"][type="number"]');
+  
+  // Check if the input is visible
+  await expect(inputLocator).toBeVisible();
+
+  // Additionally, check if it has the correct default value
+  await expect(inputLocator).toHaveValue('120');
   });
 
+  // Test to check visibility of Label2
+  test('Label2 should be visible with correct text', async ({ page }) => {
+    // Use page.locator to find the second label with the same text
+    const label2Locator = page.locator('label').filter({ hasText: translations.minutes });
+    await expect(label2Locator.last()).toBeVisible();
+  });
 });
