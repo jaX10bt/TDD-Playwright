@@ -1,0 +1,10 @@
+templates: 
+  - name: button
+  - components: 
+      children: Button
+      - name: Button
+        type: Button
+        props:
+          class: "btn"
+          text: "translations['buttonText']"
+          
