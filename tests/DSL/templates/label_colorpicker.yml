@@ -2,7 +2,7 @@ templates:
   - name: label_colorpicker
   - components: 
       parent: input
-      children: Label + ColorPicker
+      children: Label + ColorPicker + Button
       - name: Label
         type: Label
         props:
@@ -18,4 +18,5 @@ templates:
         type: Button
         props:
           icon: true
-          position: "absolute"
+          # Indicates it's next to the ColorPicker in the DOM structure
+          adjacent_to: ColorPicker
