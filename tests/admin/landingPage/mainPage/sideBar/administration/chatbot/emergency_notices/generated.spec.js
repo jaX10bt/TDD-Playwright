@@ -6,32 +6,29 @@ test.describe('Visibility Tests for "Erakorralised Teated"/"Emergency Notices" P
 
   test.beforeEach(async ({ page }) => {
     // Navigate to the Emergency Notices page
-    await page.goto('https://admin.prod.buerokratt.ee/chat/session-length');
+    await page.goto('https://admin.prod.buerokratt.ee/chat/users');
     // Fetch translations
     translations = await getTranslations(page);
   });
 
   test('Check Visibility of "Erakorralised teated" Header', async ({ page }) => {
-    // Check if the header with text from translations is visible
-    const label1Locator = page.locator('label').filter({ hasText: translations.sessionLength });
-    await expect(label1Locator.first()).toBeVisible();
-  });
+    const headers = [
+      new RegExp(`^${translations.name}$`), // Exact match for Name
+      new RegExp(`^${translations.idCode}$`),
+      new RegExp(`^${translations.role}$`),
+      new RegExp(`^${translations.displayName}$`),
+      new RegExp(`^${translations.userTitle}$`),
+      new RegExp(`^${translations.email}$`),
+    ];
+    // Verify that the table is located inside the card
+    const tableCardLocator = page.locator('.card .data-table');
+    await expect(tableCardLocator).toBeVisible();
 
-  // Test to check visibility of Input
-  test('Input should be visible', async ({ page }) => {
-    const inputLocator = page.locator('input[name="session-length"][type="number"]');
-  
-  // Check if the input is visible
-  await expect(inputLocator).toBeVisible();
+    // Verify the visibility of Table Headers with dynamic translations
+    for (const header of headers) {
+      const headerLocator = page.locator(`.data-table th >> text=${header}`);
+      await expect(headerLocator).toBeVisible();
+    }
 
-  // Additionally, check if it has the correct default value
-  await expect(inputLocator).toHaveValue('120');
-  });
-
-  // Test to check visibility of Label2
-  test('Label2 should be visible with correct text', async ({ page }) => {
-    // Use page.locator to find the second label with the same text
-    const label2Locator = page.locator('label').filter({ hasText: translations.minutes });
-    await expect(label2Locator.last()).toBeVisible();
   });
 });

@@ -1,14 +1,12 @@
 templates: 
-  # You HAVE to use Template Literals to get the translation of a key inside the string meaning for example: page.locator(`ELEMENT${translation["key"]}ELEMENT`)
   - name: label_date
   - components: 
-      parentclass: "track"
+      parent: "track"
       children: Label + Date + Label + Date
-
       - name: Label
         type: paragraph
         props:
-          text: "translations['displayPeriod']"
+          label: "translations['displayPeriod']"
     
       - name: Date
         wrapperclass: "datepicker"
@@ -16,14 +14,13 @@ templates:
         props:
           input: text
       
-      # This text label is inside the track class and needs to specified
+      # This span label is inside the track class and needs to specified
       # otherwise it resolves to two different elements
-      # This needs to be specified as exact when used with getByText
-      # This label is between the datepicker classes 
       - name: Label
-        type: text
+        wrapperclass: "track"
+        type: span
         props: 
-          text: "translations['dateUntil']"
+          label: "translations['dateUntil']"
           
       - name: Date
         wrapperclass: "datepicker"
