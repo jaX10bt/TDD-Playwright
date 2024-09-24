@@ -1,0 +1,21 @@
+templates: 
+  - name: label_colorpicker
+  - components: 
+      parent: input
+      children: Label + ColorPicker
+      - name: Label
+        type: Label
+        props:
+          label: "translations['labelColorPicker']"
+          
+      - name: ColorPicker
+        type: Input
+        props:
+          input: "input"
+          readonly: true
+      
+      - name: Button
+        type: Button
+        props:
+          icon: true
+          position: "absolute"
