@@ -1,0 +1,151 @@
+name: Visibility Tests for "Vastamata" / "Unanswered" Chats Page
+
+setup:
+  - name: Navigate to Unanswered Chats Page
+    action:
+      navigate: "https://admin.prod.buerokratt.ee/chat/unanswered"
+      expectURL: "https://admin.prod.buerokratt.ee/chat/unanswered"
+
+  - name: Fetch Translations
+    action:
+      getTranslations: true
+      assignVariable: translations
+
+tests:
+  - name: Unanswered Chats Page Elements Visibility
+    steps:
+      - name: Check Vertical Tabs Visibility
+        action:
+          assertVisible: ".vertical-tabs"
+
+      - name: Check Unanswered Conversations Section Visibility
+        action:
+          assertVisible: ".vertical-tabs__list"
+
+      - name: Check Unanswered Chats Title
+        action:
+          assertVisibleWithText:
+            selector: ".vertical-tabs__group-header p"
+            text: "translations['unansweredConversations']"
+
+      - name: Check Main Chat Window Visibility
+        action:
+          assertVisible: ".vertical-tabs__body-placeholder"
+
+      - name: Check 'Choose a chat to begin' Text
+        action:
+          assertVisibleWithText:
+            selector: ".vertical-tabs__body-placeholder p"
+            text: "translations['chooseChatToBegin']"
+
+  - name: Selected Conversation Open Chat Visibility
+    steps:
+      - name: Check Meta Information Fields Visibility
+        action:
+          assertVisible: ".active-chat__side-meta"
+
+      - name: Check Meta Information Details
+        steps:
+          - name: Check ID Visibility
+            action:
+              assertVisibleWithText:
+                selector: "p strong"
+                text: "translations['id']"
+
+          - name: Check End User Name Visibility
+            action:
+              assertVisibleWithText:
+                selector: "p strong"
+                text: "translations['endUserName']"
+
+          - name: Check Chat Start Time Visibility
+            action:
+              assertVisibleWithText:
+                selector: "p strong"
+                text: "translations['chatStartedAt']"
+
+          - name: Check Device Visibility
+            action:
+              assertVisibleWithText:
+                selector: "p strong"
+                text: "translations['device']"
+
+          - name: Check Location Visibility
+            action:
+              assertVisibleWithText:
+                selector: "p strong"
+                text: "translations['location']"
+
+      - name: Check Active Chat Side Actions Visibility
+        action:
+          assertVisible: ".active-chat__side-actions"
+
+      - name: Check Active Chat Side Action Buttons
+        steps:
+          - name: Check End Chat Button Visibility
+            action:
+              assertVisibleWithText:
+                selector: ".active-chat__side-actions button"
+                text: "translations['endChat']"
+
+          - name: Check Ask Authentication Button Visibility
+            action:
+              assertVisibleWithText:
+                selector: ".active-chat__side-actions button"
+                text: "translations['askAuthentication']"
+
+          - name: Check Ask Contact Information Button Visibility
+            action:
+              assertVisibleWithText:
+                selector: ".active-chat__side-actions button"
+                text: "translations['askContactInformation']"
+
+          - name: Check Ask Permission Button Visibility
+            action:
+              assertVisibleWithText:
+                selector: ".active-chat__side-actions button"
+                text: "translations['askPermission']"
+
+          - name: Check Forward To Colleague Button Visibility
+            action:
+              assertVisibleWithText:
+                selector: ".active-chat__side-actions button"
+                text: "translations['forwardToColleague']"
+
+      - name: Check Take Over Button Visibility
+        action:
+          assertVisibleWithText:
+            selector: ".active-chat__toolbar-actions button"
+            text: "translations['takeOver']"
+
+      - name: Check Active Chat Header Visibility
+        action:
+          assertVisible: ".active-chat__header"
+
+  - name: Dialog Visibility Tests
+    steps:
+      - name: Check Dialog Parts Visibility
+        steps:
+          - name: Check Dialog Visibility
+            action:
+              assertVisible: ".dialog"
+
+          - name: Check Dialog Title Visibility
+            action:
+              assertVisible: ".dialog__header"
+
+          - name: Check Dialog Body Visibility
+            action:
+              assertVisible: ".dialog__body"
+
+          - name: Check Radio Options Count
+            action:
+              assertCount:
+                selector: "fieldset.radios .radios__item input[type='radio']"
+                count: 4
+
+          - name: Check Radio Labels Visibility
+            action:
+              assertVisibleLabels:
+                selector: "fieldset.radios .radios__item label"
+                labels: ["translations['acceptedResponse']", "translations['hateSpeech']", "translations['otherReasons']", "translations['responseSentToClient']"]

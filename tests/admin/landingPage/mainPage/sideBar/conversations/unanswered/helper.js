@@ -2,11 +2,11 @@ import {getTranslations} from '../../../../../../translations/languageDetector'
 
 // Function to open dialog
 export async function openDialog(page, buttonText) {
-    console.log(buttonText)
-    const button = page.locator(`button:has-text("${buttonText}")`);
+    
+    const button = await page.locator(`button:has-text("${buttonText}")`);
     await button.click();
 
-    const dialog = page.locator('.dialog--default');
+    const dialog = await page.locator('.dialog--default');
     return await dialog.isVisible();
 }
 
@@ -36,7 +36,7 @@ export async function takeOverFirstChat(page) {
     }
 
     // Click the "Võta üle" (take over) button
-    const takeOverButton = page.locator(`button:has-text("${translations.takeOver}")`);
+    const takeOverButton = await page.locator(`button:has-text("${translations.takeOver}")`);
 
     // Check if the "Võta üle" button is visible and enabled before clicking
     if (await takeOverButton.isVisible() && await takeOverButton.isEnabled()) {

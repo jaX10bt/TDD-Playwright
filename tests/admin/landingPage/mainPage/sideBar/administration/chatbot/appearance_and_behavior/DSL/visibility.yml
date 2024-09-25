@@ -1,9 +1,9 @@
 name: Visibility Tests for "Välimus ja käitumine"/"Appearance and Behaviour" Page
 
-tests:
-  - name: Check Visibility of Page Elements
+setup:
+  - describe: Check Visibility of Page Elements
     serial: true
-    steps:
+    beforeEach:
       - name: Setup
         action:
           navigate: "https://admin.prod.buerokratt.ee/chat/chatbot/appearance"
@@ -13,9 +13,10 @@ tests:
           getTranslations: true
           assignVariable: translations
 
+tests:
       - name: Check Visibility of Header
         action:
-          assertVisible: "h1:has-text('{{ translations['appearanceAndBehaviour'] }}')"
+          assertVisible: "h1:has-text('translations['appearanceAndBehaviour']')"
 
       - name: Check Visibility of Animation Duration Input
         action:
@@ -23,7 +24,7 @@ tests:
 
       - name: Check Visibility of Notification Switch
         action:
-          assertVisible: "button.switch__button[name='widgetBubbleMessage']"
+          assertVisible: template.label_switch[label=widgetBubbleMessage]
 
       - name: Check Visibility of Animation Start Time Input
         action:
@@ -47,8 +48,8 @@ tests:
 
       - name: Check Visibility of Save Button
         action:
-          assertVisible: "button:has-text('{{ translations['save'] }}')"
+          assertVisible: "button:has-text('translations['save']')"
 
       - name: Check Visibility of Preview Button
         action:
-          assertVisible: "button:has-text('{{ translations['preview'] }}')"
+          assertVisible: "button:has-text('translations['preview']')"

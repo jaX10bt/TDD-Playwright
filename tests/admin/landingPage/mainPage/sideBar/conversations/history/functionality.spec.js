@@ -1,10 +1,12 @@
 import { test, expect } from '@playwright/test';
+import { getTranslations } from '../../../../../../translations/languageDetector'
 
+let translation;
 test.beforeEach('test', async ({ page }) => {
-    await page.goto('https://admin.test.buerokratt.ee/chat/history');
+    await page.goto('https://admin.prod.buerokratt.ee/chat/history');
 
     // page is authenticated
-    await expect(page).toHaveURL('https://admin.test.buerokratt.ee/chat/history');
+    await expect(page).toHaveURL('https://admin.prod.buerokratt.ee/chat/history');
 });
 
 
@@ -19,17 +21,17 @@ test('Check if the table is horizontally scrollable', async ({ page }) => {
 
 
 
-test('Check if "Ajalugu" date inputs can be changed', async ({ page }) => {
+test('Check if date inputs can be changed', async ({ page }) => {
 
-    await page.waitForLoadState('networkidle');
+    await page.waitForTimeout(2000)
 
     const container = page.locator('.card__body');
 
     const dateInputs = container.locator('input');
 
     // Access the first two inputs which are assumed to be the date inputs
-    const startDateInput = dateInputs.nth(0);
-    const endDateInput = dateInputs.nth(1);
+    const startDateInput = dateInputs.nth(1);
+    const endDateInput = dateInputs.nth(2);
 
     // Clear and set the start date
     await startDateInput.click({ clickCount: 3 }); // Select all text
@@ -44,13 +46,18 @@ test('Check if "Ajalugu" date inputs can be changed', async ({ page }) => {
 
 
 test('Date FROM input field should reject invalid date formats', async ({ page }) => {
+    test.info().annotations.push({
+        type: 'Error',
+        description: 'Should throw an error. Currently it has not any data validation.',
+    })
+    await page.waitForTimeout(2000);
+
     const container = page.locator('.card__body');
 
     const dateInputs = container.locator('input');
 
     // Access the first two inputs which are assumed to be the date inputs
-    const startDateInput = dateInputs.nth(0);
-    const endDateInput = dateInputs.nth(1);
+    const startDateInput = dateInputs.nth(1);
 
     // Clear and set the start date
     await startDateInput.click({ clickCount: 3 }); // Select all text
@@ -78,12 +85,17 @@ test('Date FROM input field should reject invalid date formats', async ({ page }
 
 
 test('Date TO input field should reject invalid date formats', async ({ page }) => {
+    test.info().annotations.push({
+        type: 'Error',
+        description: 'Should throw an error. Currently it has not any data validation.',
+    })
+    await page.waitForTimeout(2000);
     const container = page.locator('.card__body');
 
     const dateInputs = container.locator('input');
 
     // Access the first two inputs which are assumed to be the date inputs
-    const endDateInput = dateInputs.nth(1);
+    const endDateInput = dateInputs.nth(2);
 
     // Clear and set the start date
     await endDateInput.click({ clickCount: 3 }); // Select all text
@@ -135,10 +147,12 @@ test('Check if "Ajalugu" date inputs accept only valid date formats', async ({ p
 
 
 test('Dropdown menu should expand, displaying the available options, and allow the user to select a different option.', async ({ page }) => {
+    translation = await getTranslations(page)
     // Locate the table rows to check if there is any data
+    await page.waitForTimeout(2000);
     const card = page.locator('.card').first();
 
-    const dropdown = card.locator('div.select__trigger:has-text("Vali")')
+    const dropdown = await card.locator(`div.select__trigger:has-text("${translation.choose}")`)
 
     dropdown.click();
 
@@ -147,7 +161,7 @@ test('Dropdown menu should expand, displaying the available options, and allow t
 
     await dropdownMenu.waitFor({ state: 'visible', timeout: 5000 }); // Adjust timeout as needed
 
-    const optionToSelect = dropdownMenu.locator('li.select__option:has-text("Algusaeg") input[type="checkbox"]');
+    const optionToSelect = dropdownMenu.locator(`li.select__option:has-text("${translation.startTime}") input[type="checkbox"]`);
 
     await optionToSelect.check();
 
@@ -159,11 +173,13 @@ test('Dropdown menu should expand, displaying the available options, and allow t
 
 test('Dropdown menu should expand, displaying the available options, and allow the user to select a different option. Should show corresponding columns in table.', async ({ page }) => {
     // Locate the table rows to check if there is any data
+    translation = await getTranslations(page);
+
     const card = page.locator('.card').first();
 
-    const dropdown = card.locator('div.select__trigger:has-text("Vali")')
+    const dropdown = card.locator(`div.select__trigger:has-text("${translation.choose}")`)
 
-    dropdown.click();
+    await dropdown.click();
 
     const dropdownMenu = card.locator('.select__menu');
     await expect(dropdownMenu).toBeVisible();
@@ -171,7 +187,7 @@ test('Dropdown menu should expand, displaying the available options, and allow t
     await dropdownMenu.waitFor({ state: 'visible', timeout: 5000 }); // Adjust timeout as needed
 
     // select algusaeg from dropdown
-    const optionToSelect = dropdownMenu.locator('li.select__option:has-text("Algusaeg") input[type="checkbox"]');
+    const optionToSelect = dropdownMenu.locator(`li.select__option:has-text("${translation.startTime}") input[type="checkbox"]`);
 
     await optionToSelect.check()
 
@@ -190,7 +206,7 @@ test('Dropdown menu should expand, displaying the available options, and allow t
     // Verify that the single column header is "Algusaeg"
     const columnHeader = columns.first();
     const columnText = await columnHeader.innerText();
-    expect(columnText).toBe('Algusaeg');
+    expect(columnText).toBe(translation.startTime);
 
 
 });
@@ -199,14 +215,15 @@ test('Dropdown menu should expand, displaying the available options, and allow t
 
 test('Search input field accepts text input and triggers search', async ({ page }) => {
     // Locate the table rows to check if there is any data
-    await page.waitForLoadState('networkidle');
+    translation = await getTranslations(page);
+    await page.waitForTimeout(2000);
     const initialRows = page.locator('table.data-table tbody tr');
 
     const initialRowCount = await initialRows.count();
 
     if (initialRowCount > 0) {
         // Locate the search input field using the placeholder text
-        const searchInput = page.locator('input[placeholder="Otsi üle vestluste..."]');
+        const searchInput = page.locator(`input[placeholder="${translation.searchChats}"]`);
 
         // Type random input value into the search input field to expect 0 matching and ensure that input field is working as expected
         await searchInput.fill('abcdefgh12345jklmnop678999001122ghdsa');
@@ -229,8 +246,8 @@ test('Search input field accepts text input and triggers search', async ({ page 
 
 
 test('Table columns should be sortable by clicking on the column headers. Sort by From date', async ({ page }) => {
-    await page.waitForLoadState('networkidle');
-
+    await page.waitForTimeout(2000);
+    translation = await getTranslations(page);
     // Locate the card element and the table inside it
     const table = page.locator('table.data-table');
 
@@ -238,7 +255,7 @@ test('Table columns should be sortable by clicking on the column headers. Sort b
     await expect(table).toBeVisible();
 
     // Locate the "Algusaeg" column header
-    const algusaegSortingButton = table.locator('th:has-text("Algusaeg")').locator('button');
+    const algusaegSortingButton = table.locator(`th:has-text("${translation.startTime}")`).locator('button');
 
     // Click on the "Algusaeg" column header to sort the table
     await algusaegSortingButton.click();
@@ -275,8 +292,8 @@ test('Table columns should be sortable by clicking on the column headers. Sort b
 
 
 test('Table columns should be sortable by clicking on the column headers. Sort by To date', async ({ page }) => {
-    await page.waitForLoadState('networkidle');
-
+    await page.waitForTimeout(2000);
+    translation = await getTranslations(page);
     // Locate the card element and the table inside it
     const table = page.locator('table.data-table');
 
@@ -284,7 +301,7 @@ test('Table columns should be sortable by clicking on the column headers. Sort b
     await expect(table).toBeVisible();
 
     // Locate the "Algusaeg" column header
-    const algusaegSortingButton = table.locator('th:has-text("Lõppaeg")').locator('button');
+    const algusaegSortingButton = table.locator(`th:has-text("${translation.endTime}")`).locator('button');
 
     // Click on the "Algusaeg" column header to sort the table
     await algusaegSortingButton.click();
@@ -317,28 +334,4 @@ test('Table columns should be sortable by clicking on the column headers. Sort b
     const isSortedDesc = sortedValuesDesc.every((val, i, arr) => !i || arr[i - 1] >= val);
 
     expect(isSortedAsc || isSortedDesc).toBe(true);
-});
-
-
-
-test('Should expand chat menu when clicking on Vaata', async ({ page }) => {
-    // Wait for the Vaata button to be visible
-    const button = page.locator('td.button');
-    await expect(button).toBeVisible();
-
-    // Click the Vaata button
-    await vaataButton.click();
-
-    // Wait for the chat menu to expand
-    // const chatMenu = page.locator('[data-state="open"]'); // Assuming the expanded state has a data-state of "open"
-    // await expect(chatMenu).toBeVisible();
-
-    // // Optionally, check specific content or elements within the expanded menu
-    // // For example:
-    // // const expandedContent = page.locator('.expanded-menu-content');
-    // // await expect(expandedContent).toContainText('Expected Text');
-
-    // // You can also check that the data-state attribute has changed to "open"
-    // const stateAttribute = await page.getAttribute('[data-state]', 'data-state');
-    // expect(stateAttribute).toBe('open');
 });

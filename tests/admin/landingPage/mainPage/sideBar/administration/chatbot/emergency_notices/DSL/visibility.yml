@@ -1,19 +1,19 @@
 name: Visibility Tests for "Erakorralised Teated"/"Emergency Notices" Page
 
-tests:
-  - name: Check Visibility of Page Elements
+setup:
+  - describe: Check Visibility of Page Elements
     serial: true
-    steps:
+    beforeEach:
       - name: Setup
         action:
           navigate: "https://admin.prod.buerokratt.ee/chat/chatbot/emergency-notices"
-          waitFor: networkidle
 
       - name: Fetch Translations
         action:
           getTranslations: true
           assignVariable: translations
 
+tests:
       - name: Check Visibility of "Erakorralised teated" Header
         action:
           assertVisible: "h1:has-text('{{ translations['emergencyNotices'] }}')"

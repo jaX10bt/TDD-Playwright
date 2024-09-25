@@ -1,0 +1,16 @@
+templates: 
+  - name: label_input
+  - components: 
+      parent: input
+      children: Label + Input
+      - name: Label
+        type: Label
+        props:
+          label: "translations['labelInput']"
+          
+      - name: Input
+        type: Input
+        props:
+          input: "input"
+          
+        

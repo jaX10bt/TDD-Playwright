@@ -1,8 +1,11 @@
 const { test, expect } = require('@playwright/test');
 const { getTranslations } = require('../../../../../../translations/languageDetector');
 
-test.describe.serial('Switches Functionality Tests', () => {
+test.describe.serial('Working time Functionality Tests', () => {
     let translation;
+    let initialStates = {}; // To store the initial states of all switches
+    const days = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
+    let initialDivCounts = {};
 
     test.beforeEach(async ({ page }) => {
         // Navigate to the page
@@ -13,6 +16,48 @@ test.describe.serial('Switches Functionality Tests', () => {
 
         // Fetch translations
         translation = await getTranslations(page);
+
+        // Capture initial states of relevant switches
+        const switches = {
+            considerPublicHolidays: page.locator('.switch__button').nth(1),
+            closedOnWeekends: page.locator('.switch__button').nth(2),
+            sameOnAllWorkingDays: page.locator('.switch__button').nth(3)
+        };
+
+        // Save initial states to restore later
+        for (const key in switches) {
+            initialStates[key] = await switches[key].getAttribute('aria-checked');
+        }
+
+        for (const day of days) {
+            const dayDiv = page.locator(`label:has-text("${translation[day]}")`).locator('..');
+            const count = await dayDiv.count();
+            initialDivCounts[day] = count;
+        }
+    });
+
+    test.afterEach(async ({ page }) => {
+        // Restore all switches to their initial states if they were changed
+        const switches = {
+            considerPublicHolidays: page.locator('.switch__button').nth(1),
+            closedOnWeekends: page.locator('.switch__button').nth(2),
+            sameOnAllWorkingDays: page.locator('.switch__button').nth(3)
+        };
+
+        for (const key in switches) {
+            const currentState = await switches[key].getAttribute('aria-checked');
+            if (currentState !== initialStates[key]) {
+                // If state was changed during the test, toggle it back
+                await switches[key].click();
+                await saveChanges(page);
+            }
+        }
+        // Verify the div counts return to the initial state
+        for (const day of days) {
+            const dayDiv = page.locator(`label:has-text("${translation[day]}")`).locator('..');
+            const count = await dayDiv.count();
+            await expect(count).toBe(initialDivCounts[day]);
+        }
     });
 
     async function saveChanges(page) {
@@ -20,147 +65,74 @@ test.describe.serial('Switches Functionality Tests', () => {
         await saveButton.click();
         await expect(page.locator('.toast.toast--success')).toBeVisible();
         await page.goto(page.url()); // Reload the page by navigating to the current URL
-        await page.waitForTimeout(5000); // Wait for the reload to complete
-    };
+        await page.waitForTimeout(3000); // Wait for the reload to complete
+    }
 
     test('check functionality of "considerPublicHolidays" switch', async ({ page }) => {
         const switchElem = page.locator('.switch__button').nth(1);
 
-        // Wait for the switch to be visible
-        await switchElem.waitFor({ state: 'visible', timeout: 15000 });
-
-        // Capture initial state of this specific switch
-        const initialChecked = await switchElem.getAttribute('aria-checked');
-
         // Toggle the switch
         await switchElem.click();
         await page.waitForTimeout(1000); // Wait for 1 second for the state to update
-
-        // Click the Save button
         await saveChanges(page);
 
         // Verify the switch has toggled
-        const isCheckedAfterToggle = await switchElem.getAttribute('aria-checked');
-        await expect(isCheckedAfterToggle).not.toBe(initialChecked); // Ensure the state has changed
-
-        // Toggle back to original state
-        await switchElem.click();
-        await page.waitForTimeout(1000); // Wait for 1 second for the state to update
-
-        // Click the Save button
-        await saveChanges(page);
-
-        // Verify the state returns to original
-        const finalChecked = await switchElem.getAttribute('aria-checked');
-        await expect(finalChecked).toBe(initialChecked); // Ensure it returns to original state
+        const newChecked = await switchElem.getAttribute('aria-checked');
+        await expect(newChecked).not.toBe(initialStates["considerPublicHolidays"]); // Ensure the state has changed
     });
 
     test('check functionality of "closedOnWeekends" switch', async ({ page }) => {
-        const closedOnWeekendsSwitch = page.locator('.switch').nth(2).locator('.switch__button');
+        const closedOnWeekendsSwitch = page.locator('.switch__button').nth(2);
+        const closedOnWeekendsState = await closedOnWeekendsSwitch.getAttribute('aria-checked');
 
-        // Capture the initial state of the switch
-        const initialChecked = await closedOnWeekendsSwitch.getAttribute('aria-checked') === 'true';
-        
-        // Locate Saturday and Sunday divs
-        const saturdayDiv = page.locator(`label:has-text("${translation["saturday"]}")`);
-        const sundayDiv = page.locator(`label:has-text("${translation["sunday"]}")`);
+        const sameOnAllWorkingDaysSwitch = page.locator('.switch__button').nth(3);
+        const sameOnAllWorkingDaysState = await sameOnAllWorkingDaysSwitch.getAttribute('aria-checked');
 
-        if (!initialChecked) {
-            // Check visibility of Saturday and Sunday divs before toggling
-            await expect(saturdayDiv).toBeVisible();
-            await expect(sundayDiv).toBeVisible();
+        const saturdayDiv = page.locator(`label:has-text("${translation["saturday"]}")`).locator('..');
+        const sundayDiv = page.locator(`label:has-text("${translation["sunday"]}")`).locator('..');
 
-            // Toggle the switch to turn it on
+        // Toggle the "closedOnWeekends" switch
+        if (closedOnWeekendsState === 'false') {
             await closedOnWeekendsSwitch.click();
-            await page.waitForTimeout(1000); // Wait for 1 second for the state to update
+            await saveChanges(page)
+        }
 
-            // Click the Save button
-            await saveChanges(page);
+        if (sameOnAllWorkingDaysState === 'true') {
+            await sameOnAllWorkingDaysSwitch.click();
+            await saveChanges(page)
         }
 
         // Verify that Saturday and Sunday divs are hidden
         await expect(saturdayDiv).not.toBeVisible();
         await expect(sundayDiv).not.toBeVisible();
 
-        // Toggle back to original state
+        // Toggle back to the original state
         await closedOnWeekendsSwitch.click();
-        await page.waitForTimeout(1000); // Wait for 1 second for the state to update
-
-        // Click the Save button
         await saveChanges(page);
 
         // Verify that Saturday and Sunday divs are visible again
         await expect(saturdayDiv).toBeVisible();
         await expect(sundayDiv).toBeVisible();
-
-        // Restore the original state if it was initially off
-        if (!initialChecked) {
-            await closedOnWeekendsSwitch.click();
-            await page.waitForTimeout(1000); // Wait for 1 second for the state to update
-            await saveChanges(page);
-        }
     });
 
     test('check functionality of "sameOnAllWorkingDays" switch', async ({ page }) => {
         const switchElem = page.locator('.switch__button').nth(3);
-
-        // Wait for the switch to be visible
-        await switchElem.waitFor({ state: 'visible', timeout: 15000 });
-
-        // Capture initial state of this specific switch
-        const initialChecked = await switchElem.getAttribute('aria-checked');
-        const closedOnWeekendsSwitch = page.locator('.switch').nth(2).locator('.switch__button');
-        const closedOnWeekends = await closedOnWeekendsSwitch.getAttribute('aria-checked') === 'true';
-
-        // Define the days of the week and their selectors
-        const days = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
-
-        let initialDivCounts = {};
-        for (const day of days) {
-            const dayDiv = page.locator(`label:has-text("${translation[day]}")`).locator('..');
-            const count = await dayDiv.count();
-            initialDivCounts[day] = count;
+        const switchState = await switchElem.getAttribute('aria-checked');
+        
+        if (switchState === 'false') {
+            // Toggle the "sameOnAllWorkingDays" switch
+            await switchElem.click();
+            await saveChanges(page);
         }
 
-        // Toggle the switch
-        await switchElem.click();
-        await page.waitForTimeout(1000); // Wait for 1 second for the state to update
+        const closedOnWeekendsSwitch = page.locator('.switch__button').nth(2);
+        const closedOnWeekendsChecker = await closedOnWeekendsSwitch.getAttribute('aria-checked') === 'true';
+        const expectedText = closedOnWeekendsChecker ? "M-F" : "M-S";
 
-        // Click the Save button
-        await saveChanges(page);
-
-        // Determine expected visible text based on switch state
-        const expectedText = closedOnWeekends ? "M-F" : "M-S";
-
-        // Find and count visible divs
-        const visibleDivs = page.locator(`label:has-text("${expectedText}")`).locator('..');
-        const visibleDivCount = await visibleDivs.count();
-
-        // Ensure only one div is visible
-        await expect(visibleDivCount).toBe(1);
-
-        // Ensure the visible div does not contain a switch button
+        // Verify only one div is visible
         const visibleDiv = page.locator(`label:has-text("${expectedText}")`).locator('..');
-        const switchButtonInVisibleDiv = visibleDiv.locator('.switch__button');
-        const switchButtonCount = await switchButtonInVisibleDiv.count();
-        await expect(switchButtonCount).toBe(0); // Ensure the visible div does not contain a switch button
-
-        // Toggle back to the original state
-        await switchElem.click();
-        await page.waitForTimeout(1000); // Wait for 1 second for the state to update
-
-        // Click the Save button
-        await saveChanges(page);
-
-        // Verify the div counts return to the initial state
-        let finalDivCounts = {};
-        for (const day of days) {
-            const dayDiv = page.locator(`label:has-text("${translation[day]}")`).locator('..');
-            const count = await dayDiv.count();
-            finalDivCounts[day] = count;
-        }
-        for (const day of days) {
-            await expect(finalDivCounts[day]).toBe(initialDivCounts[day]); // Ensure div counts return to the original state
-        }
+        await expect(visibleDiv).toHaveCount(1);
+        await expect(visibleDiv.locator('.switch__button')).toHaveCount(0);
+        
     });
 });

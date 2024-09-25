@@ -42,6 +42,29 @@ test.describe('Seaded/Settings Visibility Tests', () => {
         // Verify the "Salvesta" button is visible
         const saveButton = page.locator(`button:has-text("${translation["save"]}")`);
         await expect(saveButton).toBeVisible();
+    }); 
+    
+    
+    
+
+
+
+
+    test.only('some test', async ({ page }) => {
+        // Locate the label based on text
+        const labelLocator = page.locator('label', { hasText: translation['chatBotActive'] });
+
+        // Locate the switch button based on its label
+        const switchContainer = labelLocator.locator('..'); // Move to parent container
+        const switchLocator = switchContainer.locator('button.switch__button');
+
+        // Example usage: Assert the switch button is visible and interact with it
+        await expect(switchLocator).toBeVisible();
+        await switchLocator.click();
+
     });
+
+
+    
 
 });

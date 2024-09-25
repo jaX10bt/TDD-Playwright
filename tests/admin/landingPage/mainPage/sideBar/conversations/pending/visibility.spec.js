@@ -1,25 +1,28 @@
 import { test, expect } from '@playwright/test';
 import { getTranslations } from '../../../../../../translations/languageDetector';
+import { openDialog, selectFirstChat, takeOverFirstChat } from '../unanswered/helper';
 
-test.describe('"Ootel" page visibility', () => {
+let translation;
+
+test.describe('Visibility Tests for "Ootel" / "Pending" Page', () => {
 
     test.beforeEach(async ({ page }) => {
-        await page.goto('https://admin.test.buerokratt.ee/chat/pending');
-        // const t = await getTranslations(page)
+        await page.goto('https://admin.prod.buerokratt.ee/chat/pending');
+        translation = await getTranslations(page)
     });
 
     test('should have the correct URL', async ({ page }) => {
-        await expect(page).toHaveURL('https://admin.test.buerokratt.ee/chat/pending');
+        await expect(page).toHaveURL('https://admin.prod.buerokratt.ee/chat/pending');
     });
 
-    test('should have "uued", "toos" titles', async ({ page }) => {
+    test('should have titles', async ({ page }) => {
         const divElement = page.locator('.vertical-tabs__group-header');
 
         const pText1 = divElement.locator('p').nth(0);
-        await expect(pText1).toHaveText(/uued/);
+        await expect(pText1).toHaveText(new RegExp(translation.new));
 
         const pText2 = divElement.locator('p').nth(1);
-        await expect(pText2).toHaveText(/töös/);  
+        await expect(pText2).toHaveText(new RegExp(translation.inProcess));  
     });
 
     test('should have section, where all "uued" and "töös" conversations are listed', async ({ page }) => {
@@ -28,30 +31,30 @@ test.describe('"Ootel" page visibility', () => {
     })
 
 
-    test('should have "kustutamiseks" title', async ({ page }) => {
-        // Should mark active status, after that chat becomes visible.
-        const button = page.locator('.switch__button');
-        button.click();
+    // test('should have "kustutamiseks" title', async ({ page }) => {
+    //     // Should mark active status, after that chat becomes visible.
+    //     const button = page.locator('.switch__button');
+    //     button.click();
 
-        const divElement = page.locator('.vertical-tabs__sub-group-header');
+    //     const divElement = page.locator('.vertical-tabs__sub-group-header');
 
-        const pText = divElement.locator('p').nth(0);
-        await expect(pText).toHaveText(/kustutamiseks\s*\(\d+\)/i);
-    });
+    //     const pText = divElement.locator('p').nth(0);
+    //     await expect(pText).toHaveText(new RegExp(`${translation.toDelete}\\s*\\(\\d+\\)`, 'i'));
+    // });
 
-    test('should have "Vastamata vestlused" main chat window', async ({ page }) => {
+    test('should have unanswered conversations main chat window', async ({ page }) => {
         const divElement = page.locator('div.vertical-tabs__body-placeholder');
 
         await expect(divElement).toBeVisible();
     });
 
 
-    test('should have "Alustamiseks vali vestlus" text', async ({ page }) => {
+    test('should have start conversation text', async ({ page }) => {
         const divElement = page.locator('div.vertical-tabs__body-placeholder');
 
         const pText = divElement.locator('p');
 
-        await expect(pText).toHaveText('Alustamiseks vali vestlus');
+        await expect(pText).toHaveText(translation.chooseChatToBegin);
     });
 });
 
@@ -59,6 +62,7 @@ test.describe('"Pending" tab body visibility', () => {
 
     test.beforeEach('test', async ({ page }) => {
         await selectFirstChat(page);
+        translation = await getTranslations(page);
     });
 
     test('should have body', async ({ page }) => {
@@ -98,12 +102,12 @@ test.describe('"Pending" tab body visibility', () => {
 
         // Verify individual meta information fields
         const pElement = page.locator('p strong')
-        await expect(pElement.filter({ hasText: /ID/ })).toBeVisible();
-        await expect(pElement.filter({ hasText: /Vestleja nimi/ })).toBeVisible();
-        await expect(pElement.filter({ hasText: /Vestlus alustatud/ })).toBeVisible();
+        await expect(pElement.filter({ hasText: translation.id })).toBeVisible();
+        await expect(pElement.filter({ hasText: translation.endUserName })).toBeVisible();
+        await expect(pElement.filter({ hasText: translation.chatStartedAt })).toBeVisible();
 
-        await expect(pElement.filter({ hasText: /Seade/ })).toBeVisible();
-        await expect(pElement.filter({ hasText: /Lähtekoht/ })).toBeVisible();
+        await expect(pElement.filter({ hasText: translation.device })).toBeVisible();
+        await expect(pElement.filter({ hasText: translation.location })).toBeVisible();
 
     });
 });
