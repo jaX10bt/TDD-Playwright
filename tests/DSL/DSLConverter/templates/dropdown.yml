@@ -1,0 +1,18 @@
+templates: 
+  - name: label_dropdown
+  - components: 
+      parent: select
+      children: Label + Dropdown
+      - name: Label
+        type: Label
+        props:
+          label: "{{ labelDropdown }}"
+          
+      - name: Dropdown
+        type: Input
+        props:
+          trigger_class: "select__trigger"
+          expanded: false
+
+          
+        
