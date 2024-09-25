@@ -7,6 +7,7 @@ translations.XXX.
 ## **TODO:**
 Kõik äriDSLid peavad vastama ühele formaadile, muidu läheb programm katki
 Templiidid ühele formaadile vastama ei pea kuid peavad olema võimalikult universaalsed.
+Header ja Footer peab olema handletud eraldi, sest need on üle lehekülgede väga erinevad. 
 
 
 ### **Praegune output BusinessDSL.ymli näitel**
