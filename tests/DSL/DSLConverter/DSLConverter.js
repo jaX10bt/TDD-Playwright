@@ -21,11 +21,20 @@ class DSLConverter {
     });
   }
 
+  // Function to write generated testDSL to a file
+  writeToFile(filePath, content) {
+    // Remove Markdown code block syntax if present
+    //const cleanedContent = content.replace(/^```javascript\s*|\s*```$/g, '').trim();
+
+    fs.writeFileSync(filePath, content, 'utf-8');
+  };
+
+
   loadBusinessDSL() {
     const businessDSLPath = process.argv[2];
     try {
       const businessDSL = yaml.load(fs.readFileSync(businessDSLPath, 'utf-8'));
-      console.log("Loaded Business DSL:", businessDSL);  
+      console.log("Loaded Business DSL:", businessDSL);
       this.businessDSL = businessDSL;
     } catch (err) {
       console.error(`Error loading Business DSL from ${businessDSLPath}:`, err.message);
@@ -114,4 +123,5 @@ class DSLConverter {
 
 const dslConverter = new DSLConverter();
 const testDSL = dslConverter.convertToTestDSL();
+dslConverter.writeToFile('./testDSL.yml', testDSL);
 console.log(testDSL);
