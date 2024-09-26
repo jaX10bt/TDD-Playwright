@@ -9,6 +9,7 @@
 - **Tohutu abi .yml filede lugemisel on js-yaml package'ist, mis sätib .yml faili sisu arraysse ning lihtsustab lugemist**
 
 ## **TODO:**
+- Pealkirjad testDSL-dele
 
 - Kõik äriDSLid peavad vastama ühele formaadile, muidu läheb programm katki. Formaati saab muuta ning on läbirääkimise asi. 
 

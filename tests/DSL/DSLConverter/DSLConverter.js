@@ -25,7 +25,7 @@ class DSLConverter {
     const businessDSLPath = process.argv[2];
     try {
       const businessDSL = yaml.load(fs.readFileSync(businessDSLPath, 'utf-8'));
-      console.log("Loaded Business DSL:", businessDSL);  // Debugging log
+      console.log("Loaded Business DSL:", businessDSL);  
       this.businessDSL = businessDSL;
     } catch (err) {
       console.error(`Error loading Business DSL from ${businessDSLPath}:`, err.message);
