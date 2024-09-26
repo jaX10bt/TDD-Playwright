@@ -16,7 +16,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '18'
-          
+
       - name: Run Docker
         run: docker compose up -d
         
@@ -70,12 +70,13 @@ jobs:
           path: playwright-report/
           retention-days: 30
 
+      # Step to query task field IDs via the GitHub GraphQL API
       - name: Get Task and Field IDs
         id: get_field_ids
         run: |
           TASK_ID=${{ github.event.client_payload.task_id }}
 
-          # Query GraphQL API to get the field IDs
+          # Query GraphQL API to get the field IDs for "Status"
           curl -X POST -H "Authorization: bearer ${{ secrets.PAT_TO_REPLACE }}" \
                -H "Content-Type: application/json" \
                -d '{"query": "query { node(id: \\"'$TASK_ID'\\") { ... on ProjectNextItem { id fieldValues(first: 100) { nodes { projectField { id name } value } } } } }"}' \
@@ -88,12 +89,15 @@ jobs:
           echo "Status Field ID: $STATUS_FIELD_ID"
           echo "Project Item ID: $PROJECT_ITEM_ID"
 
+          echo "STATUS_FIELD_ID=$STATUS_FIELD_ID" >> $GITHUB_ENV
+          echo "PROJECT_ITEM_ID=$PROJECT_ITEM_ID" >> $GITHUB_ENV
+
+      # If tests succeed, update task status to "Done"
       - name: Update Task Status on Success
         if: success()
         run: |
-          TASK_ID=${{ github.event.client_payload.task_id }}
           NEW_STATUS="Done"
-          COMMENT="All tests passed successfully"
+          COMMENT="All tests passed successfully."
 
           # Update the custom 'Status' field via the GraphQL API
           curl -X POST -H "Authorization: bearer ${{ secrets.PAT_TO_REPLACE }}" \
@@ -107,10 +111,10 @@ jobs:
                -d '{"query": "mutation { addComment(input: { subjectId: \\"'$PROJECT_ITEM_ID'\\", body: \\"'$COMMENT'\\" }) { clientMutationId } }"}' \
                https://api.github.com/graphql
 
+      # If tests fail, update task status to "AT Rejected"
       - name: Update Task Status on Failure
         if: failure()
         run: |
-          TASK_ID=${{ github.event.client_payload.task_id }}
           NEW_STATUS="AT Rejected"
           COMMENT="Some tests failed. Please check the attached report."
 
