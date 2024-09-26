@@ -6,6 +6,8 @@
 
 - Tõlkeid endid pole rakendanud veel, tõenäoliselt saab lihtsamalt, eriti mainHeaderiga, mis on igal leheküljel. Seal ei pea midagi asendama ning saab panna otse translations.XXX. 
 
+- **Tohutu abi .yml filede lugemisel on js-yaml package'ist, mis sätib .yml faili sisu arraysse ning lihtsustab lugemist**
+
 ## **TODO:**
 
 - Kõik äriDSLid peavad vastama ühele formaadile, muidu läheb programm katki. Formaati saab muuta ning on läbirääkimise asi. 
@@ -18,6 +20,10 @@
 
 - See aga ei tööta kõigiga kuivõrd osadel on rohkem placeholdereid, osadel on staatilised placeholderid, mis on üle pagede samad (vt nt mainHeader.yml, ükski placeholder tegelikult ei olene kontekstis ning võib kohe translation.XXX formaadis)
 
+- Muutmisel äriDSList testDSLiks peaks sisestama sinna ka beforeach (et ta läheks kuhugi URLI ja laeks sisse translationi jne)
+
+- Täpsemate testDSLide jaoks oleks vaja tõesti osadele asjadele parentclassi. 
+
 
 ### **Praegune output BusinessDSL.ymli näitel**
 
@@ -25,7 +31,7 @@
 - See vajab täpseid ning universaalseid templiite, mille järgi saab testDSLi ehitada.
 - Juhul, kui näiteks on kindlasti vaja locateda klassiga, tuleb kirjeldada äriDSLIs parentclassi.
 
-**Pole kasutanud seda inputiks ChatGPTsse, ei tea, kuidas see output PLaywrighti testina välja näeb**
+**OUTPUT DSLINA**
 
 ```
 - name: label_input
@@ -122,5 +128,78 @@
         props:
           trigger_class: "select__trigger"
           expanded: false
+
+```
+
+**OUTPUT PLAYWRIGHT CODE'INA, MIS CHAT ANNAB SELLE BAASIL**
+
+**Lisainput on: Give me playwright visibility tests based on this, the translation.XXX use composite literals so take that into account.**
+
+```
+const { test, expect } = require('@playwright/test');
+const translations = require('../path/to/translations'); // Import your translations file
+
+test.describe('UI Visibility Tests', () => {
+
+  test('Check visibility of label and input field for widgetProactiveSeconds', async ({ page }) => {
+    const labelSelector = `.your-class-before-${translations['translation.widgetProactiveSeconds']}`;
+    const inputSelector = 'input';
+
+    // Check label visibility
+    await expect(page.locator(labelSelector)).toBeVisible();
+
+    // Check input field visibility
+    await expect(page.locator(inputSelector)).toBeVisible();
+  });
+
+  test('Check visibility of label and switch for widgetBubbleMessageText', async ({ page }) => {
+    const labelSelector = `.your-class-before-${translations['translation.widgetBubbleMessageText']}`;
+    const switchSelector = 'button.switch__button';
+
+    // Check label visibility
+    await expect(page.locator(labelSelector)).toBeVisible();
+
+    // Check switch button visibility
+    await expect(page.locator(switchSelector)).toBeVisible();
+  });
+
+  test('Check visibility of label and input field for widgetBubbleMessageSeconds', async ({ page }) => {
+    const labelSelector = `.your-class-before-${translations['translation.widgetBubbleMessageSeconds']}`;
+    const inputSelector = 'input';
+
+    // Check label visibility
+    await expect(page.locator(labelSelector)).toBeVisible();
+
+    // Check input field visibility
+    await expect(page.locator(inputSelector)).toBeVisible();
+  });
+
+  test('Check visibility of label, color picker, and button for widgetColor', async ({ page }) => {
+    const labelSelector = `.your-class-before-${translations['translation.widgetColor']}`;
+    const colorPickerSelector = 'input[readonly="true"]';
+    const buttonSelector = '.your-button-selector';
+
+    // Check label visibility
+    await expect(page.locator(labelSelector)).toBeVisible();
+
+    // Check color picker visibility
+    await expect(page.locator(colorPickerSelector)).toBeVisible();
+
+    // Check button visibility
+    await expect(page.locator(buttonSelector)).toBeVisible();
+  });
+
+  test('Check visibility of label and dropdown for widgetAnimation', async ({ page }) => {
+    const labelSelector = `.your-class-before-${translations['translation.widgetAnimation']}`;
+    const dropdownTriggerSelector = '.select__trigger';
+
+    // Check label visibility
+    await expect(page.locator(labelSelector)).toBeVisible();
+
+    // Check dropdown trigger visibility
+    await expect(page.locator(dropdownTriggerSelector)).toBeVisible();
+  });
+
+});
 
 ```
