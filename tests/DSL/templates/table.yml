@@ -4,13 +4,13 @@ templates:
 # You HAVE to use Template Literals to get the translation of a key inside the string meaning for example: page.locator(`ELEMENT${translation["key"]}ELEMENT`)
   - name: table
   - components:
-      parent: card  # Container for the entire table
+      parent: card  #
       children: TableHeader + TableBody + Pagination
       - name: TableHeader
         type: Table
         class: data-table
         props:
-          columns: # n number of columns
+          columns: 
             - name: Column
               label: "Regex(`/^${translations.header}$`)"  # Dynamic Column header text. Example: 'Name'
               sortable: true  # Defines if the column is sortable
