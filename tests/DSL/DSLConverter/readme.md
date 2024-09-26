@@ -8,7 +8,7 @@
 
 ## **TODO:**
 
-- Kõik äriDSLid peavad vastama ühele formaadile, muidu läheb programm katki
+- Kõik äriDSLid peavad vastama ühele formaadile, muidu läheb programm katki. Formaati saab muuta ning on läbirääkimise asi. 
 
 - Templiidid ühele formaadile vastama ei pea kuid peavad olema võimalikult universaalsed.
 
@@ -16,7 +16,7 @@
 
 - Praegune implementatsioon on proovina ehitatud selle baasil, et templatel on üks placeholder, mille formaat on 'label' + XXX
 
-- See aga ei tööta kõigiga kuivõrd osadel on rohkem placeholdereid, osadel on staatilised placeholderid, mis on üle pagede samad (vt nt mainHeader.yml, ükski placeholder tegelikult ei olene kontekstis ning võib kohe olla kas translated või translation.XXX formaadis)
+- See aga ei tööta kõigiga kuivõrd osadel on rohkem placeholdereid, osadel on staatilised placeholderid, mis on üle pagede samad (vt nt mainHeader.yml, ükski placeholder tegelikult ei olene kontekstis ning võib kohe translation.XXX formaadis)
 
 
 ### **Praegune output BusinessDSL.ymli näitel**
