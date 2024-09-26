@@ -23,9 +23,6 @@ class DSLConverter {
 
   // Function to write generated testDSL to a file
   writeToFile(filePath, content) {
-    // Remove Markdown code block syntax if present
-    //const cleanedContent = content.replace(/^```javascript\s*|\s*```$/g, '').trim();
-
     fs.writeFileSync(filePath, content, 'utf-8');
   };
 
@@ -116,7 +113,12 @@ class DSLConverter {
   }
 
   cleanTestDSL(testDSL) {
+    let description = `- description: ${this.businessDSL.description}\n`;
+
     testDSL = testDSL.replace(/templates:\s*/g, '');
+
+    testDSL = description + testDSL;
+    
     return testDSL;
   }
 }

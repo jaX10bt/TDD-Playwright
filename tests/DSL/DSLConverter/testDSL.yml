@@ -1,3 +1,4 @@
+- description: Widget setup for Appearance and Behaviour
 - name: label_input
   - components: 
       parent: input
