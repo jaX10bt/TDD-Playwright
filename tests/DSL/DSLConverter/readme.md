@@ -1,20 +1,31 @@
 # DSLConverter Readme
-DSLConverter on WIP, mis peaks tegema äri DSList templiitide baasil testDSLi. 
-Väga algses faasis, põhimõtteliselt praegu lihtsalt loeb templiidid sisse äriDSLi baasil ja annab tagasi testDSLi, kuhu {{ }} sulgude sisse tõlkevariatsioonid
-Tõlkeid endid pole rakendanud veel, tõenäoliselt saab lihtsamalt, eriti mainHeaderiga, mis on igal leheküljel. Seal ei pea midagi asendama ning saab panna otse
-translations.XXX. 
+
+- DSLConverter on WIP, mis peaks tegema äri DSList templiitide baasil testDSLi. 
+
+- Väga algses faasis, põhimõtteliselt praegu lihtsalt loeb templiidid sisse äriDSLi baasil ja annab tagasi testDSLi, kuhu {{ }} sulgude sisse tõlkevariatsioonid
+
+- Tõlkeid endid pole rakendanud veel, tõenäoliselt saab lihtsamalt, eriti mainHeaderiga, mis on igal leheküljel. Seal ei pea midagi asendama ning saab panna otse translations.XXX. 
 
 ## **TODO:**
-Kõik äriDSLid peavad vastama ühele formaadile, muidu läheb programm katki
-Templiidid ühele formaadile vastama ei pea kuid peavad olema võimalikult universaalsed.
-Header ja Footer peab olema handletud eraldi, sest need on üle lehekülgede väga erinevad. 
+
+- Kõik äriDSLid peavad vastama ühele formaadile, muidu läheb programm katki
+
+- Templiidid ühele formaadile vastama ei pea kuid peavad olema võimalikult universaalsed.
+
+- Header ja Footer peab olema handletud eraldi, sest need on üle lehekülgede väga erinevad. 
+
+- Praegune implementatsioon on proovina ehitatud selle baasil, et templatel on üks placeholder, mille formaat on 'label' + XXX
+
+- See aga ei tööta kõigiga kuivõrd osadel on rohkem placeholdereid, osadel on staatilised placeholderid, mis on üle pagede samad (vt nt mainHeader.yml, ükski placeholder tegelikult ei olene kontekstis ning võib kohe olla kas translated või translation.XXX formaadis)
 
 
 ### **Praegune output BusinessDSL.ymli näitel**
 
-See vajab endale testide kirjeldusi, mida saab genereerida teenuse abil. 
-See vajab täpseid ning universaalseid templiite, mille järgi saab testDSLi ehitada.
-Juhul, kui näiteks on kindlasti vaja locateda klassiga, tuleb kirjeldada parentclassi.
+- See vajab endale testide kirjeldusi, mida saab genereerida teenuse abil. 
+- See vajab täpseid ning universaalseid templiite, mille järgi saab testDSLi ehitada.
+- Juhul, kui näiteks on kindlasti vaja locateda klassiga, tuleb kirjeldada äriDSLIs parentclassi.
+
+**Pole kasutanud seda inputiks ChatGPTsse, ei tea, kuidas see output PLaywrighti testina välja näeb**
 
 ```
 - name: label_input
