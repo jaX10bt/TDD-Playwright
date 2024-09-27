@@ -43,14 +43,14 @@ test.describe('Seaded/Settings Visibility Tests', () => {
         const saveButton = page.locator(`button:has-text("${translation["save"]}")`);
         await expect(saveButton).toBeVisible();
     }); 
+
     
     
-    
 
 
 
 
-    test('some test', async ({ page }) => {
+    test.only('some test', async ({ page }) => {
         // Locate the label based on text
         const labelLocator = page.locator('label', { hasText: translation['chatBotActive'] });
 

@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 test.beforeEach(async ({ page }) => {
-    await page.goto('/');
+    await page.goto('https://prod.buerokratt.ee');
     await page.getByLabel('Ava vestlus').click();
 });
 
@@ -17,7 +17,7 @@ test('should open a popup page for terms of service', async ({ page, context }) 
 
 test('should redirect to TARA-test page for authentication', async ({ page }) => {
     // make a query to chatbot to get authentication button in details menu - why?
-    await page.getByPlaceholder('Kirjutage oma sõnum...').fill('Maksuvaba miinimum?');
+    await page.getByPlaceholder('Kirjutage oma sõnum...').fill('Tere!');
     await page.getByLabel('Saada').click()
 
     await page.getByRole('button', { name: 'Detailid' }).click()

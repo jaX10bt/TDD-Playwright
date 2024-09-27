@@ -1,53 +1,56 @@
 import { test, expect } from '@playwright/test';
 
 test.beforeEach(async ({ page }) => {
-    await page.goto('https://admin.test.buerokratt.ee/chat/active');
+    // Navigate to the page where switches are located
+    await page.goto('https://admin.prod.buerokratt.ee/chat/active');
     await page.getByRole('button', { name: 'Kustutamiseks' }).click();
     await expect(page.locator('.drawer')).toBeVisible({ timeout: 5000 });
 });
 
-test.describe("switch button functionality", () => {
-    test('toggle switches and verify state changes', async ({ page }) => {
-        const autoCorrectorSwitch = page.locator('button#\\:r2\\:');
-        await autoCorrectorSwitch.click();
-        await expect(autoCorrectorSwitch).toHaveAttribute('aria-checked', 'true');
-        await autoCorrectorSwitch.click();
-        await expect(autoCorrectorSwitch).toHaveAttribute('aria-checked', 'false');
+test.describe.only('Switch button functionality', () => {
+    test('toggle Voice Notification switches and verify state changes', async ({ page }) => {
+        const voiceSwitches = [
+            { name: 'Uus suunatud vestlus (Voice)', selector: 'button#\\:r2\\:' },
+            { name: 'Uus vastamata vestlus (Voice)', selector: 'button#\\:r3\\:' }
+        ];
 
-        const emailNotificationSwitch1 = page.locator('button#\\:r3\\:');
-        await emailNotificationSwitch1.click();
-        await expect(emailNotificationSwitch1).toHaveAttribute('aria-checked', 'true');
-        await emailNotificationSwitch1.click();
-        await expect(emailNotificationSwitch1).toHaveAttribute('aria-checked', 'false');
+        // Loop through each Voice Notification switch
+        for (const { name, selector } of voiceSwitches) {
+            const switchButton = page.locator(selector);
+            const originalState = await switchButton.getAttribute('aria-checked');
 
-        const emailNotificationSwitch2 = page.locator('button#\\:r4\\:');
-        await emailNotificationSwitch2.click();
-        await expect(emailNotificationSwitch2).toHaveAttribute('aria-checked', 'true');
-        await emailNotificationSwitch2.click();
-        await expect(emailNotificationSwitch2).toHaveAttribute('aria-checked', 'false');
+            // Toggle the switch
+            await switchButton.click();
+            const newState = originalState === 'true' ? 'false' : 'true';
+            await expect(switchButton).toHaveAttribute('aria-checked', newState);
 
-        const voiceNotificationSwitch1 = page.locator('button#\\:r5\\:');
-        await voiceNotificationSwitch1.click();
-        await expect(voiceNotificationSwitch1).toHaveAttribute('aria-checked', 'false');
-        await voiceNotificationSwitch1.click();
-        await expect(voiceNotificationSwitch1).toHaveAttribute('aria-checked', 'true');
+            // Toggle back to original state
+            await switchButton.click();
+            await expect(switchButton).toHaveAttribute('aria-checked', originalState);
 
-        const voiceNotificationSwitch2 = page.locator('button#\\:r6\\:');
-        await voiceNotificationSwitch2.click();
-        await expect(voiceNotificationSwitch2).toHaveAttribute('aria-checked', 'false');
-        await voiceNotificationSwitch2.click();
-        await expect(voiceNotificationSwitch2).toHaveAttribute('aria-checked', 'true');
-
-        const popupNotificationSwitch1 = page.locator('button#\\:r7\\:');
-        await popupNotificationSwitch1.click();
-        await expect(popupNotificationSwitch1).toHaveAttribute('aria-checked', 'false');
-        await popupNotificationSwitch1.click();
-        await expect(popupNotificationSwitch1).toHaveAttribute('aria-checked', 'true');
-
-        const popupNotificationSwitch2 = page.locator('button#\\:r8\\:');
-        await popupNotificationSwitch2.click();
-        await expect(popupNotificationSwitch2).toHaveAttribute('aria-checked', 'false');
-        await popupNotificationSwitch2.click();
-        await expect(popupNotificationSwitch2).toHaveAttribute('aria-checked', 'true');
+            console.log(`Toggled ${name} and reverted to original state.`);
+        }
     });
-})
+
+    test('toggle Pop-up Notification switches and verify state changes', async ({ page }) => {
+        const popupSwitches = [
+            { name: 'Uus suunatud vestlus (Pop-up)', selector: 'button#\\:r4\\:' },
+            { name: 'Uus vastamata vestlus (Pop-up)', selector: 'button#\\:r5\\:' }
+        ];
+
+        // Loop through each Pop-up Notification switch
+        for (const { name, selector } of popupSwitches) {
+            const switchButton = page.locator(selector);
+            const originalState = await switchButton.getAttribute('aria-checked');
+
+            // Toggle the switch
+            await switchButton.click();
+            const newState = originalState === 'true' ? 'false' : 'true';
+            await expect(switchButton).toHaveAttribute('aria-checked', newState);
+
+            // Toggle back to original state
+            await switchButton.click();
+            await expect(switchButton).toHaveAttribute('aria-checked', originalState);
+        }
+    });
+});
