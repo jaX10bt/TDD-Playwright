@@ -1,7 +1,7 @@
 templates:
-  - name: header
+  - name: title
   - components:
-      - header:
+      - title:
           args:
             - type: text
             - value: "{{ header }}"

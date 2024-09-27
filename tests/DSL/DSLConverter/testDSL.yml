@@ -11,6 +11,13 @@ setup:
 				  getTranslations: true
 				  assignVariable: translations
 tests:
+	- name: title
+	  - components:
+	      - title:
+	          args:
+	            - type: text
+	            - value: "translation.appearanceAndBehaviour"
+	            - style: h1
 	- name: label_input
 	  - components: 
 	      parent: input

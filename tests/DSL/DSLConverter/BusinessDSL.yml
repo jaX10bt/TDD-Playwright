@@ -8,14 +8,13 @@ methods:
       - "left_menu"
     main:
       title:
+        name: title
         components:
-            title:
-              args:
-                title:
-                    args:
-                      - type: text
-                      - value: "Appearance and behaviour"
-                      - style: h1
+          title:
+                args:
+                  - type: text
+                  - value: "Appearance and behaviour"
+                  - style: h1
 
       body:
         name: card_body
