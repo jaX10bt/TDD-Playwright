@@ -62,7 +62,7 @@ test.describe('Erakorralised Teated/Emergency notices Functionality Tests', () =
     await expect(teadeInput).toHaveValue('Service will resume shortly.');
   });
 
-  test.only('Check if "Kuvamisperiood" date inputs can be changed ### Look issues inside', async ({ page }) => {
+  test('Check if "Kuvamisperiood" date inputs can be changed ### Look issues inside', async ({ page }) => {
 
     test.info().annotations.push({
         type: 'Known critical bug',
@@ -191,8 +191,6 @@ test.describe('Erakorralised Teated/Emergency notices Functionality Tests', () =
     await selectDate(endDateInput, '31.12.2024');
 });
 
-
-
 test('Check if "Salvesta"/"Save" button can be clicked', async ({ page }) => {
   // Locate the "Salvesta" button using its text
 
@@ -204,6 +202,5 @@ test('Check if "Salvesta"/"Save" button can be clicked', async ({ page }) => {
   // Verify that the success toast is visible after clicking the button
   await expect(page.locator('.toast.toast--success')).toBeVisible();
 });
-
 
 });

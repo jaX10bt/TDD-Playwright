@@ -135,4 +135,58 @@ test.describe.serial('Working time Functionality Tests', () => {
         await expect(visibleDiv.locator('.switch__button')).toHaveCount(0);
         
     });
+
+    
+    test('Verify working time settings for Monday', async ({ page }) => {
+        // Navigate to the relevant page
+    
+        // Define translation keys for weekday
+    
+        // Locate the track for Monday based on the translated weekday
+        const trackLocator = page.locator(`.track:has-text("${translation["monday"]}")`);
+    
+        // Ensure the track for Monday is visible
+        await expect(trackLocator).toBeVisible();
+    
+        // Verify start time input
+        const startTimeLocator = trackLocator.locator('.startTime input[type="text"]');
+        await expect(startTimeLocator).toBeVisible();
+    
+        // Verify end time input
+        const endTimeLocator = trackLocator.locator('.endTime input[type="text"]');
+        await expect(endTimeLocator).toBeVisible();
+    
+        // Capture the old start and end times before making changes
+        const oldStartTime = await startTimeLocator.inputValue();
+        const oldEndTime = await endTimeLocator.inputValue();
+    
+        // Enter new start and end time
+        await startTimeLocator.fill('09:00:00'); // Adjust the format as needed
+        await endTimeLocator.fill('17:00:00'); // Adjust the format as needed
+    
+        // Optional: Add assertions to check if new values are entered correctly
+        await expect(startTimeLocator).toHaveValue('09:00:00');
+        await expect(endTimeLocator).toHaveValue('17:00:00');
+    
+        // Save changes
+        await saveChanges(page)// Replace with actual selector for the save button
+    
+    
+        // Ensure that the changes persisted after the refresh
+        await expect(startTimeLocator).toHaveValue('09:00:00');
+        await expect(endTimeLocator).toHaveValue('17:00:00');
+    
+        // Revert to the old values
+        await startTimeLocator.fill(oldStartTime);
+        await endTimeLocator.fill(oldEndTime);
+    
+        // Save the old state again
+        await saveChanges(page); // Replace with actual selector for the save button
+    
+    
+        // Verify that the old state is restored
+        await expect(startTimeLocator).toHaveValue(oldStartTime);
+        await expect(endTimeLocator).toHaveValue(oldEndTime);
+    });
+    
 });
