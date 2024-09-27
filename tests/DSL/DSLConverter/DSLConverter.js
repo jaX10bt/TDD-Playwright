@@ -11,7 +11,7 @@ class DSLConverter {
     this.loadBusinessDSL();
 
     // TODO: not sure it is nice to keep it here. maybe should move somewhere else in setup file etc...
-    this.baseUrl = 'https://admin.prod.buerokratt.ee';
+    this.baseUrl = 'https://admin.prod.buerokratt.ee/';
   }
 
   loadTemplates() {
@@ -117,20 +117,30 @@ class DSLConverter {
       .replace(/\s+/g, '');
   }
 
-  cleanTestDSL(testDSL) {
-    // On top of the file is a name
-    let name = `name: ${this.businessDSL.description}\n`;
-    let navigateUrl = this.baseUrl + this.businessDSL.resource;
-    // Constructing yml file so it should have setup block where we define before each for example.
-    let beforeEachBlock = `beforeEach:\n\t  - name: Setup\n\t\t  action:\n\t\t\t\tnavigate: "${navigateUrl}"\n`;
-    let setupBlock = `setup:\n\t- describe: Check visibility of Page Elements\n\t  serial: true\n\t  ${beforeEachBlock}`;
-    
-    testDSL = testDSL.replace(/templates:\s*/g, 'tests:\n');
+cleanTestDSL(testDSL) {
+	// On top of the file is the 'name'
+	let name = `name: ${this.businessDSL.description}\n`;
 
-    testDSL = name + setupBlock + testDSL;
-    
-    return testDSL;
-  }
+	// Construct the dynamic navigation URL
+	let navigateUrl = `${this.baseUrl}${this.businessDSL.resource}`;
+	
+	// Setup block with tabs for indentation
+	let setupBlock = `setup:\n\t- describe: Check visibility of Page Elements\n\t  serial: true\n\t  beforeEach:\n\t  - name: Setup\n\t\t  action:\n\t\t\t  navigate: "${navigateUrl}"\n\t  - name: Fetch Translations\n\t\t\t  action:\n\t\t\t\t  getTranslations: true\n\t\t\t\t  assignVariable: translations\n`;
+
+	// Add tests block
+	let testsLabel = 'tests:\n';
+
+  // Indent the entire testDSL block by adding a tab in front of each line
+	testDSL = testDSL.replace(/^/gm, '\t');
+
+	// Clean up 'templates:' if present in the testDSL
+	testDSL = testDSL.replace(/templates:\s*/g, '');
+
+	// Combine all parts: name, setup block, and tests
+	testDSL = name + setupBlock + testsLabel + testDSL;
+
+	return testDSL;
+}
 }
 
 const dslConverter = new DSLConverter();
