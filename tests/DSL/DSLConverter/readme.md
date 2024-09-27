@@ -1,27 +1,32 @@
 # DSLConverter Readme
-
 - DSLConverter on WIP, mis peaks tegema äri DSList templiitide baasil testDSLi. 
 
 - Väga algses faasis, põhimõtteliselt praegu lihtsalt loeb templiidid sisse äriDSLi baasil ja annab tagasi testDSLi, kuhu {{ }} sulgude sisse tõlkevariatsioonid
 
 - Tõlkeid endid pole rakendanud veel, tõenäoliselt saab lihtsamalt, eriti mainHeaderiga, mis on igal leheküljel. Seal ei pea midagi asendama ning saab panna otse translations.XXX. 
 
+# How to run
+- Move into DSLConverter directory
+- run ```node DSLConverter.js BusinessDSL.yml```
+
+
 - **Tohutu abi .yml filede lugemisel on js-yaml package'ist, mis sätib .yml faili sisu arraysse ning lihtsustab lugemist**
 
+
 ## **TODO:**
-- Pealkirjad testDSL-dele
+- Pealkirjad testDSL-dele - DONE
 
 - Kõik äriDSLid peavad vastama ühele formaadile, muidu läheb programm katki. Formaati saab muuta ning on läbirääkimise asi. 
 
 - Templiidid ühele formaadile vastama ei pea kuid peavad olema võimalikult universaalsed.
 
-- Header ja Footer peab olema handletud eraldi, sest need on üle lehekülgede väga erinevad. 
+- Iga lehekülje ülemises osas on lehe pealkiri. Header ja Footer peab olema handletud eraldi, sest need on üle lehekülgede väga erinevad.
 
 - Praegune implementatsioon on proovina ehitatud selle baasil, et templatel on üks placeholder, mille formaat on 'label' + XXX
 
 - See aga ei tööta kõigiga kuivõrd osadel on rohkem placeholdereid, osadel on staatilised placeholderid, mis on üle pagede samad (vt nt mainHeader.yml, ükski placeholder tegelikult ei olene kontekstis ning võib kohe translation.XXX formaadis)
 
-- Muutmisel äriDSList testDSLiks peaks sisestama sinna ka beforeach (et ta läheks kuhugi URLI ja laeks sisse translationi jne)
+- Muutmisel äriDSList testDSLiks peaks sisestama sinna ka beforeach (et ta läheks kuhugi URLI ja laeks sisse translationi jne) - DONE
 
 - Täpsemate testDSLide jaoks oleks vaja tõesti osadele asjadele parentclassi. 
 
