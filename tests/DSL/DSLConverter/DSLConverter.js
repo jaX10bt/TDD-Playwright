@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const yaml = require('js-yaml');
+const { dirname } = require('path');
 
 class DSLConverter {
   constructor() {
@@ -11,7 +12,7 @@ class DSLConverter {
   }
 
   loadTemplates() {
-    const templatesDir = path.join(process.cwd(), 'templates');
+    const templatesDir = path.join(__dirname, 'templates');
     const files = fs.readdirSync(templatesDir);
 
     files.forEach(file => {
@@ -29,8 +30,9 @@ class DSLConverter {
 
   loadBusinessDSL() {
     const businessDSLPath = process.argv[2];
+    const businessDSLPath2 = path.join(__dirname, businessDSLPath); // Adjust path if needed
     try {
-      const businessDSL = yaml.load(fs.readFileSync(businessDSLPath, 'utf-8'));
+      const businessDSL = yaml.load(fs.readFileSync(businessDSLPath2, 'utf-8'));
       console.log("Loaded Business DSL:", businessDSL);
       this.businessDSL = businessDSL;
     } catch (err) {
