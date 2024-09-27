@@ -70,6 +70,8 @@ class DSLConverter {
     if (body && Array.isArray(body.components)) {
       body.components.forEach(component => {
         const componentType = Object.keys(component)[0];
+        const title = `${componentType} tests for ${this.businessDSL.description}`;
+        testTemplate += `# ${title}\n\n`;
         const componentTemplate = this.templates[componentType];
 
         if (componentTemplate) {
