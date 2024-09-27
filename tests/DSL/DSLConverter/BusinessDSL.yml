@@ -7,11 +7,11 @@ methods:
       - "header"
       - "left_menu"
     main:
-      header:
+      title:
         components:
-          - header:
+            title:
               args:
-                - header:
+                title:
                     args:
                       - type: text
                       - value: "Appearance and behaviour"
@@ -21,7 +21,6 @@ methods:
         name: card_body
         components:
           - input:
-              args:
                 - label:
                     args:
                       - type: text
@@ -33,7 +32,6 @@ methods:
                       - style: input
 
           - switch:
-              args:
                 - label:
                     args:
                       - type: text
@@ -45,7 +43,6 @@ methods:
                       - style: switch
 
           - input:
-              args:
                 - label:
                     args:
                       - type: text
@@ -57,7 +54,6 @@ methods:
                       - style: input
 
           - input:
-              args:
                 - label:
                     args:
                       - type: text
@@ -69,7 +65,6 @@ methods:
                       - style: input
 
           - colorpicker:
-              args:
                 - label:
                     args:
                       - type: text
@@ -82,7 +77,6 @@ methods:
                       - button: true
 
           - dropdown:
-              args:
                 - label:
                     args:
                       - type: text
@@ -97,13 +91,11 @@ methods:
         name: card_footer
         components:
           - footer:
-              args:
                 - button:
                   args:
                     - type: button
                     - value: "Save"
                     - style: button
-
                 - button:
                   args:
                     - type: button

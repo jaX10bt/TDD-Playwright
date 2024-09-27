@@ -83,7 +83,7 @@ class DSLConverter {
   populateTemplate(template, component) {
     const componentType = Object.keys(component)[0];
     const componentData = component[componentType];
-    const labelValue = componentData.args[0].label.args[1].value;
+    const labelValue = componentData[0].label.args[1].value;
 
     const translationData = {};
     const placeHolderMap = new Map();
