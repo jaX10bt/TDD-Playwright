@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { getTranslations } from '../../../../../../../translations/languageDetector';
 
-test.describe.serial.only('Welcome message/Tervitussõnum Functionality Tests', () => {
+test.describe.serial('Welcome message/Tervitussõnum Functionality Tests', () => {
 
   let translation;
   let originalText;

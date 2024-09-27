@@ -50,7 +50,7 @@ test.describe('Seaded/Settings Visibility Tests', () => {
 
 
 
-    test.only('some test', async ({ page }) => {
+    test('some test', async ({ page }) => {
         // Locate the label based on text
         const labelLocator = page.locator('label', { hasText: translation['chatBotActive'] });
 

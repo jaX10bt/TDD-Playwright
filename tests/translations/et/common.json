@@ -63,6 +63,7 @@
     "answeredByBürokrattToday": "Bürokrati vastatud: täna / eile",
     "numberOfChatsToday": "Vestluste arv: täna / eile",
     "forwardedChatsYesterday": "Suunatud vestluse eile: sisesed / välised",
+    "forwarded": "Suunatud",
     "averageWaitingTimeToday": "Keskmine ooteaeg: täna / eile",
     "averageWaitingTimeWeek": "Keskmine ooteaeg: nädal / eelmine",
     
@@ -76,6 +77,7 @@
     "contactInformation": "Kontaktandmed",
     "endChat": "Lõpeta vestlus",
     "takeOver": "Võta üle",
+    "unanswered": "Vastamata",
     "unansweredChats": "Vastamata vestlused",
     "chooseChatToBegin": "Alustamiseks vali vestlus",
     "forwardToColleague": "Suuna kolleegile",
@@ -101,5 +103,9 @@
     "to" : "Kuni",
     "new": "Uued",
     "inProcess": "Töös",
-    "toDelete": "Kustutamiseks"
+    "toDelete": "Kustutamiseks",
+    "logout": "Logi välja",
+    "present": "Kohal",
+    "away": "Eemal"
+    
 }

@@ -62,7 +62,7 @@ test.describe('Erakorralised Teated/Emergency notices Functionality Tests', () =
     await expect(teadeInput).toHaveValue('Service will resume shortly.');
   });
 
-  test.only('Check if "Kuvamisperiood" date inputs can be changed ### Look issues inside', async ({ page }) => {
+  test('Check if "Kuvamisperiood" date inputs can be changed ### Look issues inside', async ({ page }) => {
 
     test.info().annotations.push({
         type: 'Known critical bug',

@@ -1,7 +1,7 @@
 const { test, expect } = require('@playwright/test');
 const { getTranslations } = require('../../../../../../translations/languageDetector');
 
-test.describe.only('Metrics Cards Visibility Test', () => {
+test.describe('Metrics Cards Visibility Test', () => {
   let translation;
   let checkboxStates = {};
   let checkboxStatesInitialized = false;

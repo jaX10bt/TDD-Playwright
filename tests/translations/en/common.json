@@ -63,6 +63,7 @@
     "answeredByBürokrattToday": "Answered by Bürokrat: today / yesterday",
     "numberOfChatsToday": "Number of chats: today / previous",
     "forwardedChatsYesterday": "Forwarded chats yesterday: internal / external",
+    "forwarded": "Forwarded",
     "averageWaitingTimeToday": "Average waiting time: today / yesterday",
     "averageWaitingTimeWeek": "Average waiting time: week / previous",
     
@@ -77,6 +78,7 @@
     "contactInformation": "Contact information",
     "endChat": "End chat",
     "takeOver": "Take Over",
+    "unanswered": "Unanswered",
     "unansweredChats": "Unanswered chats",
     "chooseChatToBegin": "Choose a chat to begin",
     "forwardToColleague": "Forward to colleague",
@@ -102,6 +104,8 @@
     "to" : "To",
     "new": "New",
     "inProcess": "In Process",
-    "toDelete": "To Delete"
-
+    "toDelete": "To Delete",
+    "logout": "Logout",
+    "present": "Present",
+    "away": "Away"
 }
