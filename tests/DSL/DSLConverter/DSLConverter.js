@@ -9,6 +9,9 @@ class DSLConverter {
     this.businessDSL = null;
     this.loadTemplates();
     this.loadBusinessDSL();
+
+    // TODO: not sure it is nice to keep it here. maybe should move somewhere else in setup file etc...
+    this.baseUrl = 'https://admin.prod.buerokratt.ee';
   }
 
   loadTemplates() {
@@ -115,11 +118,16 @@ class DSLConverter {
   }
 
   cleanTestDSL(testDSL) {
-    let description = `- description: ${this.businessDSL.description}\n`;
+    // On top of the file is a name
+    let name = `name: ${this.businessDSL.description}\n`;
+    let navigateUrl = this.baseUrl + this.businessDSL.resource;
+    // Constructing yml file so it should have setup block where we define before each for example.
+    let beforeEachBlock = `beforeEach:\n\t  - name: Setup\n\t\t  action:\n\t\t\t\tnavigate: "${navigateUrl}"\n`;
+    let setupBlock = `setup:\n\t- describe: Check visibility of Page Elements\n\t  serial: true\n\t  ${beforeEachBlock}`;
+    
+    testDSL = testDSL.replace(/templates:\s*/g, 'tests:\n');
 
-    testDSL = testDSL.replace(/templates:\s*/g, '');
-
-    testDSL = description + testDSL;
+    testDSL = name + setupBlock + testDSL;
     
     return testDSL;
   }

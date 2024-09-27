@@ -1,14 +1,14 @@
 import { test, expect } from '@playwright/test';
 
 test.beforeEach('prepair page for each test', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('https://prod.buerokratt.ee/');
     await page.getByLabel('Ava vestlus').click();
     await page.getByPlaceholder('Kirjutage oma sõnum...').click();
-    await page.getByPlaceholder('Kirjutage oma sõnum...').fill('Maksuvaba miinimum?');
+    await page.getByPlaceholder('Kirjutage oma sõnum...').fill('Tere');
     await page.getByLabel('Saada').click();
 
     // wait for answer - otherwise all the tests will fail
-    await page.waitForTimeout(10000)
+    await page.waitForTimeout(7000)
 
     await page.getByLabel('Sulge').click();
     await page.getByRole('button', { name: 'Jah, sain vastuse' }).click();

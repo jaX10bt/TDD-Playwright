@@ -1,4 +1,12 @@
-- description: Widget setup for Appearance and Behaviour
+name: Widget setup for Appearance and Behaviour
+setup:
+	- describe: Check visibility of Page Elements
+	  serial: true
+	  beforeEach:
+	  - name: Setup
+		  action:
+				navigate: "https://admin.prod.buerokratt.eechat/chatbot/appearance"
+tests:
 - name: label_input
   - components: 
       parent: input
@@ -14,6 +22,7 @@
           input: "input"
           
         
+tests:
 - name: label_switch
   - components: 
       parent: switch
@@ -29,6 +38,7 @@
           switch: "button.switch__button"
           
         
+tests:
 - name: label_input
   - components: 
       parent: input
@@ -44,6 +54,7 @@
           input: "input"
           
         
+tests:
 - name: label_input
   - components: 
       parent: input
@@ -59,6 +70,7 @@
           input: "input"
           
         
+tests:
 - name: label_colorpicker
   - components: 
       parent: input
@@ -79,7 +91,8 @@
         props:
           icon: true
           # Indicates it's next to the ColorPicker in the DOM structure
-          adjacent_to: ColorPicker- name: label_dropdown
+          adjacent_to: ColorPickertests:
+- name: label_dropdown
   - components: 
       parent: select
       children: Label + Dropdown

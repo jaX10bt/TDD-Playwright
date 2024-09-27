@@ -1,4 +1,4 @@
-resource: chat/chatbot/appearance_and_behaviour
+resource: chat/chatbot/appearance # should match with the actual url
 description: "Widget setup for Appearance and Behaviour"
 methods:
   - methods: POST

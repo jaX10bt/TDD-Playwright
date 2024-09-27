@@ -7,7 +7,6 @@ setup:
       - name: Setup
         action:
           navigate: "https://admin.prod.buerokratt.ee/chat/chatbot/appearance"
-
       - name: Fetch Translations
         action:
           getTranslations: true
