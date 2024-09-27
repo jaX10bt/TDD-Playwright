@@ -1,0 +1,8 @@
+templates:
+  - name: header
+  - components:
+      - header:
+          args:
+            - type: text
+            - value: "{{ header }}"
+            - style: h1

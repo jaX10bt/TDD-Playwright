@@ -6,7 +6,7 @@ templates:
       - name: Label
         type: Label
         props:
-          label: "translations['labelDropdown']"
+          label: "{{ labelDropdown }}"
           
       - name: Dropdown
         type: Input

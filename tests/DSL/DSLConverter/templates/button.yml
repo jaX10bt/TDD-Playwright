@@ -5,5 +5,5 @@ templates:
         type: Button
         props:
           class: "btn"
-          text: "translations['buttonText']"
+          text: "[[ labelButton ]]"
           

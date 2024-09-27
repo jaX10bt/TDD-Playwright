@@ -1,0 +1,24 @@
+components:
+  - name: header
+    type: header
+    children: Track(Logo + Track(Track(Label + Switch) + Button + Button))
+      - name: Logo
+        type: SVG
+
+      - name: Track
+        type: wrapper
+        children: Track(Label + Switch)
+
+      - name: Label
+        type: paragraph
+        props:
+          hasText: "{{ unanswered }}, {{ forwarded }}"
+      - name: Switch
+        type: switch
+        props:
+          switch: "button.switch__button"
+
+      - name: Button
+        type: Button
+        props:
+          text: "{{ logOutButtonLabel }}"

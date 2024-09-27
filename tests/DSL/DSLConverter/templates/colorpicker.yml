@@ -6,7 +6,7 @@ templates:
       - name: Label
         type: Label
         props:
-          label: "translations['labelColorPicker']"
+          label: "{{ labelColorpicker }}"
           
       - name: ColorPicker
         type: Input

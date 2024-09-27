@@ -6,7 +6,7 @@ templates:
       - name: Label
         type: Label
         props:
-          label: "translations['labelInput']"
+          label: "{{ labelInput }}"
           
       - name: Input
         type: Input

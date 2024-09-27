@@ -6,7 +6,7 @@ templates:
       - name: Label
         type: Label
         props:
-          label: "translations['labelSwitch']"
+          label: " {{ labelSwitch }}"
           
       - name: Switch
         type: Switch
