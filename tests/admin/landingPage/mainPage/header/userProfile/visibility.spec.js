@@ -11,7 +11,7 @@ test.beforeEach(async ({ page }) => {
     translation = await getTranslations(page)
 });
 
-test.describe.only("user profile/drawer visibility", () => {
+test.describe("user profile/drawer visibility", () => {
     test("should display user profile/drawer", async ({ page }) => {
         const drawer = page.locator('.drawer');
         await expect(drawer).toBeVisible();
