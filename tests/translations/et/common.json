@@ -66,6 +66,11 @@
     "forwarded": "Suunatud",
     "averageWaitingTimeToday": "Keskmine ooteaeg: täna / eile",
     "averageWaitingTimeWeek": "Keskmine ooteaeg: nädal / eelmine",
+    "userRoles": "Kasutaja roll(id)",
+    "newForwardedChat": "Uus edastatud vestlus",
+    "newUnansweredChat": "Uus vastamata vestlus",
+    "soundNotifications": "Häälmärguanded",
+    "popUpNotifications": "Pop-up märguanded",
     
 
     "askAuthentication": "Küsi autentimist",

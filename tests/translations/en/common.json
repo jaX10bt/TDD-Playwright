@@ -66,6 +66,11 @@
     "forwarded": "Forwarded",
     "averageWaitingTimeToday": "Average waiting time: today / yesterday",
     "averageWaitingTimeWeek": "Average waiting time: week / previous",
+    "userRoles": "User role(s)",
+    "newForwardedChat": "New forwarded chat",
+    "newUnansweredChat": "New unanswered chat",
+    "soundNotifications": "Sound notifications",
+    "popUpNotifications": "Popup notifications",
     
 
 
