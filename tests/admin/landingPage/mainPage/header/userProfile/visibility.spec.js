@@ -36,7 +36,7 @@ test.describe("user profile/drawer visibility", () => {
         }
     });
 
-    test.only("should display switch elements", async ({ page }) => {
+    test("should display switch elements", async ({ page }) => {
         const drawerBody = page.locator('.drawer__body');
         await expect(drawerBody).toBeVisible();
 
