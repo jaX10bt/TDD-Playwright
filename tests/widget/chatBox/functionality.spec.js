@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 test.beforeEach(async ({ page }) => {
-    await page.goto('/');
+    await page.goto('https://prod.buerokratt.ee');
     await page.getByLabel('Ava vestlus').click();
 });
 
@@ -37,7 +37,7 @@ test.describe('chat box functionality', () => {
     test('confirm/send/enter button', async ({ page }) => {
         const sendButton = page.getByLabel('Saada');
         await expect(sendButton).toBeEnabled();
-        await page.getByPlaceholder('Kirjutage oma sõnum...').fill('Maksuvaba miinimum?');
+        await page.getByPlaceholder('Kirjutage oma sõnum...').fill('Tere!');
         await sendButton.click();
         await expect(page.getByRole('img', { name: 'Person icon' })).toBeVisible();
     });
