@@ -7,7 +7,7 @@ test.beforeEach(async ({ page }) => {
     await expect(page.locator('.drawer')).toBeVisible({ timeout: 5000 });
 });
 
-test.describe.only('Switch button functionality', () => {
+test.describe('Switch button functionality', () => {
     test('toggle Voice Notification switches and verify state changes', async ({ page }) => {
         const voiceSwitches = [
             { name: 'Uus suunatud vestlus (Voice)', selector: 'button#\\:r2\\:' },
