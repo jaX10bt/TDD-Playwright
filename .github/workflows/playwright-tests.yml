@@ -1,11 +1,10 @@
 name: Playwright Tests
-on: workflow_dispatch
-  # pull_request:
-  #   branches:
-  #     - main 
-  # push:
-  #   branches:
-  #     - main
+
+on: 
+  workflow_dispatch:
+  # schedule:
+  #   - cron: '0 0 * * *'
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -16,17 +15,21 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '18'
+          
       - name: Run Docker
         run: docker compose up -d
+        
       - name: Install Playwright Browsers
         run: npm install @playwright/test && npx playwright install --with-deps
         
           # Run all in directory
       # - name: Run Playwright tests
       #   run: npx playwright test tests/admin/landingPage
+      
           # Run only one
       # - name: Run Playwright tests
       #   run: npx playwright test tests/admin/landingPage/visibility.spec.js
+      
           # Run all tests
       - name: Run Playwright tests
         run: npx playwright test
