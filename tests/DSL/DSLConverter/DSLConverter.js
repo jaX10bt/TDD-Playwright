@@ -171,7 +171,7 @@ class DSLConverter {
   
     // Replace placeholders in the template with the corresponding translation
     const populatedTemplate = template.replace(/{{\s*(\w+)\s*}}/g, (match, p1) => {
-      if (p1 === "labelInput") {
+      if (p1 === "labelInput" || p1 === "labelSwitch")  {
         return 'translation.' + translationKey; 
       } 
       if (p1 === "name") {

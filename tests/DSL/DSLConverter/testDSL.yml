@@ -46,12 +46,14 @@ tests:
 	      - name: Label
 	        type: Label
 	        props:
-	          label: " {{ labelSwitch }}"
+	          label: " translation.widgetBubbleMessageText"
+	          adjacent_to: Switch
 	          
 	      - name: Switch
 	        type: Switch
 	        props:
 	          switch: "button.switch__button"
+	          adjacent_to_label: true
 	
 	# input tests for Widget setup for Appearance and Behaviour
 	

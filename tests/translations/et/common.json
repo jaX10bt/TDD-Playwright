@@ -21,7 +21,7 @@
     "save": "Salvesta",
     "editUser": "Muuda kasutajat",
     "widgetProactiveSeconds": "Animatsiooni kestus sekundites",
-    "widgetBubbleMessage": "Märguandesõnum",
+    "widgetBubbleMessageText": "Märguandesõnum",
     "widgetBubbleMessageSeconds": "Aeg animatsiooni alguseni sekundites",
     "widgetColor": "Põhivärv",
     "widgetAnimation": "Animatsioon",

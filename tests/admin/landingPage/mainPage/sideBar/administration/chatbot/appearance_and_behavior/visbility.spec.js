@@ -34,7 +34,7 @@ test.describe('Visibility Tests for "Välimus ja käitumine"/"Appearance and Beh
     });
 
     test('Check visibility of notification switch', async ({ page }) => {
-        const notificationSwitch = page.locator(`label:has-text("${translation['widgetBubbleMessage']}") + button.switch__button`);
+        const notificationSwitch = page.locator(`label:has-text("${translation['widgetBubbleMessageText']}") + button.switch__button`);
         await expect(notificationSwitch).toBeVisible();
     });
 

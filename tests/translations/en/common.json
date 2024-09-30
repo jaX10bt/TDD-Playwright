@@ -20,7 +20,7 @@
     "save": "Save",
     "editUser": "Edit user",
     "widgetProactiveSeconds": "Widget proactive seconds",
-    "widgetBubbleMessage": "Widget bubble message text",
+    "widgetBubbleMessageText": "Widget bubble message text",
     "widgetBubbleMessageSeconds": "Widget bubble message seconds",
     "widgetColor": "Widget color",
     "widgetAnimation": "Widget animation",
