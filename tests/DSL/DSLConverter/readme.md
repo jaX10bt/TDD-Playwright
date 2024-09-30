@@ -28,7 +28,36 @@
 
 - Muutmisel äriDSList testDSLiks peaks sisestama sinna ka beforeach (et ta läheks kuhugi URLI ja laeks sisse translationi jne) - DONE
 
-- Täpsemate testDSLide jaoks oleks vaja tõesti osadele asjadele parentclassi. 
+- Täpsemate testDSLide jaoks oleks vaja tõesti osadele asjadele parentclassi. Test nii ehitab korralikult chatgpt abil  Playwrighti testi: 
+
+```
+ name: Check Visibility of Animation Duration Input
+        action:
+          assertVisible: "input[name='widgetProactiveSeconds']"
+```
+
+ehk äkki inputi nimi on sama, mis eelneva labeli oma? 
+
+```
+	- name: label_input
+	  - components: 
+	      parent: input
+	      children: Label + Input
+	      - name: Label
+	        type: Label
+	        props:
+	          label: "translation.widgetProactiveSeconds"
+	          
+	      # This input is next to the label    
+	      - name: Input
+	        type: Input
+	        props:
+	          input: "input"
+```
+
+proovime praegu ka sibling_of, et saada inputile täpsema locator
+
+- Kui programmi jooksutada rekursiivselt läbi kõikide directoryte, peaks ta lugema sisse ka selle, kas tegu on visibility või functionalityga, et saada aru, mis pealkiri panna
 
 
 ### **Praegune output BusinessDSL.ymli näitel**
