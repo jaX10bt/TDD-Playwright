@@ -6,7 +6,7 @@ templates:
       - name: Label
         type: paragraph
         props:
-          label: "translations['displayPeriod']"
+          label: {{ labelDate }}
     
       - name: Date
         wrapperclass: "datepicker"
@@ -20,7 +20,7 @@ templates:
         wrapperclass: "track"
         type: span
         props: 
-          label: "translations['dateUntil']"
+          label: "translation.dateUntil"
           
       - name: Date
         wrapperclass: "datepicker"

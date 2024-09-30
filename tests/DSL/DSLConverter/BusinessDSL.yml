@@ -1,5 +1,5 @@
-resource: chat/chatbot/appearance # should match with the actual url
-description: "Widget setup for Appearance and Behaviour"
+resource: chat/chatbot/appearance
+description: "Appearance and Behaviour"
 methods:
   - methods: POST
     description: "Update Widget Appearance and Behaviour"
@@ -11,92 +11,93 @@ methods:
         name: title
         components:
           title:
-                args:
-                  - type: text
-                  - value: "Appearance and behaviour"
-                  - style: h1
+            args:
+              - type: text
+              - value: "Appearance and behaviour"
+              - style: h1
 
       body:
         name: card_body
         components:
           - input:
-                - label:
-                    args:
-                      - type: text
-                      - value: "Widget proactive seconds"
-                      - style: label
-                - input:
-                    args:
-                      - type: number
-                      - style: input
+              - label:
+                  args:
+                    - type: text
+                    - value: "Widget proactive seconds"
+                    - style: label
+              - input:
+                  args:
+                    - type: number
+                    - style: input
 
           - switch:
-                - label:
-                    args:
-                      - type: text
-                      - value: "Widget bubble message text"
-                      - style: label
-                - switch:
-                    args:
-                      - type: button
-                      - style: switch
+              - label:
+                  args:
+                    - type: text
+                    - value: "Widget bubble message text"
+                    - style: label
+              - switch:
+                  args:
+                    - type: button
+                    - style: switch
 
           - input:
-                - label:
-                    args:
-                      - type: text
-                      - value: "Widget bubble message seconds"
-                      - style: label
-                - input:
-                    args:
-                      - type: number
-                      - style: input
+              - label:
+                  args:
+                    - type: text
+                    - value: "Widget bubble message seconds"
+                    - style: label
+              - input:
+                  args:
+                    - type: number
+                    - style: input
 
           - input:
-                - label:
-                    args:
-                      - type: text
-                      - value: "Widget bubble message text"
-                      - style: label
-                - input:
-                    args:
-                      - type: text
-                      - style: input
+              - label:
+                  args:
+                    - type: text
+                    - value: "Widget bubble message text"
+                    - style: label
+              - input:
+                  args:
+                    - type: text
+                    - style: input
 
           - colorpicker:
-                - label:
-                    args:
-                      - type: text
-                      - value: "Widget color"
-                      - style: label
-                - input:
-                    args:
-                      - type: text
-                      - style: input
-                      - button: true
+              - label:
+                  args:
+                    - type: text
+                    - value: "Widget color"
+                    - style: label
+              - input:
+                  args:
+                    - type: text
+                    - style: input
+                    - button: true
 
           - dropdown:
-                - label:
-                    args:
-                      - type: text
-                      - value: "Widget animation"
-                      - style: label
-                - select:
-                    args:
-                      - type: select
-                      - style: select
+              - label:
+                  args:
+                    - type: text
+                    - value: "Widget animation"
+                    - style: label
+              - select:
+                  args:
+                    - type: select
+                    - style: select
 
       footer:
         name: card_footer
         components:
-          - footer:
-                - button:
-                  args:
-                    - type: button
-                    - value: "Save"
-                    - style: button
-                - button:
-                  args:
-                    - type: button
-                    - value: "Preview"
-                    - style: button
+          - button:
+            - button:
+                args:
+                  - type: button
+                  - value: "Save"
+                  - style: button
+          - button:                  
+            - button:
+                args:
+                  - type: button
+                  - value: "Preview"
+                  - style: button
