@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 test.beforeEach(async ({ page }) => {
-    await page.goto('https://admin.test.buerokratt.ee/chat/active');
+    await page.goto('https://admin.prod.buerokratt.ee/chat/active');
 })
 
 test.describe("active status-switch button functionality", () => {

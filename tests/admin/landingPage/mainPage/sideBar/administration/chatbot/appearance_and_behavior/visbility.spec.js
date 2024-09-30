@@ -27,8 +27,10 @@ test.describe('Visibility Tests for "Välimus ja käitumine"/"Appearance and Beh
     });
 
     test('Check visibility of animation duration input', async ({ page }) => {
-        const animationDurationInput = page.locator(`label:has-text("${translation['widgetProactiveSeconds']}") + div input`);
-        await expect(animationDurationInput).toBeVisible();
+        const label = page.locator(`label:has-text("${translation['widgetProactiveSeconds']}")`);
+        await expect(label).toBeVisible();
+        const inputField = page.locator('input[name="widgetProactiveSeconds"]');
+        await expect(inputField).toBeVisible();
     });
 
     test('Check visibility of notification switch', async ({ page }) => {

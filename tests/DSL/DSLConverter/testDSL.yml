@@ -18,6 +18,10 @@ tests:
 	            - type: text
 	            - value: "translation.appearanceAndBehaviour"
 	            - style: h1
+	
+	
+	# input tests for Widget setup for Appearance and Behaviour
+	
 	- name: label_input
 	  - components: 
 	      parent: input
@@ -31,8 +35,10 @@ tests:
 	        type: Input
 	        props:
 	          input: "input"
-	          
-	        
+	          name: "widgetProactiveSeconds"
+	
+	# switch tests for Widget setup for Appearance and Behaviour
+	
 	- name: label_switch
 	  - components: 
 	      parent: switch
@@ -46,8 +52,9 @@ tests:
 	        type: Switch
 	        props:
 	          switch: "button.switch__button"
-	          
-	        
+	
+	# input tests for Widget setup for Appearance and Behaviour
+	
 	- name: label_input
 	  - components: 
 	      parent: input
@@ -61,8 +68,10 @@ tests:
 	        type: Input
 	        props:
 	          input: "input"
-	          
-	        
+	          name: "widgetBubbleMessageSeconds"
+	
+	# input tests for Widget setup for Appearance and Behaviour
+	
 	- name: label_input
 	  - components: 
 	      parent: input
@@ -76,8 +85,10 @@ tests:
 	        type: Input
 	        props:
 	          input: "input"
-	          
-	        
+	          name: "widgetBubbleMessageText"
+	
+	# colorpicker tests for Widget setup for Appearance and Behaviour
+	
 	- name: label_colorpicker
 	  - components: 
 	      parent: input
@@ -98,7 +109,11 @@ tests:
 	        props:
 	          icon: true
 	          # Indicates it's next to the ColorPicker in the DOM structure
-	          adjacent_to: ColorPicker- name: label_dropdown
+	          adjacent_to: ColorPicker
+	
+	# dropdown tests for Widget setup for Appearance and Behaviour
+	
+	- name: label_dropdown
 	  - components: 
 	      parent: select
 	      children: Label + Dropdown

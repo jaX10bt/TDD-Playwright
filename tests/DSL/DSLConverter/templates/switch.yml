@@ -12,5 +12,3 @@ templates:
         type: Switch
         props:
           switch: "button.switch__button"
-          
-        

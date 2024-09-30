@@ -80,7 +80,7 @@ class DSLConverter {
       body.components.forEach(component => {
         const componentType = Object.keys(component)[0];
         const title = `${componentType} tests for ${this.businessDSL.description}`;
-        testTemplate += `# ${title}\n\n`;
+        testTemplate += `\n\n# ${title}\n\n`;
         const componentTemplate = this.templates[componentType];
 
         if (componentTemplate) {
@@ -152,6 +152,14 @@ class DSLConverter {
       if (placeHolderMap.has(p1)) {
         return 'translation.' + translationKey;
       }
+
+      if (p1 === 'labelInput') {
+        return 'translation.' + translationKey
+      }
+      if (p1 === 'name') {
+        return translationKey
+      }
+      
       return match;
     });
 
