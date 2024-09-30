@@ -11,59 +11,60 @@ methods:
         name: title
         components:
           title:
-                args:
-                  - type: text
-                  - value: "Emergency notices"
-                  - style: h1
+            args:
+              - type: text
+              - value: "Emergency notices"
+              - style: h1
 
       body:
         name: card_body
         components:
-          - switch: 
-                - label:
-                    args:   
-                      - type: text
-                      - value: "Notice active"
-                      - style: label
-                - input:
-                    args:
-                      - type: number
-                      - style: input
-          
+          - switch:
+              - label:
+                  args:
+                    - type: text
+                    - value: "Notice active"
+                    - style: label
+              - input:
+                  args:
+                    - type: number
+                    - style: input
+
           - textarea:
-                - label:
-                    args: 
-                      - type: text
-                      - value: "Notice"
-                      - style: label
-                - textarea:
-                    args:
-                      - type: date
-                      - type: text
-                      - style: textarea
+              - label:
+                  args:
+                    - type: text
+                    - value: "Notice"
+                    - style: label
+              - textarea:
+                  args:
+                    - type: date
+                    - type: text
+                    - style: textarea
 
           - date:
-                - label:
-                    args: 
-                      - type: text
-                      - value: "Display period"
-                      - style: label
-                - input:
-                    args:
-                      - type: date
-                - label:
-                    args: 
-                      - type: text
-                      - value: "to"
-                      - style: label
-                - input:
-                    args:
-                      - type: date
-      
+              - label:
+                  args:
+                    - type: text
+                    - value: "Display period"
+                    - style: label
+              - input:
+                  args:
+                    - type: date
+              - label:
+                  args:
+                    - type: text
+                    - value: "to"
+                    - style: label
+              - input:
+                  args:
+                    - type: date
+
       footer:
         name: card_footer
         components:
-                - button:
+          - button:
+              - button:
                   args:
                     - type: button
                     - value: "Save"

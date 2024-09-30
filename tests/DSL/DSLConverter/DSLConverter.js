@@ -89,7 +89,7 @@ class DSLConverter {
         const componentTemplate = this.templates[componentType];
   
         if (componentTemplate) {
-          testTemplate += this.populateTemplate(componentTemplate, component, isFooter);
+          testTemplate += this.populateTemplate(componentTemplate, component);
         } else {
           console.warn(`Template not found for component type: ${componentType}`);
         }
@@ -140,24 +140,15 @@ class DSLConverter {
     return populatedTemplate;
   }
 
-  populateTemplate(template, component, isFooter = false) {
-    let componentType
-    let componentData
-  
-    let labelValue;
-    if (isFooter) {
-      // For footer, extract from args
-      componentData = component.args
-      componentType = componentData[0].type; // Extract the type from the first argument
-      labelValue = componentData[1].value; // Assuming args is structured as before
-      
-    } else {
+  populateTemplate(template, component) {
+
       // For body, extract from label
-      componentType = Object.keys(component)[0];
-      componentData = component[componentType];
-      labelValue = componentData[0].label.args[1].value; // Adjust this if the structure changes
+      const componentType = Object.keys(component)[0];
+      const componentData = component[componentType];
+      const comp2 = Object.keys(componentData[0])[0]
+      const labelValue = componentData[0][comp2].args[1].value; // Adjust this if the structure changes
      
-    }
+    
   
     const translationData = {};
     const placeHolderMap = new Map();
