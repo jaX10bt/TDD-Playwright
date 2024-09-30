@@ -55,6 +55,8 @@ ehk äkki inputi nimi on sama, mis eelneva labeli oma?
 	          input: "input"
 ```
 
+proovime praegu ka sibling_of, et saada inputile täpsema locator
+
 - Kui programmi jooksutada rekursiivselt läbi kõikide directoryte, peaks ta lugema sisse ka selle, kas tegu on visibility või functionalityga, et saada aru, mis pealkiri panna
 
 
