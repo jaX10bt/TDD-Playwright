@@ -57,14 +57,14 @@ class DSLConverter {
 
       // TODO: maybe can combine with generateTest later...
       if (method.main && method.main.title) {
-        testDSL += this.generateTitleTest(method.main.title);
+        testDSL += this.generateTest(method, "title");
       }
 
-      testDSL += this.generateTest(method, false);
+      testDSL += this.generateTest(method, "body");
     });
 
     const footer = this.businessDSL.methods[0]
-    testDSL += this.generateTest(footer, true)
+    testDSL += this.generateTest(footer, "footer")
 
     testDSL = this.cleanTestDSL(testDSL);
 
@@ -73,12 +73,24 @@ class DSLConverter {
 
 
   // Function to generate a test for a body component.
-  generateTest(method, isFooter = false) {
+  generateTest(method, type) {
     let testTemplate = '';
-  
+    let body 
     // Determine the appropriate body (footer or main body)
-    const body = isFooter ? method.main.footer : method.main.body;
-  
+    switch (type) {
+      case "title":
+        body = method.main.title
+        break;
+      case "body":
+        body = method.main.body
+        break;
+      case "footer":
+        body = method.main.footer
+        break;
+      default:
+        break;
+    }
+
     // Check if the body is valid and has components
     if (body && Array.isArray(body.components)) {
       // Iterate over each component in the body
@@ -87,7 +99,7 @@ class DSLConverter {
         const title = `${componentType} tests for ${this.businessDSL.description}`;
         testTemplate += `\n\n# ${title}\n\n`;
         const componentTemplate = this.templates[componentType];
-  
+
         if (componentTemplate) {
           testTemplate += this.populateTemplate(componentTemplate, component);
         } else {
@@ -97,80 +109,40 @@ class DSLConverter {
     } else {
       console.warn('Invalid body structure or no components found.');
     }
-  
+
     return testTemplate;
-  }
-
-  // Specificly
-  generateTitleTest(title) {
-    let titleTestTemplate = '';
-    const titleData = title.components.title.args || [];
-
-    // Get the type of component. title.components is a dictionary. Object.keys returns list of all keys. 
-    //In case that title.components has one key which is 'title' should get from list first value
-    let componentType = Object.keys(title.components)[0];
-    let componentTemplate = this.templates[componentType];
-
-    if (componentTemplate) {
-      titleTestTemplate += this.populateTemplateWithTitle(componentTemplate, titleData);
-    }
-
-    return titleTestTemplate;
-  }
-
-  populateTemplateWithTitle(template, titleData) {
-    // Extract type, value, and style from the titleData array
-    const typeObj = titleData.find(item => item.type);
-    const valueObj = titleData.find(item => item.value);
-    const styleObj = titleData.find(item => item.style);
-
-    
-    // If any of the extracted values are undefined, set them to an empty string
-    const type = typeObj ? typeObj.type : '';
-    const value = valueObj ? this.toCamelCase(valueObj.value) : '';
-    const style = styleObj ? styleObj.style : 'h1';
-
-
-
-    // Replace placeholders in the title template with extracted values
-    const populatedTemplate = template
-      .replace(/{{\s*type\s*}}/g, type)
-      .replace(/{{\s*header\s*}}/g, `translation.${value}`)
-      .replace(/{{\s*style\s*}}/g, style);
-    return populatedTemplate;
   }
 
   populateTemplate(template, component) {
 
-      // For body, extract from label
-      const componentType = Object.keys(component)[0];
-      const componentData = component[componentType];
-      const comp2 = Object.keys(componentData[0])[0]
-      const labelValue = componentData[0][comp2].args[1].value; // Adjust this if the structure changes
-     
-    
-  
+    // For body, extract from label
+    const componentType = Object.keys(component)[0];
+    const componentData = component[componentType];
+    const comp2 = Object.keys(componentData[0])[0]
+    const labelValue = componentData[0][comp2].args[1].value; // Adjust this if the structure changes
+
     const translationData = {};
     const placeHolderMap = new Map();
-  
+
     const matchString = 'label ' + componentType;
-  
+
     translationData.label = labelValue;
     placeHolderMap.set(this.toCamelCase(matchString), labelValue);
-  
+
     const translationKey = this.toCamelCase(translationData.label);
-  
+    const capitalizedType = componentType.charAt(0).toUpperCase() + componentType.slice(1)
+
     // Replace placeholders in the template with the corresponding translation
     const populatedTemplate = template.replace(/{{\s*(\w+)\s*}}/g, (match, p1) => {
-      if (p1 === "labelInput") {
-        return 'translation.' + translationKey; 
-      } 
+      if (p1 === "label" + capitalizedType) {
+        return 'translation.' + translationKey;
+      }
       if (p1 === "name") {
         return translationKey;
       }
       return match;
     });
-  
+
     return populatedTemplate;
   }
 
