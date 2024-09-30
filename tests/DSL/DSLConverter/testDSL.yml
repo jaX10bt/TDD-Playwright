@@ -46,7 +46,7 @@ tests:
 	      - name: Label
 	        type: Label
 	        props:
-	          label: " translation.widgetBubbleMessageText"
+	          label: " {{ labelSwitch }}"
 	          
 	      - name: Switch
 	        type: Switch
@@ -96,7 +96,7 @@ tests:
 	      - name: Label
 	        type: Label
 	        props:
-	          label: "translation.widgetColor"
+	          label: "{{ labelColorpicker }}"
 	          
 	      - name: ColorPicker
 	        type: Input
@@ -120,7 +120,7 @@ tests:
 	      - name: Label
 	        type: Label
 	        props:
-	          label: "translation.widgetAnimation"
+	          label: "{{ labelDropdown }}"
 	          
 	      - name: Dropdown
 	        type: Input
@@ -130,4 +130,8 @@ tests:
 	
 	          
 	        
+	
+	
+	# footer tests for Widget setup for Appearance and Behaviour
+	
 	
