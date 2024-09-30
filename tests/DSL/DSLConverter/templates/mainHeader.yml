@@ -12,7 +12,7 @@ components:
       - name: Label
         type: paragraph
         props:
-          hasText: "{{ unanswered }}, {{ forwarded }}"
+          hasText: "translation.unanswered", "translation.forwarded"
       - name: Switch
         type: switch
         props:
@@ -21,4 +21,4 @@ components:
       - name: Button
         type: Button
         props:
-          text: "{{ logOutButtonLabel }}"
+          text: "translation.logout"
