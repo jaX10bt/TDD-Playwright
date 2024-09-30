@@ -60,8 +60,11 @@ class DSLConverter {
         testDSL += this.generateTitleTest(method.main.title);
       }
 
-      testDSL += this.generateTest(method);
+      testDSL += this.generateTest(method, false);
     });
+
+    const footer = this.businessDSL.methods[0]
+    testDSL += this.generateTest(footer, true)
 
     testDSL = this.cleanTestDSL(testDSL);
 
@@ -70,27 +73,31 @@ class DSLConverter {
 
 
   // Function to generate a test for a body component.
-  generateTest(method) {
+  generateTest(method, isFooter = false) {
     let testTemplate = '';
-
-    // Focusing only on the body components
-    const body = method.main.body;
-
+  
+    // Determine the appropriate body (footer or main body)
+    const body = isFooter ? method.main.footer : method.main.body;
+  
+    // Check if the body is valid and has components
     if (body && Array.isArray(body.components)) {
+      // Iterate over each component in the body
       body.components.forEach(component => {
         const componentType = Object.keys(component)[0];
         const title = `${componentType} tests for ${this.businessDSL.description}`;
         testTemplate += `# ${title}\n\n`;
         const componentTemplate = this.templates[componentType];
-
+  
         if (componentTemplate) {
-          testTemplate += this.populateTemplate(componentTemplate, component);
+          testTemplate += this.populateTemplate(componentTemplate, component, isFooter);
         } else {
           console.warn(`Template not found for component type: ${componentType}`);
         }
       });
+    } else {
+      console.warn('Invalid body structure or no components found.');
     }
-
+  
     return testTemplate;
   }
 
@@ -133,28 +140,43 @@ class DSLConverter {
     return populatedTemplate;
   }
 
-  populateTemplate(template, component) {
-    const componentType = Object.keys(component)[0];
-    const componentData = component[componentType];
-    const labelValue = componentData[0].label.args[1].value;
-
+  populateTemplate(template, component, isFooter = false) {
+    let componentType
+    let componentData
+  
+    let labelValue;
+    if (isFooter) {
+      // For footer, extract from args
+      componentData = component.args
+      componentType = componentData[0].type; // Extract the type from the first argument
+      labelValue = componentData[1].value; // Assuming args is structured as before
+      
+    } else {
+      // For body, extract from label
+      componentType = Object.keys(component)[0];
+      componentData = component[componentType];
+      labelValue = componentData[0].label.args[1].value; // Adjust this if the structure changes
+     
+    }
+  
     const translationData = {};
     const placeHolderMap = new Map();
-
+  
     const matchString = 'label ' + componentType;
-
+  
     translationData.label = labelValue;
     placeHolderMap.set(this.toCamelCase(matchString), labelValue);
-
+  
     const translationKey = this.toCamelCase(translationData.label);
-
+  
+    // Replace placeholders in the template with the corresponding translation
     const populatedTemplate = template.replace(/{{\s*(\w+)\s*}}/g, (match, p1) => {
       if (placeHolderMap.has(p1)) {
-        return 'translation.' + translationKey;
+        return 'translation.' + translationKey; // Return the translation key
       }
-      return match;
+      return match; // Return the original match if not found in map
     });
-
+  
     return populatedTemplate;
   }
 
