@@ -4,5 +4,5 @@ templates:
       - title:
           args:
             - type: text
-            - value: "{{ header }}"
+            - value: "{{ labelTitle }}"
             - style: h1

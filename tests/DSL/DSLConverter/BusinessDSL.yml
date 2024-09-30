@@ -10,11 +10,12 @@ methods:
       title:
         name: title
         components:
-          title:
-            args:
-              - type: text
-              - value: "Appearance and behaviour"
-              - style: h1
+          - title:
+              - title:
+                  args:
+                    - type: text
+                    - value: "Appearance and behaviour"
+                    - style: h1
 
       body:
         name: card_body
@@ -90,14 +91,14 @@ methods:
         name: card_footer
         components:
           - button:
-            - button:
-                args:
-                  - type: button
-                  - value: "Save"
-                  - style: button
-          - button:                  
-            - button:
-                args:
-                  - type: button
-                  - value: "Preview"
-                  - style: button
+              - button:
+                  args:
+                    - type: button
+                    - value: "Save"
+                    - style: button
+          - button:
+              - button:
+                  args:
+                    - type: button
+                    - value: "Preview"
+                    - style: button
