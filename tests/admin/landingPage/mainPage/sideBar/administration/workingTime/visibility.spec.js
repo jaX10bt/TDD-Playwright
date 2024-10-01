@@ -2,7 +2,7 @@ const { test, expect } = require('@playwright/test');
 const { getTranslations } = require('../../../../../../translations/languageDetector');
 const { default: SidebarTests } = require('../../sideBar');
 
-test.describe.only('Switch visibility and text tests', () => {
+test.describe('Switch visibility and text tests', () => {
     let translation;
     let sameOnAllWorkingDaysState;
     let closedOnWeekendsState;
