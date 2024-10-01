@@ -52,6 +52,7 @@
     "saturday": "Laupäev",
     "sunday": "Pühapäev",
     "dateUntil": "kuni",
+    "timeUntil": "kuni",
     "workingTime": "Asutuse tööaeg",
     "m-s": "E-P",
     "m-f": "E-R",
@@ -72,6 +73,9 @@
     "newUnansweredChat": "Uus vastamata vestlus",
     "soundNotifications": "Häälmärguanded",
     "popUpNotifications": "Pop-up märguanded",
+    "enterViaTara": "Sisene TARA kaudu",
+    "continue": "Jätka",
+
     
 
     "askAuthentication": "Küsi autentimist",
