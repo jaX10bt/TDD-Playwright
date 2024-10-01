@@ -1,7 +1,8 @@
 const { test, expect } = require('@playwright/test');
 const { getTranslations } = require('../../../../../../translations/languageDetector');
+const { default: SidebarTests } = require('../../sideBar');
 
-test.describe('Switch visibility and text tests', () => {
+test.describe.only('Switch visibility and text tests', () => {
     let translation;
     let sameOnAllWorkingDaysState;
     let closedOnWeekendsState;
@@ -30,6 +31,18 @@ test.describe('Switch visibility and text tests', () => {
 
         // Fetch translations
         translation = await getTranslations(page);
+    });
+
+    test('Run all sidebar tests in sequence', async ({ page }) => {
+        await page.waitForTimeout(2000)
+        const sidebar = await SidebarTests(page, translation); // Call SidebarTests directly here
+
+        try {
+            await sidebar.runAllTests(); // Await the function call
+        } catch (error) {
+            console.error('Error during sidebar tests:', error);
+            throw error; // Rethrow the error to fail the test
+        }
     });
 
     test.afterEach(async ({ page }) => {

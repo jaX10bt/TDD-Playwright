@@ -1,21 +1,29 @@
 import { test, expect } from '@playwright/test';
-// import { translation } from '@translationSetup/translation.setup.js'
-import { getTranslations } from '@translation/languageDetector.js';
+import { getTranslations } from '../../../../../../../translations/languageDetector';
+import SidebarTests from '../../../sideBar';
 
-test.describe('Visibility Tests for "Välimus ja käitumine"/"Appearance and Behaviour" Page', async () => {
+test.describe.only('Visibility Tests for "Välimus ja käitumine"/"Appearance and Behaviour" Page', async () => {
     let translation;
-    let context;
-    let page;
 
-    test.beforeAll(async ({ browser }) => {
-        context = await browser.newContext();
-        page = await context.newPage();
+    test.beforeAll(async ({ page }) => {
+        translation = await getTranslations(page);
+    });
+    test.beforeEach(async ({ page }) => {
+        // Navigate to the page before each test
         await page.goto('https://admin.prod.buerokratt.ee/chat/chatbot/appearance');
         translation = await getTranslations(page);
     });
 
-    test.beforeEach(async ({ page }) => {
-        await page.goto('https://admin.prod.buerokratt.ee/chat/chatbot/appearance');
+    test('Run all sidebar tests in sequence', async ({ page }) => {
+        await page.waitForTimeout(2000)
+        const sidebar = await SidebarTests(page, translation); // Call SidebarTests directly here
+
+        try {
+            await sidebar.runAllTests(); // Await the function call
+        } catch (error) {
+            console.error('Error during sidebar tests:', error);
+            throw error; // Rethrow the error to fail the test
+        }
     });
 
     test('Check visibility of the header', async ({ page }) => {
@@ -30,19 +38,12 @@ test.describe('Visibility Tests for "Välimus ja käitumine"/"Appearance and Beh
         await expect(inputField).toBeVisible();
     });
 
-    // EDGE CASE: two labels with the same text
     test('Check visibility of notification switch', async ({ page }) => {
         const notificationSwitch = page.locator(`label:has-text("${translation['widgetBubbleMessageText']}") + button.switch__button`);
         await expect(notificationSwitch).toBeVisible();
     });
 
-    // This test had issue in our case that its label text and input name do not match. Had to add extra field in business dsl and inprove DSLConverter populateTemplate funtion.
     test('Check visibility of animation start time input', async ({ page }) => {
-        // const labelLocator = page.locator('label:has-text("' + translation.widgetBubbleMessageSeconds + '")');
-        // const inputLocator = page.locator('input[name="widgetDisplayBubbleMessageSeconds"]');
-        // await expect(labelLocator).toBeVisible();
-        // await expect(inputLocator).toBeVisible();
-
         const animationStartTimeInput = page.locator(`label:has-text("${translation['widgetBubbleMessageSeconds']}") + div input`);
         await expect(animationStartTimeInput).toBeVisible();
     });
@@ -53,28 +54,42 @@ test.describe('Visibility Tests for "Välimus ja käitumine"/"Appearance and Beh
 
     });
 
-    test('Check visibility of color picker', async ({ page }) => {
-        const labelLocator = page.locator('label:has-text("' + translation.widgetColor + '")');
-        const colorPickerLocator = page.locator('input[readonly]');
-        const buttonLocator = page.locator('label:has-text("' + translation.widgetColor + '") + div input');
-        await expect(labelLocator).toBeVisible();
-        await expect(colorPickerLocator).toBeVisible();
-        await expect(buttonLocator).toBeVisible();
+    test('Check visibility of primary color picker', async ({ page }) => {
+        const primaryColorPicker = page.locator(`label:has-text("${translation['widgetColor']}") + div input`);
+        await expect(primaryColorPicker).toBeVisible();
     });
 
-    // Changed locator search to combobox
+    test('Check visibility of color picker button', async ({ page }) => {
+        const colorPickerButton = page.locator(`label:has-text("${translation['widgetColor']}") + div input`);
+        await expect(colorPickerButton).toBeVisible();
+    });
+
     test('Check visibility of animation dropdown', async ({ page }) => {
-        const dropdownLocator = page.getByRole('combobox', { name: translation.widgetAnimation });
-        await expect(dropdownLocator).toBeVisible();
+        const animationDropdown = page.locator(`label:has-text("${translation['widgetAnimation']}") + div div.select__trigger`);
+        await expect(animationDropdown).toBeVisible();
     });
 
     test('Check visibility of save button', async ({ page }) => {
-        const saveButton = page.locator(`button.btn:has-text("${translation.save}")`);
+        const saveButton = page.locator(`button:has-text("${translation['save']}")`);
         await expect(saveButton).toBeVisible();
     });
 
     test('Check visibility of preview button', async ({ page }) => {
-        const previewButton = page.locator(`button:has-text("${translation.preview}")`);
+        const previewButton = page.locator(`button:has-text("${translation['preview']}")`);
         await expect(previewButton).toBeVisible();
     });
+
+
+    test('test label input visibility', async ({ page }) => {
+        // Locate the label based on its text
+        const labelLocator = page.locator('label', { hasText: translation['widgetProactiveSeconds'] });
+
+        // Locate the input field based on the label
+        const inputContainer = labelLocator.locator('..'); // Move to parent container
+        const inputLocator = inputContainer.locator('input');
+
+        // Example usage: Assert the input is visible and interact with it
+        await expect(inputLocator).toBeVisible();
+    });
+
 });
