@@ -2,19 +2,15 @@ templates:
   # IMPORTANT: Always select the **track** based on the **weekday** FIRST 
   # before performing any operations on its components (Label, Switch, Start Time, End Time).
   
-  # Use Template Literals to get the translation of a key inside the string.
-  # Example: page.locator(`ELEMENT${translation["key"]}ELEMENT`)
-  
   - name: label_workingtime
   - components: 
       parentclass: "track"
-      # First, identify the track for the specific weekday based on translation
       children: Label + Switch + Track(startTime + endTime)
 
       - name: Label
         type: label
         props:
-          label: "translations['weekDay']" 
+          label: {{ labelWorkingtime }} 
 
       - name: Switch
         type: Switch
@@ -28,6 +24,12 @@ templates:
         props:
           input: text
           format: 00:00
+
+      - name: Label
+        wrapperclass: "track"
+        type: label
+        props: 
+          label: "translation.timeUntil"
       
       - name: End time
         wrapperclass: "endTime"
