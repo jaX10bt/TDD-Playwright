@@ -52,6 +52,7 @@ methods:
                   args:
                     - type: number
                     - style: input
+                    - name: "Widget display bubble message seconds"
 
           - input:
               - label:

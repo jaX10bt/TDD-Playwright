@@ -122,6 +122,7 @@ class DSLConverter {
     // For body, extract from label
     const componentType = Object.keys(component)[0];
     const componentData = component[componentType];
+
     const comp2 = Object.keys(componentData[0])[0]
     const labelValue = componentData[0][comp2].args[1].value; // Adjust this if the structure changes
 
@@ -142,7 +143,9 @@ class DSLConverter {
         return 'translation.' + translationKey;
       }
       if (p1 === "name") {
-        return translationKey;
+        // actually needed because label name and input name does not always match
+        const nameObject = componentData[1].input.args.find(arg => arg.name !== undefined)
+        return nameObject ? this.toCamelCase(nameObject.name) : translationKey;
       }
       return match;
     });

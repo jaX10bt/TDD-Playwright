@@ -11,7 +11,8 @@ templates:
       - name: Dropdown
         type: Input
         props:
-          trigger_class: "select__trigger"
+          role: "combobox"
+          name: "{{ labelDropdown}}"
           expanded: false
 
           
