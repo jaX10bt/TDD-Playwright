@@ -2,7 +2,7 @@ resource: chat/chatbot/emergency-notices
 description: "Emergency notices"
 methods:
   - methods: POST
-    description: "Update Widget Appearance and Behaviour"
+    description: "Update Emergency Notices"
     required:
       - "header"
       - "left_menu"
@@ -10,11 +10,12 @@ methods:
       title:
         name: title
         components:
-          title:
-            args:
-              - type: text
-              - value: "Emergency notices"
-              - style: h1
+        - title:
+           - title:
+              args:
+                - type: text
+                - value: "Emergency notices"
+                - style: h1
 
       body:
         name: card_body

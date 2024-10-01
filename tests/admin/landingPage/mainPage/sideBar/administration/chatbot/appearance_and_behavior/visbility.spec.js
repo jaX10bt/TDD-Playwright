@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
-import { getTranslations } from '@translations/languageDetector';
+// import { translation } from '@translationSetup/translation.setup.js'
+import { getTranslations } from '@translation/languageDetector.js';
 
 test.describe('Visibility Tests for "Välimus ja käitumine"/"Appearance and Behaviour" Page', async () => {
     let translation;
@@ -7,7 +8,6 @@ test.describe('Visibility Tests for "Välimus ja käitumine"/"Appearance and Beh
     let page;
 
     test.beforeAll(async ({ browser }) => {
-        // Create a new context and page manually
         context = await browser.newContext();
         page = await context.newPage();
         await page.goto('https://admin.prod.buerokratt.ee/chat/chatbot/appearance');
@@ -15,10 +15,7 @@ test.describe('Visibility Tests for "Välimus ja käitumine"/"Appearance and Beh
     });
 
     test.beforeEach(async ({ page }) => {
-        // Navigate to the page before each test
-        let translation
         await page.goto('https://admin.prod.buerokratt.ee/chat/chatbot/appearance');
-        //translation = await getTranslations(page);
     });
 
     test('Check visibility of the header', async ({ page }) => {

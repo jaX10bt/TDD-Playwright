@@ -1,7 +1,7 @@
 const fs = require('fs'); // Import Node.js file system module
 const path = require('path'); // Import Node.js path module
 import { test as setup } from '@playwright/test';
-import { getTranslations } from '../../translations/languageDetector';
+
 
 const authFile = 'tests/admin/.auth/user.json';
 

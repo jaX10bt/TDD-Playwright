@@ -2,7 +2,7 @@
     "compilerOptions": {
       "baseUrl": "./", 
       "paths": {
-        "@translations/*": ["tests/translations/*"]  
+        "@translation/*": ["tests/translations/*"]  
       }
     },
     "include": ["tests/**/*.js", "src/**/*.js"]  

@@ -13,6 +13,7 @@ templates:
         type: datepicker
         props:
           input: text
+          index: 0
       
       # This span label is inside the track class and needs to specified
       # otherwise it resolves to two different elements
@@ -27,3 +28,4 @@ templates:
         type: datepicker
         props:
           input: text
+          index: 1
