@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { getTranslations } from '../../../../../../../translations/languageDetector';
+import { getTranslations } from '@translations/languageDetector';
 
 test.describe('Visibility Tests for "Välimus ja käitumine"/"Appearance and Behaviour" Page', async () => {
     let translation;
