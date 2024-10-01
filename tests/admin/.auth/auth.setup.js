@@ -16,7 +16,8 @@ setup('authenticate', async ({ page }) => {
 
     // Perform login steps
     await page.getByRole('button', { name: 'enter via TARA' }).click();
-    await page.getByRole('link', { name: 'Smart-ID', exact: true }).click();
+    //await page.getByRole('link', { name: 'Smart-ID', exact: true }).click();
+    await page.locator('.c-tab-login__nav-item').nth(2).click()
     await page.getByRole('textbox', { name: 'Isikukood' }).click();
     await page.getByRole('textbox', { name: 'Isikukood' }).fill('30303039914');
     await page.getByRole('button', { name: 'Jätka' }).click();
