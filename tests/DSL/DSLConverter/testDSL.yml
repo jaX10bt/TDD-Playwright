@@ -1,43 +1,19 @@
-name: Widget setup for Appearance and Behaviour
+name: Emergency notices
 setup:
 	- describe: Check visibility of Page Elements
 	  serial: true
 	  beforeEach:
 	  - name: Setup
 		  action:
-			  navigate: "https://admin.prod.buerokratt.ee/chat/chatbot/appearance"
+			  navigate: "https://admin.prod.buerokratt.ee/chat/chatbot/emergency-notices"
 	  - name: Fetch Translations
 			  action:
 				  getTranslations: true
 				  assignVariable: translations
 tests:
-	- name: title
-	  - components:
-	      - title:
-	          args:
-	            - type: text
-	            - value: "translation.appearanceAndBehaviour"
-	            - style: h1
 	
 	
-	# input tests for Widget setup for Appearance and Behaviour
-	
-	- name: label_input
-	  - components: 
-	      parent: input
-	      children: Label + Input
-	      - name: Label
-	        type: Label
-	        props:
-	          label: "translation.widgetProactiveSeconds"
-	          
-	      - name: Input
-	        type: Input
-	        props:
-	          input: "input"
-	          name: "widgetProactiveSeconds"
-	
-	# switch tests for Widget setup for Appearance and Behaviour
+	# switch tests for Emergency notices
 	
 	- name: label_switch
 	  - components: 
@@ -46,7 +22,7 @@ tests:
 	      - name: Label
 	        type: Label
 	        props:
-	          label: " translation.widgetBubbleMessageText"
+	          label: " translation.noticeActive"
 	          adjacent_to: Switch
 	          
 	      - name: Switch
@@ -55,85 +31,65 @@ tests:
 	          switch: "button.switch__button"
 	          adjacent_to_label: true
 	
-	# input tests for Widget setup for Appearance and Behaviour
+	# textarea tests for Emergency notices
 	
-	- name: label_input
+	- name: label_textarea
 	  - components: 
-	      parent: input
-	      children: Label + Input
+	      parent: textarea
+	      children: Label + Textarea
 	      - name: Label
 	        type: Label
 	        props:
-	          label: "translation.widgetBubbleMessageSeconds"
+	          label: translation.notice
 	          
-	      - name: Input
-	        type: Input
+	      - name: Textarea
+	        type: Textarea
 	        props:
-	          input: "input"
-	          name: "widgetBubbleMessageSeconds"
-	
-	# input tests for Widget setup for Appearance and Behaviour
-	
-	- name: label_input
-	  - components: 
-	      parent: input
-	      children: Label + Input
-	      - name: Label
-	        type: Label
-	        props:
-	          label: "translation.widgetBubbleMessageText"
-	          
-	      - name: Input
-	        type: Input
-	        props:
-	          input: "input"
-	          name: "widgetBubbleMessageText"
-	
-	# colorpicker tests for Widget setup for Appearance and Behaviour
-	
-	- name: label_colorpicker
-	  - components: 
-	      parent: input
-	      children: Label + ColorPicker + Button
-	      - name: Label
-	        type: Label
-	        props:
-	          label: "{{ labelColorpicker }}"
-	          
-	      - name: ColorPicker
-	        type: Input
-	        props:
-	          input: "input"
-	          readonly: true
+	          textarea: "textarea"
+	          value: "textarea_value"
+	          sibling: "div"
+	        
 	      
+	
+	# date tests for Emergency notices
+	
+	- name: label_date
+	  - components: 
+	      parent: "track"
+	      children: Label + Date + Label + Date
+	      - name: Label
+	        type: paragraph
+	        props:
+	          label: translation.displayPeriod
+	    
+	      - name: Date
+	        wrapperclass: "datepicker"
+	        type: datepicker
+	        props:
+	          input: text
+	      
+	      # This span label is inside the track class and needs to specified
+	      # otherwise it resolves to two different elements
+	      - name: Label
+	        wrapperclass: "track"
+	        type: span
+	        props: 
+	          label: "translation.dateUntil"
+	          
+	      - name: Date
+	        wrapperclass: "datepicker"
+	        type: datepicker
+	        props:
+	          input: text
+	
+	
+	# button tests for Emergency notices
+	
+	- name: button
+	  - components: 
 	      - name: Button
 	        type: Button
 	        props:
-	          icon: true
-	          # Indicates it's next to the ColorPicker in the DOM structure
-	          adjacent_to: ColorPicker
-	
-	# dropdown tests for Widget setup for Appearance and Behaviour
-	
-	- name: label_dropdown
-	  - components: 
-	      parent: select
-	      children: Label + Dropdown
-	      - name: Label
-	        type: Label
-	        props:
-	          label: "{{ labelDropdown }}"
+	          class: "btn"
+	          text: "translation.save"
 	          
-	      - name: Dropdown
-	        type: Input
-	        props:
-	          trigger_class: "select__trigger"
-	          expanded: false
-	
-	          
-	        
-	
-	
-	# footer tests for Widget setup for Appearance and Behaviour
-	
-	

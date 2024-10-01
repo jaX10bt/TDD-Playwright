@@ -3,6 +3,10 @@ const path = require('path');
 const yaml = require('js-yaml');
 const { dirname } = require('path');
 
+const TITLE = 'title';
+const FOOTER = 'footer';
+const BODY = 'body';
+
 class DSLConverter {
   constructor() {
     this.templates = {};
@@ -57,14 +61,14 @@ class DSLConverter {
 
       // TODO: maybe can combine with generateTest later...
       if (method.main && method.main.title) {
-        testDSL += this.generateTest(method, "title");
+        testDSL += this.generateTest(method, TITLE);
       }
 
-      testDSL += this.generateTest(method, "body");
+      testDSL += this.generateTest(method, BODY);
     });
 
     const footer = this.businessDSL.methods[0]
-    testDSL += this.generateTest(footer, "footer")
+    testDSL += this.generateTest(footer, FOOTER)
 
     testDSL = this.cleanTestDSL(testDSL);
 
@@ -78,13 +82,13 @@ class DSLConverter {
     let body 
     // Determine the appropriate body (footer or main body)
     switch (type) {
-      case "title":
+      case TITLE:
         body = method.main.title
         break;
-      case "body":
+      case BODY:
         body = method.main.body
         break;
-      case "footer":
+      case FOOTER:
         body = method.main.footer
         break;
       default:

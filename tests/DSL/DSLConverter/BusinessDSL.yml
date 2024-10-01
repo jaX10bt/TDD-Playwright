@@ -10,11 +10,12 @@ methods:
       title:
         name: title
         components:
-          title:
-            args:
-              - type: text
-              - value: "Appearance and behaviour"
-              - style: h1
+        - title:
+           - title:
+              args:
+                - type: text
+                - value: "Appearance and behaviour"
+                - style: h1
 
       body:
         name: card_body
