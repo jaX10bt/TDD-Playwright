@@ -27,8 +27,8 @@ methods:
                     - style: label
               - input:
                   args:
-                    - type: number
-                    - style: input
+                    - type: button
+                    - style: switch
 
           - textarea:
               - label:

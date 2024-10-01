@@ -51,6 +51,7 @@
     "saturday": "Saturday",
     "sunday": "Sunday",
     "dateUntil": "to", 
+    "timeUntil": "Until",
     "workingTime": "Organization working time",
     "m-s": "M-S",
     "m-f": "M-F",
@@ -71,6 +72,8 @@
     "newUnansweredChat": "New unanswered chat",
     "soundNotifications": "Sound notifications",
     "popUpNotifications": "Popup notifications",
+    "enterViaTara": "Enter via TARA",
+    "continue": "Continue",
     
 
 
