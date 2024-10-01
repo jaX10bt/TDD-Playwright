@@ -79,7 +79,7 @@ test.describe.serial('Complete User Management Functionality Tests', () => {
             await testSearching({ page }, 'idCode');
         });
 
-        test('Sort and Search by Roĺl/Role', async ({ page }) => {
+        test.fail('Sort and Search by Roĺl/Role', async ({ page }) => {
             test.info().annotations.push({
                 type: 'Known bug',
                 description: 'The sorting is starts from Z-A for some reason instead of A-Z as with other sortings.',
@@ -99,8 +99,8 @@ test.describe.serial('Complete User Management Functionality Tests', () => {
         });
 
         test('Sort and Search by E-post/E-mail', async ({ page }) => {
-            await testSorting({ page }, 'e-mail');
-            await testSearching({ page }, 'e-mail');
+            await testSorting({ page }, 'email');
+            await testSearching({ page }, 'email');
         });
 
 

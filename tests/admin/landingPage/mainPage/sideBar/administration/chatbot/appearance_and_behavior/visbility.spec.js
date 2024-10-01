@@ -5,9 +5,6 @@ import SidebarTests from '../../../sideBar';
 test.describe('Visibility Tests for "Välimus ja käitumine"/"Appearance and Behaviour" Page', async () => {
     let translation;
 
-    test.beforeAll(async ({ page }) => {
-        translation = await getTranslations(page);
-    });
     test.beforeEach(async ({ page }) => {
         // Navigate to the page before each test
         await page.goto('https://admin.prod.buerokratt.ee/chat/chatbot/appearance');
