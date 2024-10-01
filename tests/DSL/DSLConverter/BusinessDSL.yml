@@ -91,14 +91,14 @@ methods:
         name: card_footer
         components:
           - button:
-            - button:
-                args:
-                  - type: button
-                  - value: "Save"
-                  - style: button
-          - button:                  
-            - button:
-                args:
-                  - type: button
-                  - value: "Preview"
-                  - style: button
+              - button:
+                  args:
+                    - type: button
+                    - value: "Save"
+                    - style: button
+          - button:
+              - button:
+                  args:
+                    - type: button
+                    - value: "Preview"
+                    - style: button
