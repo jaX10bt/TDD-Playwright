@@ -49,7 +49,6 @@ async function headerTests(page, translations) {
         const button = header.locator('.switch__button');
         const initialColor = await button.evaluate(el => getComputedStyle(el).backgroundColor);
 
-
         const button2 = header.locator('.btn.btn--text.btn--m').first();
         const initialStatusColor = await button.evaluate(el => getComputedStyle(el).backgroundColor);
 
