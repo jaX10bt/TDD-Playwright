@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { getTranslations } from '../../../../../../../translations/languageDetector';
-import SidebarTests from '../../../sideBar';
+import sidebarTests from '../../../sideBar';
+import headerTests from 'tests/admin/landingPage/mainPage/header/header';
 
 test.describe('Visibility Tests for "Välimus ja käitumine"/"Appearance and Behaviour" Page', async () => {
     let translation;
@@ -11,12 +12,13 @@ test.describe('Visibility Tests for "Välimus ja käitumine"/"Appearance and Beh
         translation = await getTranslations(page);
     });
 
-    test('Run all sidebar tests in sequence', async ({ page }) => {
+    test.only('Run sidebar and header tests in sequence', async ({ page }) => {
         await page.waitForTimeout(2000)
-        const sidebar = await SidebarTests(page, translation); // Call SidebarTests directly here
-
+        const sidebar = await sidebarTests(page, translation);
+        const header = await headerTests(page, translation); 
         try {
             await sidebar.runAllTests(); // Await the function call
+            await header.runAllTests(); 
         } catch (error) {
             console.error('Error during sidebar tests:', error);
             throw error; // Rethrow the error to fail the test
