@@ -1,4 +1,4 @@
-async function SidebarTests(page, translations) {
+async function sidebarTests(page, translations) {
     const masterTabs = [
         translations.conversations,
         translations.training,
@@ -118,4 +118,4 @@ async function SidebarTests(page, translations) {
     return { runAllTests };
 }
 
-export default SidebarTests;
+export default sidebarTests;
