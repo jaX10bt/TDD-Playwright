@@ -1,7 +1,6 @@
 const fs = require('fs');
 const path = require('path');
 const yaml = require('js-yaml');
-const { dirname } = require('path');
 
 const TITLE = 'title';
 const FOOTER = 'footer';
@@ -11,11 +10,8 @@ class DSLConverter {
   constructor() {
     this.templates = {};
     this.businessDSL = null;
+    this.baseUrl = 'https://admin.prod.buerokratt.ee/'; // You can move this later if needed.
     this.loadTemplates();
-    this.loadBusinessDSL();
-
-    // TODO: not sure it is nice to keep it here. maybe should move somewhere else in setup file etc...
-    this.baseUrl = 'https://admin.prod.buerokratt.ee/';
   }
 
   loadTemplates() {
@@ -29,26 +25,68 @@ class DSLConverter {
     });
   }
 
-  // Function to write generated testDSL to a file
+  // Function to write generated testDSL to a file in the folder where business.yml is found
   writeToFile(filePath, content) {
     fs.writeFileSync(filePath, content, 'utf-8');
   };
 
+  // Recursively traverse folders to find 'BDSL' and 'business.yml'
+  findBusinessYMLFolders(dir, visited = new Set()) {
+    let results = [];
 
-  loadBusinessDSL() {
-    const businessDSLPath = process.argv[2];
-    const businessDSLPath2 = path.join(__dirname, businessDSLPath); // Adjust path if needed
     try {
-      const businessDSL = yaml.load(fs.readFileSync(businessDSLPath2, 'utf-8'));
-      console.log("Loaded Business DSL:", businessDSL);
+      const files = fs.readdirSync(dir); // Attempt to read the directory
+
+      files.forEach(file => {
+        const fullPath = path.join(dir, file);
+        const stat = fs.lstatSync(fullPath); // Use lstatSync to check for symbolic links
+
+        // Check for already visited directories to prevent infinite loops
+        if (visited.has(fullPath)) {
+          return; // Skip if already visited
+        }
+
+        visited.add(fullPath); // Mark this directory as visited
+
+        if (stat.isDirectory()) {
+          if (file === 'BDSL') {
+            const businessYmlPath = path.join(fullPath, 'business.yml');
+            if (fs.existsSync(businessYmlPath)) {
+              results.push(businessYmlPath);
+              console.log(`Found business.yml: ${businessYmlPath}`);
+            }
+          }
+
+          // Recursively search subdirectories
+          results = results.concat(this.findBusinessYMLFolders(fullPath, visited));
+
+        }
+
+      });
+    } catch (err) {
+      if (err.code === 'EACCES') {
+        console.warn(`Permission denied for directory: ${dir}`); // Log the permission error
+      } else {
+        console.error(`Error reading directory ${dir}:`, err.message); // Log any other error
+      }
+    }
+
+    return results;
+  }
+
+
+  loadBusinessDSL(businessDSLPath) {
+    try {
+      const businessDSL = yaml.load(fs.readFileSync(businessDSLPath, 'utf-8'));
+      console.log(`Loaded Business DSL from: ${businessDSLPath}`); // Log the loaded path
       this.businessDSL = businessDSL;
     } catch (err) {
-      console.error(`Error loading Business DSL from ${businessDSLPath}:`, err.message);
+      console.error(`\x1b[31mError loading Business DSL from ${businessDSLPath}:\x1b[0m`, err.message);
       process.exit(1);
     }
   }
 
-  // Function to convert businessDSL to testDSL. Go through each method and generate a test.
+  // Function to convert businessDSL to testDSL.
   convertToTestDSL() {
     if (!this.businessDSL) {
       console.error("Business DSL not loaded.");
@@ -58,46 +96,38 @@ class DSLConverter {
     let testDSL = '';
 
     this.businessDSL.methods.forEach(method => {
-
-      // TODO: maybe can combine with generateTest later...
       if (method.main && method.main.title) {
         testDSL += this.generateTest(method, TITLE);
       }
-
       testDSL += this.generateTest(method, BODY);
     });
 
-    const footer = this.businessDSL.methods[0]
-    testDSL += this.generateTest(footer, FOOTER)
-
+    const footer = this.businessDSL.methods[0];
+    testDSL += this.generateTest(footer, FOOTER);
     testDSL = this.cleanTestDSL(testDSL);
 
     return testDSL;
   }
 
-
-  // Function to generate a test for a body component.
   generateTest(method, type) {
     let testTemplate = '';
-    let body 
-    // Determine the appropriate body (footer or main body)
+    let body;
+
     switch (type) {
       case TITLE:
-        body = method.main.title
+        body = method.main.title;
         break;
       case BODY:
-        body = method.main.body
+        body = method.main.body;
         break;
       case FOOTER:
-        body = method.main.footer
+        body = method.main.footer;
         break;
       default:
         break;
     }
 
-    // Check if the body is valid and has components
     if (body && Array.isArray(body.components)) {
-      // Iterate over each component in the body
       body.components.forEach(component => {
         const componentType = Object.keys(component)[0];
         const title = `${componentType} tests for ${this.businessDSL.description}`;
@@ -111,40 +141,36 @@ class DSLConverter {
         }
       });
     } else {
-      console.warn('Invalid body structure or no components found.');
+      console.warn('\x1b[31mInvalid body structure or no components found.\x1b[0m');
+
     }
 
     return testTemplate;
   }
 
   populateTemplate(template, component) {
-
-    // For body, extract from label
     const componentType = Object.keys(component)[0];
     const componentData = component[componentType];
 
-    const comp2 = Object.keys(componentData[0])[0]
-    const labelValue = componentData[0][comp2].args[1].value; // Adjust this if the structure changes
+    const comp2 = Object.keys(componentData[0])[0];
+    const labelValue = componentData[0][comp2].args[1].value;
 
     const translationData = {};
     const placeHolderMap = new Map();
-
     const matchString = 'label ' + componentType;
 
     translationData.label = labelValue;
     placeHolderMap.set(this.toCamelCase(matchString), labelValue);
 
     const translationKey = this.toCamelCase(translationData.label);
-    const capitalizedType = componentType.charAt(0).toUpperCase() + componentType.slice(1)
+    const capitalizedType = componentType.charAt(0).toUpperCase() + componentType.slice(1);
 
-    // Replace placeholders in the template with the corresponding translation
     const populatedTemplate = template.replace(/{{\s*(\w+)\s*}}/g, (match, p1) => {
       if (p1 === "label" + capitalizedType) {
         return 'translation.' + translationKey;
       }
       if (p1 === "name") {
-        // actually needed because label name and input name does not always match
-        const nameObject = componentData[1].input.args.find(arg => arg.name !== undefined)
+        const nameObject = componentData[1].input.args.find(arg => arg.name !== undefined);
         return nameObject ? this.toCamelCase(nameObject.name) : translationKey;
       }
       return match;
@@ -163,32 +189,50 @@ class DSLConverter {
   }
 
   cleanTestDSL(testDSL) {
-    // On top of the file is the 'name'
     let name = `name: ${this.businessDSL.description}\n`;
-
-    // Construct the dynamic navigation URL
     let navigateUrl = `${this.baseUrl}${this.businessDSL.resource}`;
 
-    // Setup block with tabs for indentation
     let setupBlock = `setup:\n\t- describe: Check visibility of Page Elements\n\t  serial: true\n\t  beforeEach:\n\t  - name: Setup\n\t\t  action:\n\t\t\t  navigate: "${navigateUrl}"\n\t  - name: Fetch Translations\n\t\t\t  action:\n\t\t\t\t  getTranslations: true\n\t\t\t\t  assignVariable: translations\n`;
 
-    // Add tests block
     let testsLabel = 'tests:\n';
-
-    // Indent the entire testDSL block by adding a tab in front of each line
     testDSL = testDSL.replace(/^/gm, '\t');
-
-    // Clean up 'templates:' if present in the testDSL
     testDSL = testDSL.replace(/templates:\s*/g, '');
-
-    // Combine all parts: name, setup block, and tests
     testDSL = name + setupBlock + testsLabel + testDSL;
 
     return testDSL;
   }
+
+  processBusinessDSL(businessYMLPath = null) {
+    if (businessYMLPath) {
+      // If a specific path is provided, load that file directly
+      this.loadBusinessDSL(businessYMLPath);
+      const testDSL = this.convertToTestDSL();
+
+      const outputDir = path.dirname(businessYMLPath);
+      const outputFilePath = path.join(outputDir, 'testDSL.yml');
+      this.writeToFile(outputFilePath, testDSL);
+
+      console.log(`TestDSL written to: ${outputFilePath} \n`); // Log where the TestDSL was written
+    } else {
+      // Otherwise, search for business.yml files
+      const startDirectory = path.resolve(__dirname, '../../'); // Go up two levels to reach TDD-Playwright
+      const businessYMLPaths = this.findBusinessYMLFolders(startDirectory); // Traverse from the TDD-Playwright directory
+      console.log(`\n`);
+
+      businessYMLPaths.forEach(businessYMLPath => {
+        this.loadBusinessDSL(businessYMLPath);
+        const testDSL = this.convertToTestDSL();
+
+        const outputDir = path.dirname(businessYMLPath);
+        const outputFilePath = path.join(outputDir, 'testDSL.yml');
+        this.writeToFile(outputFilePath, testDSL);
+
+        console.log(`TestDSL written to: ${outputFilePath} \n`); // Log where the TestDSL was written
+      });
+    }
+  }
 }
 
 const dslConverter = new DSLConverter();
-const testDSL = dslConverter.convertToTestDSL();
-dslConverter.writeToFile('./testDSL.yml', testDSL);
-console.log(testDSL);
+const specificPath = process.argv[2] || null; 
+dslConverter.processBusinessDSL(specificPath);
