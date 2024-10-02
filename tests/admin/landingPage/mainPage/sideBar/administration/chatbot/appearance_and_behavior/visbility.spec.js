@@ -1,7 +1,5 @@
 import { test, expect } from '@playwright/test';
 import { getTranslations } from '../../../../../../../translations/languageDetector';
-import sidebarTests from '../../../sideBar';
-import headerTests from 'tests/admin/landingPage/mainPage/header/header';
 
 test.describe('Visibility Tests for "Välimus ja käitumine"/"Appearance and Behaviour" Page', async () => {
     let translation;
@@ -10,19 +8,6 @@ test.describe('Visibility Tests for "Välimus ja käitumine"/"Appearance and Beh
         // Navigate to the page before each test
         await page.goto('https://admin.prod.buerokratt.ee/chat/chatbot/appearance');
         translation = await getTranslations(page);
-    });
-
-    test.only('Run sidebar and header tests in sequence', async ({ page }) => {
-        await page.waitForTimeout(2000)
-        const sidebar = await sidebarTests(page, translation);
-        const header = await headerTests(page, translation); 
-        try {
-            await sidebar.runAllTests(); // Await the function call
-            await header.runAllTests(); 
-        } catch (error) {
-            console.error('Error during sidebar tests:', error);
-            throw error; // Rethrow the error to fail the test
-        }
     });
 
     test('Check visibility of the header', async ({ page }) => {
