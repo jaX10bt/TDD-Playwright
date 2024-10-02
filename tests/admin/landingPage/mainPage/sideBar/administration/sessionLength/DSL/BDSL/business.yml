@@ -1,6 +1,7 @@
 resource: chat/session-length
 description: "Session Length"
 methods:
+  - methods: POST
     description: "Session Length"
     required:
       - "header"

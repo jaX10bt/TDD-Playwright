@@ -1,11 +1,11 @@
-resource: chat/chatbot/emergency-notices
-description: "Emergency notices"
+resource: chat/chatbot/welcome-message
+description: Settings
 methods:
   - methods: POST
-    description: "Emergency notices"
+    description: Welcome Message
     required:
-      - "header"
-      - "left_menu"
+      - header
+      - left_menu
     main:
       title:
         name: title
@@ -14,7 +14,7 @@ methods:
               - title:
                   args:
                     - type: text
-                    - value: "Emergency notices"
+                    - value: "Welcome Message"
                     - style: h1
 
       body:
@@ -24,42 +24,23 @@ methods:
               - label:
                   args:
                     - type: text
-                    - value: "Notice active"
+                    - value: "Greeting Active"
                     - style: label
-              - input:
+              - switch:
                   args:
                     - type: button
                     - style: switch
-
           - textarea:
               - label:
                   args:
                     - type: text
-                    - value: "Notice"
+                    - value: "Welcome Message"
                     - style: label
+
               - textarea:
                   args:
-                    - type: date
                     - type: text
                     - style: textarea
-
-          - date:
-              - label:
-                  args:
-                    - type: text
-                    - value: "Display period"
-                    - style: label
-              - input:
-                  args:
-                    - type: date
-              - label:
-                  args:
-                    - type: text
-                    - value: "to"
-                    - style: label
-              - input:
-                  args:
-                    - type: date
 
       footer:
         name: card_footer

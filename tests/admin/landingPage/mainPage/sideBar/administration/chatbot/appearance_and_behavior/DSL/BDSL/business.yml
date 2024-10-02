@@ -1,6 +1,7 @@
 resource: chat/chatbot/appearance
 description: "Appearance and Behaviour"
 methods:
+  - methods: POST 
     description: "Appearance and Behaviour"
     required:
       - "header"

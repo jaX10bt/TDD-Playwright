@@ -10,11 +10,12 @@ methods:
       title:
         name: title
         components:
-          title:
-            args:
-              - type: text
-              - value: "Working time"
-              - style: h1
+          - title:
+              - title:
+                  args:
+                    - type: text
+                    - value: "Working time"
+                    - style: h1
 
       body:
         name: card_body_divided
