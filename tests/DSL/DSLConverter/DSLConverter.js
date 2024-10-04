@@ -14,15 +14,20 @@ class DSLConverter {
     this.loadTemplates();
   }
 
-  loadTemplates() {
+  async loadTemplates() {
     const templatesDir = path.join(__dirname, 'templates');
-    const files = fs.readdirSync(templatesDir);
+    try {
+      const files = fs.readdirSync(templatesDir);
 
-    files.forEach(file => {
-      const templateName = path.parse(file).name;
-      const templateContent = fs.readFileSync(path.join(templatesDir, file), 'utf-8');
-      this.templates[templateName] = templateContent;
-    });
+      await Promise.all(files.forEach(file => {
+        const templateName = path.parse(file).name;
+        const templateContent = fs.readFileSync(path.join(templatesDir, file), 'utf-8');
+        this.templates[templateName] = templateContent;
+      }));
+    } catch (err) {
+      console.error(`Failed to load templates from ${templatesDir}: `, err.message);
+      process.exit(1);
+    }
   }
 
   // Function to write generated testDSL to a file in the folder where business.yml is found
@@ -234,5 +239,5 @@ class DSLConverter {
 }
 
 const dslConverter = new DSLConverter();
-const specificPath = process.argv[2] || null; 
+const specificPath = process.argv[2] || null;
 dslConverter.processBusinessDSL(specificPath);

@@ -13,6 +13,17 @@ setup:
 tests:
 	
 	
+	# title tests for Working time
+	
+	- name: title
+	  - components:
+	      - title:
+	          args:
+	            - type: text
+	            - value: "translation.workingTime"
+	            - style: h1
+	
+	
 	# switch tests for Working time
 	
 	- name: label_switch
