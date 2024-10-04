@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
-import { getTranslations } from '../../../../../../translations/languageDetector';
-import { openDialog, selectFirstChat, takeOverFirstChat } from '../unanswered/helper';
+import { getTranslations } from '@translation/languageDetector.js';
+import { takeOverFirstChat } from '../unanswered/helper';
 
 let translation;
 
@@ -58,7 +58,7 @@ test.describe('Visibility Tests for "Ootel" / "Pending" Page', () => {
     });
 });
 
-test.describe.only('"Pending" tab body visibility', () => {
+test.describe('"Pending" tab body visibility', () => {
 
     
     test.beforeEach('test', async ({ page }) => {
