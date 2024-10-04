@@ -62,7 +62,7 @@ test.describe('Visibility Tests for "Ajalugu" / "History" Page', () => {
 
 
 
-test.describe.only('Data Table Tests', () => {
+test.describe('Data Table Tests', () => {
     let headers;
     test.beforeEach(() => {
         // Define headers dynamically in each test case after translations are fetched
