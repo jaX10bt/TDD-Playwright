@@ -15,7 +15,7 @@ export async function selectFirstChat(page) {
     const buttons = await page.locator('.vertical-tabs__trigger');
     const buttonCount = await buttons.count();
     if (buttonCount === 0) {
-        console.log('No unanswered chats available');
+        //console.log('No unanswered chats available');
         return false;
     }
 
@@ -41,7 +41,7 @@ export async function takeOverFirstChat(page) {
     // Check if the "Võta üle" button is visible and enabled before clicking
     if (await takeOverButton.isVisible() && await takeOverButton.isEnabled()) {
         await takeOverButton.click();
-        console.log("Chat taken over successfully.");
+        //console.log("Chat taken over successfully.");
         return true;  // Chat taken over successfully
     } else {
         console.log("Take over button not visible or not enabled.");

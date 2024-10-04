@@ -58,10 +58,19 @@ test.describe('Visibility Tests for "Ootel" / "Pending" Page', () => {
     });
 });
 
-test.describe('"Pending" tab body visibility', () => {
+test.describe.only('"Pending" tab body visibility', () => {
 
     test.beforeEach('test', async ({ page }) => {
-        await selectFirstChat(page);
+        await page.goto('https://admin.prod.buerokratt.ee/chat/unanswered');
+
+        const switchButton = await page.locator('.switch__button');
+        const isChecked = await switchButton.getAttribute('aria-checked');
+        if (isChecked !== 'true' ) {
+            await switchButton.click();
+        }
+
+        await takeOverFirstChat(page);
+        
         translation = await getTranslations(page);
     });
 
@@ -77,7 +86,7 @@ test.describe('"Pending" tab body visibility', () => {
 
     test('should have chat wrapper', async ({ page }) => {
         const wrapper = page.locator('div.active-chat__group-wrapper');
-        await expect(header).toBeVisible();
+        await expect(wrapper).toBeVisible();
     })
 
     test('should have chat toolbar', async ({ page }) => {

@@ -1,11 +1,11 @@
-name: Working time
+name: Appearance and Behaviour
 setup:
 	- describe: Check visibility of Page Elements
 	  serial: true
 	  beforeEach:
 	  - name: Setup
 		  action:
-			  navigate: "https://admin.prod.buerokratt.ee/chat/working-time"
+			  navigate: "undefinedchat/chatbot/appearance"
 	  - name: Fetch Translations
 			  action:
 				  getTranslations: true
@@ -13,18 +13,35 @@ setup:
 tests:
 	
 	
-	# title tests for Working time
+	# title tests for Appearance and Behaviour
 	
 	- name: title
 	  - components:
 	      - title:
 	          args:
 	            - type: text
-	            - value: "translation.workingTime"
+	            - value: "translation.appearanceAndBehaviour"
 	            - style: h1
 	
 	
-	# switch tests for Working time
+	# input tests for Appearance and Behaviour
+	
+	- name: label_input
+	  - components: 
+	      parent: input
+	      children: Label + Input
+	      - name: Label
+	        type: Label
+	        props:
+	          label: "translation.widgetProactiveSeconds"
+	          
+	      - name: Input
+	        type: Input
+	        props:
+	          input: "input"
+	          name: "widgetProactiveSeconds"
+	
+	# switch tests for Appearance and Behaviour
 	
 	- name: label_switch
 	  - components: 
@@ -33,7 +50,7 @@ tests:
 	      - name: Label
 	        type: Label
 	        props:
-	          label: " translation.considerPublicHolidays"
+	          label: " translation.widgetBubbleMessageText"
 	          adjacent_to: Switch
 	          
 	      - name: Switch
@@ -42,71 +59,87 @@ tests:
 	          switch: "button.switch__button"
 	          adjacent_to_label: true
 	
-	# switch tests for Working time
+	# input tests for Appearance and Behaviour
 	
-	- name: label_switch
+	- name: label_input
 	  - components: 
-	      parent: switch
-	      children: Label + Switch
+	      parent: input
+	      children: Label + Input
 	      - name: Label
 	        type: Label
 	        props:
-	          label: " translation.closedOnWeekends"
-	          adjacent_to: Switch
+	          label: "translation.widgetBubbleMessageSeconds"
 	          
-	      - name: Switch
-	        type: Switch
+	      - name: Input
+	        type: Input
 	        props:
-	          switch: "button.switch__button"
-	          adjacent_to_label: true
+	          input: "input"
+	          name: "widgetDisplayBubbleMessageSeconds"
 	
-	# switch tests for Working time
+	# input tests for Appearance and Behaviour
 	
-	- name: label_switch
+	- name: label_input
 	  - components: 
-	      parent: switch
-	      children: Label + Switch
+	      parent: input
+	      children: Label + Input
 	      - name: Label
 	        type: Label
 	        props:
-	          label: " translation.theSameOnAllWorkingDays"
-	          adjacent_to: Switch
+	          label: "translation.widgetBubbleMessageText"
 	          
-	      - name: Switch
-	        type: Switch
+	      - name: Input
+	        type: Input
 	        props:
-	          switch: "button.switch__button"
-	          adjacent_to_label: true
+	          input: "input"
+	          name: "widgetBubbleMessageText"
 	
-	# workingtime tests for Working time
+	# colorpicker tests for Appearance and Behaviour
+	
+	- name: label_colorpicker
+	  - components: 
+	      parent: input
+	      children: Label + ColorPicker + Button
+	      - name: Label
+	        type: Label
+	        props:
+	          label: "translation.widgetColor"
+	          
+	      - name: ColorPicker
+	        type: Input
+	        props:
+	          input: "input"
+	          readonly: true
+	      
+	      - name: Button
+	        type: Button
+	        props:
+	          icon: true
+	          # Indicates it's next to the ColorPicker in the DOM structure
+	          adjacent_to: div input    
+	
+	# dropdown tests for Appearance and Behaviour
+	
+	- name: label_dropdown
+	  - components: 
+	      parent: select
+	      children: Label + Dropdown
+	      - name: Label
+	        type: Label
+	        props:
+	          label: "translation.widgetAnimation"
+	          
+	      - name: Dropdown
+	        type: Input
+	        props:
+	          role: "combobox"
+	          name: "translation.widgetAnimation"
+	          expanded: false
+	
+	          
+	        
 	
 	
-	
-	# workingtime tests for Working time
-	
-	
-	
-	# workingtime tests for Working time
-	
-	
-	
-	# workingtime tests for Working time
-	
-	
-	
-	# workingtime tests for Working time
-	
-	
-	
-	# workingtime tests for Working time
-	
-	
-	
-	# workingtime tests for Working time
-	
-	
-	
-	# button tests for Working time
+	# button tests for Appearance and Behaviour
 	
 	- name: button
 	  - components: 
@@ -115,4 +148,15 @@ tests:
 	        props:
 	          class: "btn"
 	          text: "translation.save"
+	          
+	
+	# button tests for Appearance and Behaviour
+	
+	- name: button
+	  - components: 
+	      - name: Button
+	        type: Button
+	        props:
+	          class: "btn"
+	          text: "translation.preview"
 	          

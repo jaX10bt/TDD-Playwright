@@ -1,6 +1,8 @@
+require('dotenv').config();
 const fs = require('fs');
 const path = require('path');
 const yaml = require('js-yaml');
+
 
 const TITLE = 'title';
 const FOOTER = 'footer';
@@ -10,20 +12,23 @@ class DSLConverter {
   constructor() {
     this.templates = {};
     this.businessDSL = null;
-    this.baseUrl = 'https://admin.prod.buerokratt.ee/'; // You can move this later if needed.
+    this.baseUrl = process.env.BASE_URL;
     this.loadTemplates();
   }
 
+  /**
+   * @description Load templates from the templates folder.
+   */
   async loadTemplates() {
     const templatesDir = path.join(__dirname, 'templates');
     try {
       const files = fs.readdirSync(templatesDir);
 
-      await Promise.all(files.forEach(file => {
+      files.forEach(file => {
         const templateName = path.parse(file).name;
         const templateContent = fs.readFileSync(path.join(templatesDir, file), 'utf-8');
         this.templates[templateName] = templateContent;
-      }));
+      });
     } catch (err) {
       console.error(`Failed to load templates from ${templatesDir}: `, err.message);
       process.exit(1);
