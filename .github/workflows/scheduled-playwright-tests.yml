@@ -47,10 +47,10 @@ jobs:
           retention-days: 30
 
       # Upload Playwright Test Artifacts (Videos, Traces, Screenshots)
-      - name: Upload Playwright Artifacts
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: playwright-artifacts
-          path: tests-results/
-          retention-days: 30
+      # - name: Upload Playwright Artifacts
+      #   if: always()
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: playwright-artifacts
+      #     path: tests-results/
+      #     retention-days: 30
