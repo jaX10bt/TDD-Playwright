@@ -14,6 +14,7 @@
 
 
 ## **TODO:**
+- Lisada input_button template
 - Pealkirjad testDSL-dele - DONE
 
 - Kõik äriDSLid peavad vastama ühele formaadile, muidu läheb programm katki. Formaati saab muuta ning on läbirääkimise asi. 

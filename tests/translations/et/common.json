@@ -134,6 +134,12 @@
     "toDelete": "Kustutamiseks",
     "logout": "Logi välja",
     "present": "Kohal",
-    "away": "Eemal"
+    "away": "Eemal",
+    "intents": "Teemad",
+    "add": "Lisa",
+    "uploadExamples": "Laadi ülesse näited",
+    "downloadExamples": "Laadi alla näited",
+    "addToModel": "Lisa mudelisse",
+    "addNew": "Lisa uus..."
     
 }

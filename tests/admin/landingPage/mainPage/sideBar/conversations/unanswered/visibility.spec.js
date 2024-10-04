@@ -54,7 +54,7 @@ test.describe('"Vastamata" page visibility', async () => {
 test.describe('Selected conversation open chat visibility tests', () => {
     let translation;
     test.beforeEach(async ({ page }) => {
-        await page.goto('https://admin.prod.buerokratt.ee/chat/unanswered');
+        await page.goto('https://admin.prod.buerokratt.ee/chat/unanswered', {waitUntil: 'networkidle'});
 
         const switchButton = await page.locator('.switch__button');
         const isChecked = await switchButton.getAttribute('aria-checked');
@@ -195,7 +195,7 @@ test.describe('"Suuna kolleegile" active chat actions dialog visibility',  () =>
     let headers;
     test.beforeEach(async ({ page }) => {
 
-        await page.goto('https://admin.prod.buerokratt.ee/chat/unanswered');
+        await page.goto('https://admin.prod.buerokratt.ee/chat/unanswered', {timeout: 40000});
 
         
         const switchButton = await page.locator('.switch__button');

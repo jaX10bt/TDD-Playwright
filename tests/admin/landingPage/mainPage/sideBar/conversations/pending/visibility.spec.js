@@ -62,7 +62,7 @@ test.describe('"Pending" tab body visibility', () => {
 
     
     test.beforeEach('test', async ({ page }) => {
-        await page.goto('https://admin.prod.buerokratt.ee/chat/unanswered');
+        await page.goto('https://admin.prod.buerokratt.ee/chat/unanswered', {waitUntil: 'networkidle'});
 
         await page.waitForTimeout(2000);
         const switchButton = await page.locator('.switch__button');

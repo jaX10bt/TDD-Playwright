@@ -134,5 +134,11 @@
     "toDelete": "To Delete",
     "logout": "Logout",
     "present": "Present",
-    "away": "Away"
+    "away": "Away",
+    "intents": "Intents",
+    "add": "Add",
+    "uploadExamples": "Upload examples",
+    "downloadExamples": "Download examples",
+    "addToModel": "Add to model",
+    "addNew": "Add new..."
 }

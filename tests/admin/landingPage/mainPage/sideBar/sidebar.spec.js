@@ -1,12 +1,12 @@
 import { test, expect } from '@playwright/test';
-import { getTranslations } from '@translation/languageDetector';
+import { getTranslations } from '@translation/languageDetector.js';
 
 test.describe('Sidebar Functionality Tests', () => {
     let translations;
 
     test.beforeEach(async ({ page }) => {
         // Load page and fetch translations
-        await page.goto('https://admin.prod.buerokratt.ee/chat/active');
+        await page.goto('https://admin.prod.buerokratt.ee/chat/active', {timeout: 40000});
         translations = await getTranslations(page);
     });
 
