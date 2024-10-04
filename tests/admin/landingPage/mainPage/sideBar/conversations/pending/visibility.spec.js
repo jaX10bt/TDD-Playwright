@@ -60,9 +60,11 @@ test.describe('Visibility Tests for "Ootel" / "Pending" Page', () => {
 
 test.describe.only('"Pending" tab body visibility', () => {
 
+    
     test.beforeEach('test', async ({ page }) => {
         await page.goto('https://admin.prod.buerokratt.ee/chat/unanswered');
 
+        await page.waitForTimeout(2000);
         const switchButton = await page.locator('.switch__button');
         const isChecked = await switchButton.getAttribute('aria-checked');
         if (isChecked !== 'true' ) {
