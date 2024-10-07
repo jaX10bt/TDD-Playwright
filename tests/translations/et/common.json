@@ -128,6 +128,14 @@
     "advisorSignsOfHateSpeech": "Nõustaja - vihakõne tunnused",
     "advisorOtherReasons": "Nõustaja - muud põhjused",
     "advisorAnsweredInAnotherChannel": "Nõustaja - vastatud teises kanalis",
+    "forwarding": "Suunamised",
+    "averageResponseSpeedInTheInstitution": "Keskmine vastamise kiirus asutuses",
+    "averagePresenceOfCounselors": "Keskmine nõustajate kohalolu",
+    "numberOfConversationsByAdviser": "Vestluste arv nõustaja lõikes",
+    "conversationTimeByAdvisor": "Vestluse aeg (min) nõustaja lõikes",
+    "numberOfConversationsDirectedFromAdvisor": "Nüustajalt suunatud vestluste arv",
+    "counselorDirectedConversations": "Nõustajale suunatud vestluste arv",
+    "outOfFacilityForwards": "Suunamised asutusest välja",
 
 
     "askAuthentication": "Küsi autentimist",
