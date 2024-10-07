@@ -42,7 +42,7 @@ test.describe('Visibility Tests for "Themes"/"Teemad" left vertical tab', () => 
 });
 
 
-test.describe.only('Visibility Tests for "Themes"/"Teemad" right vertical tab', async () => {
+test.describe('Visibility Tests for "Themes"/"Teemad" right vertical tab', async () => {
     test.beforeEach(async ({ page }) => {
         hasElements = await selectFirstChat(page);
         test.skip(!hasElements, 'No listing elements found');
