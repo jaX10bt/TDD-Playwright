@@ -95,6 +95,31 @@ test.describe('Visibility Tests for "Themes"/"Teemad" right vertical tab', async
         await expect(textarea).toHaveAttribute('maxlength', '600');
     })
 
+    test('should have in vertical tab data-table disabled add button if text area is empty', async ({ page }) => {
+        const table = page.locator('.data-table');
+        const textarea = table.locator(`textarea[placeholder="${translations.addNew}"]`);
+        const button = table.locator(`.btn:has-text("${translations.add}")`);
+
+        const textAreaValue = await textarea.inputValue();
+        if (textAreaValue === '') {
+            await expect(button).toBeVisible();
+            await expect(button).toBeDisabled();
+        }
+
+
+    })
+
+    test('should have in vertical tab data-table enabled add button if text area is not empty', async ({ page }) => {
+        const table = page.locator('.data-table');
+        const textarea = table.locator(`textarea[placeholder="${translations.addNew}"]`);
+        const button = table.locator(`.btn:has-text("${translations.add}")`);
+
+        await textarea.fill('Test text');
+        await expect(button).toBeVisible(); 
+        await expect(button).toBeEnabled();
+
+        
+    })
 
 
 });
