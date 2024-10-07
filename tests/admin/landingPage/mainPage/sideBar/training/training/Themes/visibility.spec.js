@@ -88,7 +88,7 @@ test.describe('Visibility Tests for "Themes"/"Teemad" right vertical tab', async
         await expect(table).toBeVisible();
     })
 
-    test.only('should have in vertical tab data-table text area with defined max length', async ({ page }) => {
+    test('should have in vertical tab data-table text area with defined max length', async ({ page }) => {
         const table = page.locator('.data-table');
         const textarea = table.locator(`textarea[placeholder="${translations.addNew}"]`);
         await expect(textarea).toBeVisible();
