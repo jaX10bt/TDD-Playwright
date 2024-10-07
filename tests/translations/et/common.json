@@ -11,9 +11,10 @@
     "email": "E-post",
     "edit": "Muuda",
     "delete": "Kustuta",
-    "search...": "Otsi...",
+    "search": "Otsi...",
     "searchByName": "Otsi nime järgi...",
     "searchChats": "Otsi üle vestluste...",
+    "searchResponse": "Otsi vastust...",
     "administrator": "Administraator",
     "serviceManager": "Teenuse haldur",
     "firstAndLastName": "Ees- ja perekonnanimi",
@@ -140,6 +141,11 @@
     "uploadExamples": "Laadi ülesse näited",
     "downloadExamples": "Laadi alla näited",
     "addToModel": "Lisa mudelisse",
-    "addNew": "Lisa uus..."
-    
+    "addNew": "Lisa uus...",
+    "responses": "Vastused",
+    "response": "Vastus",
+    "rule": "Reegel",
+    "rules": "Reeglid",
+    "contact": "Kontakt",
+    "label" : "Märksõna"
 }

@@ -10,9 +10,10 @@
     "email": "E-mail",
     "edit": "Edit",
     "delete": "Delete",
-    "search...": "Search...",
+    "search": "Search...",
     "searchByName": "Search by name...",
     "searchChats": "Search chats...",
+    "searchResponse": "Search response...",
     "administrator": "Administrator",
     "serviceManager": "Service manager",
     "firstAndLastName": "First and Last Name",
@@ -140,5 +141,11 @@
     "uploadExamples": "Upload examples",
     "downloadExamples": "Download examples",
     "addToModel": "Add to model",
-    "addNew": "Add new..."
+    "addNew": "Add new...",
+    "responses": "Responses",
+    "response" : "Response",
+    "rule": "Rule",
+    "rules" : "Rules",
+    "contact" : "Contact",
+    "label" : "Label"
 }
