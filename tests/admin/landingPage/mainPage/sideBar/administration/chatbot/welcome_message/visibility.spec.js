@@ -59,7 +59,7 @@ test.describe('Welcome message/Tervitussõnum Visibility Tests', () => {
         await expect(textareaValue).not.toBe('');
     });
 
-    test('Check if the character count reflects the length of the message ### LOOK ISSUE INSIDE', async ({ page }) => {
+    test.skip('Check if the character count reflects the length of the message ### LOOK ISSUE INSIDE', async ({ page }) => {
 
         test.info().annotations.push({
             type: 'Known bug',

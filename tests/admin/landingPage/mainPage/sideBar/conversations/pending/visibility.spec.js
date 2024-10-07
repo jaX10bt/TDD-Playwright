@@ -59,7 +59,7 @@ test.describe('Visibility Tests for "Ootel" / "Pending" Page', () => {
     });
 });
 
-test.describe.skip('"Pending" tab body visibility', () => {
+test.describe.skip('"Pending" tab body visibility ### This suite cannot be tested reliably do not interact', () => {
 
     
     test.beforeEach('test', async ({ page }) => {

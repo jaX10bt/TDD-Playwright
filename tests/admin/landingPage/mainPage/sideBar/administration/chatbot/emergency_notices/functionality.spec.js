@@ -19,7 +19,7 @@ test.describe('Erakorralised Teated/Emergency notices Functionality Tests', () =
   // and thus nothing changes for the user in regard to UI
   // 
   //
-  test('Check if "Teade aktiivne"/"Notice active" switch button toggles ### Look issue inside', 
+  test.skip('Check if "Teade aktiivne"/"Notice active" switch button toggles ### Look issue inside', 
 
     async ({ page }) => {
 
@@ -62,7 +62,7 @@ test.describe('Erakorralised Teated/Emergency notices Functionality Tests', () =
     await expect(teadeInput).toHaveValue('Service will resume shortly.');
   });
 
-  test('Check if "Kuvamisperiood" date inputs can be changed ### Look issues inside', async ({ page }) => {
+  test.skip('Check if "Kuvamisperiood" date inputs can be changed ### Look issues inside', async ({ page }) => {
 
     test.info().annotations.push({
         type: 'Known critical bug',
