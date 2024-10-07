@@ -179,8 +179,12 @@
     "lastTrained": "Last trained",
     "live": "Live",
     "selectedModel": "Selected model",
-    "allModels": "All models"
-   
-
-
+    "allModels": "All models",
+    "trainAndTest": "Train and test",
+    "trainingAndTestingData": "Training and testing data",
+    "repeatTraining": "Repeat training",
+    "plannedTraining": "Planned training",
+    "days": "Days",
+    "trainingTime": "Training time",
+    "trainNow": "Train now"
 }

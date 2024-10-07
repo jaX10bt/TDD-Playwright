@@ -180,5 +180,12 @@
     "lastTrained": "Millal mudel treeniti",
     "live": "Avaldatud",
     "selectedModel": "Valitud mudel",
-    "allModels": "Kõik mudelid"
+    "allModels": "Kõik mudelid",
+    "trainAndTest": "Treeni ja testi",
+    "trainingAndTestingData": "Treenimise ja testimise andmed",
+    "repeatTraining": "Treeni uuesti",
+    "plannedTraining": "Planeeritud treening",
+    "days": "Nädalapäevad",
+    "trainingTime": "Treenimise kellaaeg",
+    "trainNow": "Treeni kohe"
 }
