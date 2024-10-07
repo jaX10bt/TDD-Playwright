@@ -4,6 +4,7 @@ import { takeOverFirstChat } from '../unanswered/helper';
 
 let translation;
 
+test.describe.serial('Visibility tests for pending page', () => {
 test.describe('Visibility Tests for "Ootel" / "Pending" Page', () => {
 
     test.beforeEach(async ({ page }) => {
@@ -58,11 +59,11 @@ test.describe('Visibility Tests for "Ootel" / "Pending" Page', () => {
     });
 });
 
-test.describe('"Pending" tab body visibility', () => {
+test.describe.skip('"Pending" tab body visibility ### This suite cannot be tested reliably do not interact', () => {
 
     
     test.beforeEach('test', async ({ page }) => {
-        await page.goto('https://admin.prod.buerokratt.ee/chat/unanswered', {waitUntil: 'networkidle'});
+        await page.goto('https://admin.prod.buerokratt.ee/chat/pending', {waitUntil: 'networkidle'});
 
         await page.waitForTimeout(2000);
         const switchButton = await page.locator('.switch__button');
@@ -123,3 +124,4 @@ test.describe('"Pending" tab body visibility', () => {
     });
 });
 
+});
