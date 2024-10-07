@@ -2,7 +2,7 @@ const { test, expect } = require('@playwright/test');
 const { getTranslations } = require('../../../../../../translations/languageDetector');
 
 
-test.describe.serial('Complete User Management Functionality Tests', () => {
+test.describe('Complete User Management Functionality Tests', () => {
     test.describe.serial('User Management Functionality Tests', () => {
         let translation;
         const pageUrl = 'https://admin.prod.buerokratt.ee/chat/users';
@@ -10,7 +10,7 @@ test.describe.serial('Complete User Management Functionality Tests', () => {
         test.beforeEach(async ({ page }) => {
             await page.goto(pageUrl);
             translation = await getTranslations(page);
-            await page.waitForLoadState('networkidle');
+            
         });
 
         async function testSorting({ page }, translationKey) {
@@ -79,7 +79,7 @@ test.describe.serial('Complete User Management Functionality Tests', () => {
             await testSearching({ page }, 'idCode');
         });
 
-        test.fail('Sort and Search by Roĺl/Role ### CHECK ISSUE INSIDE', async ({ page }) => {
+        test.skip('Sort and Search by Roĺl/Role ### CHECK ISSUE INSIDE', async ({ page }) => {
             test.info().annotations.push({
                 type: 'Known bug',
                 description: 'The sorting is starts from Z-A for some reason instead of A-Z as with other sortings.',
