@@ -147,5 +147,21 @@
     "rule": "Rule",
     "rules" : "Rules",
     "contact" : "Contact",
-    "label" : "Label"
+    "label" : "Label",
+    "intentsOverview" : "Intents overview",
+    "reportOverview" : "Report overview",
+    "modelInUse": "Model in use",
+    "trained": "Trained",
+    "examples": "Examples",
+    "intent": "Intent",
+    "f1Score": "F1-score",
+    "models": "Models",
+    "version": "Version",
+    "lastTrained": "Last trained",
+    "live": "Live",
+    "selectedModel": "Selected model",
+    "allModels": "All models"
+   
+
+
 }

@@ -147,5 +147,18 @@
     "rule": "Reegel",
     "rules": "Reeglid",
     "contact": "Kontakt",
-    "label" : "Märksõna"
+    "label" : "Märksõna",
+    "intentsOverview": "Teemade ülevaade",
+    "reportOverview": "Mudeli ülevaade",
+    "modelInUse": "Mudel kasutusel",
+    "trained": "Treenitud",
+    "examples": "Näidete arv",
+    "intent": "Teema",
+    "f1Score": "F1-skoor",
+    "models": "Mudelid",
+    "version": "Versioon",
+    "lastTrained": "Millal mudel treeniti",
+    "live": "Avaldatud",
+    "selectedModel": "Valitud mudel",
+    "allModels": "Kõik mudelid"
 }
