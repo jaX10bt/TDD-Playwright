@@ -28,7 +28,7 @@ test.describe('Switch button functionality', () => {
             await switchButton.click();
             await expect(switchButton).toHaveAttribute('aria-checked', originalState);
 
-            console.log(`Toggled ${name} and reverted to original state.`);
+            //console.log(`Toggled ${name} and reverted to original state.`);
         }
     });
 

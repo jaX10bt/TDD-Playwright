@@ -46,7 +46,7 @@ test.describe('Visibility Tests for "Aktiivsed" / "Active" tab body', () => {
         const isChatAvailable = await takeOverFirstChat(page);
 
         if (!isChatAvailable) {
-            console.log("No unanswered chats, making API request...");
+            //console.log("No unanswered chats, making API request...");
             await provideData(page);
         }
     
@@ -98,7 +98,7 @@ test.describe('Visibility Tests for "Aktiivsed" / "Active" tab body', () => {
 
 async function provideData(page) {
 
-        console.log("No unanswered chats, making API request...");
+        //console.log("No unanswered chats, making API request...");
 
         // Prepare the JSON data
         const jsonData = {
@@ -142,7 +142,7 @@ async function provideData(page) {
 
         // Check the response status and handle errors if necessary
         if (response.ok()) {
-            console.log('API request was successful.');
+            //console.log('API request was successful.');
         } else {
             console.error(`API request failed with status: ${response.status()}`);
         }
