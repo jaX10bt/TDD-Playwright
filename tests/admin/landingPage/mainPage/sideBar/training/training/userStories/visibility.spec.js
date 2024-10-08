@@ -56,13 +56,20 @@ test.describe('Visibility Tests for "Rules"/"Reeglid" right vertical tab', () =>
     });
 
 
-    test.skip('Check if sorting buttons are present in each column', async ({ page }) => {
+    // Minu arust pole üldse siin mingit sorteerimise võimalust.
+    /* test.skip('Check if sorting buttons are present in each column', async ({ page }) => {
         for (const header of headers) {
             const sortingButton = page.locator('th').filter({ hasText: header }).locator('button');
             await expect(sortingButton).toBeVisible();
         }
-    });
-    
+    }); */
+
+    test('Check if clicking on the "Add" button directs to new url', async ({ page }) => {
+        const addButton = page.locator(`button:has-text("${translations.add}")`);
+        addButton.click();
+        await page.waitForURL('https://admin.prod.buerokratt.ee/training/training/rules/new')
+    })
+
 });
 
 
