@@ -61,13 +61,15 @@ test.describe.serial('Visibility tests for pending page', () => {
 
     test.describe.skip('"Pending" tab body visibility ### Check issue inside ', () => {
 
-
-        test.info().annotations.push({
-            type: 'Known bug',
-            description: 'This cannot be tested reliably as the pending tab is not working properly at the moment.',
-        })
+         /* test.info().annotations.push({
+                type: 'Known bug',
+                description: 'This cannot be tested reliably as the pending tab is not working properly at the moment.',
+            }) */
 
         test.beforeEach('test', async ({ page }) => {
+
+           
+
             await page.goto('https://admin.prod.buerokratt.ee/chat/pending', { waitUntil: 'networkidle' });
 
             await page.waitForTimeout(2000);
