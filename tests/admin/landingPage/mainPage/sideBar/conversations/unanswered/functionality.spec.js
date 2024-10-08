@@ -20,7 +20,7 @@ test.beforeEach(async ({ page }) => {
 
 })
 
-test.skip('Check if clicking unanswered chat opens it ### Look issue inside',
+test('Check if clicking unanswered chat opens it',
 
     async ({ page }) => {
 
