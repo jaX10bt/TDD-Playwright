@@ -36,10 +36,10 @@ test.describe('Visibility Tests for "Rules"/"Reeglid" left vertical tab', () => 
 });
 
 test.describe('Visibility Tests for "Rules"/"Reeglid" right vertical tab', () => {
-    test('Check visibility of the content header elements which should include search field and add button', async ({ page }) => {
-        const searchField = page.getByPlaceholder(`${translations.search}`);
+    test('Check visibility of the content header elements which should include field and add button', async ({ page }) => {
+        const searchField = page.getByPlaceholder(`${translations.dottedSearch}`);
         await expect(searchField).toBeVisible();
-        await expect(searchField).toHaveAttribute('placeholder', `${translations.search}`);
+        await expect(searchField).toHaveAttribute('placeholder', `${translations.dottedSearch}`);
 
         const addButton = page.locator(`.track .btn:has-text("${translations.add}")`);
         await expect(addButton).toBeVisible();
