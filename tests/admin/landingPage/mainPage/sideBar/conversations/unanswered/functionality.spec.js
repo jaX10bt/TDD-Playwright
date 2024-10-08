@@ -8,9 +8,6 @@ let translations;
 
 test.beforeEach(async ({ page }) => {
     await page.goto('https://admin.prod.buerokratt.ee/chat/unanswered');
-
-   
-
     // before each test should turn switch on.
 
     const isSwitchButtonActive = await page.locator('.switch__button').getAttribute('aria-checked');
@@ -169,8 +166,13 @@ test('click "Küsi kontaktandmeid" button and verify chat event', async ({ page 
 test('click "Küsi nõusolekut" button and verify chat event', async ({ page }) => {
     await takeOverFirstChat(page);
 
+
+    await page.waitForTimeout(2000);
+
     // Click on the "Küsi nõusolekut" button
     await page.click(`button.btn--secondary:has-text("${translations.askPermission}")`);
+
+    await page.waitForTimeout(2000);
 
     // Get all chat messages
     const chatMessages = page.locator('div.active-chat__group.active-chat__group--event div.active-chat__event-message p');
