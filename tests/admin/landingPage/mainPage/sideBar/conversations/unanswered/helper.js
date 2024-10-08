@@ -31,7 +31,7 @@ export async function takeOverFirstChat(page) {
     // Attempt to select the first chat
     const chatOpened = await selectFirstChat(page);
     if (!chatOpened) {
-        console.log("No chat was opened.");
+        //console.log("No chat was opened.");
         return false;  // No chat found or opened
     }
     await page.waitForTimeout(2000);
@@ -44,7 +44,7 @@ export async function takeOverFirstChat(page) {
         //console.log("Chat taken over successfully.");
         return true;  // Chat taken over successfully
     } else {
-        console.log("Take over button not visible or not enabled.");
+        //console.log("Take over button not visible or not enabled.");
         return false;  // Take over failed
     }
 }
