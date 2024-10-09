@@ -91,10 +91,115 @@ test.describe('Table Sorting and Searching Automation', () => {
     }
   }
 
+  async function selectDate(inputLocator, dateString, { page }) {
+    // Click on the input to open the date picker
+    await inputLocator.click();
+
+    // Wait for the date picker to be visible
+    const datePicker = page.locator('.react-datepicker');
+    await datePicker.waitFor({ state: 'visible', timeout: 5000 });
+
+    // Extract day, month, and year from the date string
+    const [day, month, year] = dateString.split('.').map(Number);
+
+    // Function to navigate to the correct month/year
+    async function navigateToMonthYear(targetMonth, targetYear) {
+      const monthMap = {
+        'january': 1, 'february': 2, 'march': 3, 'april': 4, 'may': 5, 'june': 6,
+        'july': 7, 'august': 8, 'september': 9, 'october': 10, 'november': 11, 'december': 12,
+        // Add localized month names here
+        'oktoober': 10, // Estonian for October
+        // Add more month names in different languages as needed
+      };
+
+      let attempts = 0;
+      const maxAttempts = 24; // Limit navigation attempts to prevent infinite loops
+
+      while (attempts < maxAttempts) {
+        const monthYearLabel = page.locator('.react-datepicker__current-month');
+        await monthYearLabel.waitFor({ state: 'visible', timeout: 3000 });
+
+        // Get the current month and year displayed in the date picker
+        const currentMonthYear = await monthYearLabel.innerText();
+        console.log("Current month/year label:", currentMonthYear);
+
+        // Parse the current month and year
+        let [currentMonthName, currentYear] = currentMonthYear.toLowerCase().split(' ');
+        currentMonthName = currentMonthName.trim();
+        currentYear = parseInt(currentYear.trim());
+
+        // Convert the current month name to a numeric value (1-12)
+        let currentMonth = monthMap[currentMonthName];
+
+        // If month is not found in our map, try to guess based on the first few letters
+        if (!currentMonth) {
+          const possibleMonths = Object.entries(monthMap).filter(([key]) => key.startsWith(currentMonthName.slice(0, 3)));
+          if (possibleMonths.length === 1) {
+            currentMonth = possibleMonths[0][1];
+          }
+        }
+
+        // If still not found, use a fallback method
+        if (!currentMonth) {
+          currentMonth = new Date(`${currentMonthName} 1, 2000`).getMonth() + 1;
+        }
+
+        // If the current month and year match the target, break the loop
+        if (currentMonth === targetMonth && currentYear === targetYear) {
+          break;
+        }
+
+        // Calculate the difference in months
+        const totalMonthsDiff = (targetYear - currentYear) * 12 + (targetMonth - currentMonth);
+
+        if (totalMonthsDiff < 0) {
+          await page.locator('.react-datepicker__navigation--previous').click();
+        } else {
+          await page.locator('.react-datepicker__navigation--next').click();
+        }
+        // Add a small delay to prevent rapid clicking
+        await page.waitForTimeout(300);
+        attempts++;
+      }
+
+      if (attempts >= maxAttempts) {
+        throw new Error("Failed to navigate to the target month/year after maximum attempts");
+      }
+    }
+
+    // Navigate to the correct month/year
+    await navigateToMonthYear(month, year);
+
+    // Wait for the date picker to be visible again
+    await datePicker.waitFor({ state: 'visible', timeout: 5000 });
+
+    // Define the formatted day
+    const formattedDay = day.toString().padStart(3, '0');
+    const exactDaySelector = page.locator(`div.react-datepicker__day.react-datepicker__day--${formattedDay}:not(.react-datepicker__day--outside-month)`);
+
+    // Click the first valid day element
+    await exactDaySelector.first().click();
+
+    const updatedInputLocator = page.locator(inputLocator.selector);
+
+    // Verify the date has been set correctly
+    await expect(updatedInputLocator).toHaveValue(dateString);
+  }
+
+  // Sorting test
   test.describe('Sorting Tests', () => {
+
     test('Sort by startTime', async ({ page }) => {
       await testSorting({ page }, 'startTime');
+      const dateInputs = page.locator('.react-datepicker__input-container');
+
+      /* // Access the first two inputs which are assumed to be the date inputs
+      const startDateInput = dateInputs.nth(0);
+      const endDateInput = dateInputs.nth(1);
+      await selectDate(startDateInput, '01.09.2024', { page });
+      await selectDate(endDateInput, '31.12.2024', { page }); */
     });
+  
 
     test('Sort by endTime', async ({ page }) => {
       await testSorting({ page }, 'endTime');
