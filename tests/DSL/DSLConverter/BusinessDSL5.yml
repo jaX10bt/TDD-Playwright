@@ -1,0 +1,66 @@
+resource: chat/chatbot/settings
+description: "Settings"
+methods:
+  - methods: POST
+    description: "Settings"
+    required:
+      - "header"
+      - "left_menu"
+    main:
+      title:
+        name: title
+        components:
+        - title:
+           - title:
+              args:
+                - type: text
+                - value: "Settings"
+                - style: h1
+      header:
+        name: card_header
+        components:
+          - switch:
+              - label:
+                  args:
+                    - type: text
+                    - value: "Chatbot active"
+                    - style: label
+              - switch:
+                  args:
+                    - type: button
+                    - style: switch
+      
+      body:
+        name: card_body
+        components:
+          - switch:
+              - label:
+                  args:
+                    - type: text
+                    - value: "Show support name"
+                    - style: label
+              - switch:
+                  args:
+                    - type: button
+                    - style: switch
+          
+          - switch:
+              - label:
+                  args:
+                    - type: text
+                    - value: "Show support title"
+                    - style: label
+              - switch:
+                  args:
+                    - type: button
+                    - style: switch
+
+      footer:
+        name: card_footer
+        components:
+          - button:
+              - button:
+                  args:
+                    - type: button
+                    - value: "Save"
+                    - style: button
