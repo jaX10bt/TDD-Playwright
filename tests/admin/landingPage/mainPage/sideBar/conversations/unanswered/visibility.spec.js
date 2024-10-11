@@ -217,7 +217,7 @@ test.describe('"Suuna kolleegile" active chat actions dialog visibility',  () =>
     })
 
 
-    test.only('After clicking on "Suuna kolleegile" button should have "Kellele vastust suunata?" dialog header and body parts visible', async ({ page }) => {
+    test('After clicking on "Suuna kolleegile" button should have "Kellele vastust suunata?" dialog header and body parts visible', async ({ page }) => {
         // header parse 
         const dialogHeader = page.locator('.dialog__header');
         await expect(dialogHeader).toBeVisible();
