@@ -46,9 +46,9 @@ test.describe('Visibility Tests for "Overview of Topics"/"Teemade ülevaade" pag
         const card = page.locator('.card').nth(1);
         await expect(card).toBeVisible();
 
-        const searchField = card.getByPlaceholder(`${translations.search}`);
+        const searchField = card.getByPlaceholder(`${translations.dottedSearch}`);
         await expect(searchField).toBeVisible();
-        await expect(searchField).toHaveAttribute('placeholder', `${translations.search}`);
+        await expect(searchField).toHaveAttribute('placeholder', `${translations.dottedSearch}`);
     });
     test('Check if the table and all headers are rendered', async ({ page }) => {
 

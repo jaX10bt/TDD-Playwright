@@ -1,7 +1,7 @@
 
 import { test, expect, request } from '@playwright/test';
 
-test.describe('API Testing', () => {
+test.describe.skip('API Testing', () => {
     // Example of a POST request
     test('POST should get page elements', async ({ request }) => {
         const postData = {

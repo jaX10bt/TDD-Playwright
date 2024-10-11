@@ -32,7 +32,7 @@ test.describe('Visibility Tests for "Themes"/"Teemad" left vertical tab', () => 
 
     test('should have in vertical listing tab search input', async ({ page }) => {
         const searchInput = page.locator('input[name="intentSearch"]');
-        await expect(sdev-authearchInput).toBeVisible();
+        await expect(searchInput).toBeVisible();
     })
 
     test('should have in vertical listing tab add button', async ({ page }) => {

@@ -42,7 +42,7 @@ test.describe('Complete User Management Functionality Tests', () => {
 
         async function testSearching({ page }, translationKey) {
             const columnName = translation[translationKey];
-            const searchName = translation['search...'];
+            const searchName = translation['dottedSearch'];
 
             const headers = await page.locator('//table//thead//th').allTextContents();
             const columnIndex = headers.indexOf(columnName) + 1;

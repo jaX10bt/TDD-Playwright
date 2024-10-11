@@ -1,7 +1,8 @@
-name: Manually Triggered Playwright Tests
+name: Scheduled Playwright Tests Admin
 
 on: 
-  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * *' # Scheduled to run at 00:00 UTC
 
 jobs:
   test:
@@ -34,9 +35,9 @@ jobs:
       
       # Run all tests using 4 workers
       - name: Run Playwright tests
-        run: npx playwright test tests --workers=2
+        run: npx playwright test tests/admin --workers=2
       
-      # Upload Playwright Report
+      # Upload Playwright HTML Report
       - name: Upload Playwright Report
         if: always()
         uses: actions/upload-artifact@v4
