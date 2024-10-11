@@ -27,7 +27,7 @@ jobs:
       
       # Run all tests using 4 workers
       - name: Run Playwright tests
-        run: npx playwright test tests/widget --workers=4
+        run: npx playwright test tests/widget --workers=2
       
       # Upload Playwright HTML Report
       - name: Upload Playwright Report
