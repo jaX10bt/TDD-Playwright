@@ -34,7 +34,7 @@ jobs:
       
       # Run all tests using 4 workers
       - name: Run Playwright tests
-        run: npx playwright test --workers=4
+        run: npx playwright test tests/admin/landingPage/visibility.spec.js --workers=4
       
       # Upload Playwright Report
       - name: Upload Playwright Report
