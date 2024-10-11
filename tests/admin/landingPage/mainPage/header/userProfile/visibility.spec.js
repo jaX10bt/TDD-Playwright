@@ -12,6 +12,46 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.describe("user profile/drawer visibility", () => {
+    test("should diplay red status indicator if switch is not active (user is not present)", async ({ page }) => {
+        const switchButton = await page.locator('.switch__button');
+        const isChecked = await switchButton.getAttribute('aria-checked');
+        if (isChecked === 'true') {
+            await switchButton.click();
+        }
+
+        await expect(switchButton).toHaveAttribute('aria-checked', 'false');
+
+        await page.waitForTimeout(500); 
+
+        const button = await page.getByRole('button', { name: 'Kustutamiseks' })
+        const redSpan = await button.locator('span').first();
+
+        const backgroundColor = await redSpan.evaluate(el => getComputedStyle(el).backgroundColor);
+
+        await expect(backgroundColor).toBe('rgb(215, 62, 62)');
+
+    });
+
+    test("should diplay green status indicator if switch is active (user is present)", async ({ page }) => {
+        const switchButton = await page.locator('.switch__button');
+        const isChecked = await switchButton.getAttribute('aria-checked');
+        if (isChecked !== 'true') {
+            await switchButton.click();
+        }
+
+        await expect(switchButton).toHaveAttribute('aria-checked', 'true');
+
+        await page.waitForTimeout(500); 
+
+        const button = await page.getByRole('button', { name: 'Kustutamiseks' })
+        const redSpan = await button.locator('span').first();
+
+        const backgroundColor = await redSpan.evaluate(el => getComputedStyle(el).backgroundColor);
+
+        await expect(backgroundColor).toBe('rgb(48, 134, 83)');
+
+    });
+
     test("should display user profile/drawer", async ({ page }) => {
         const drawer = page.locator('.drawer');
         await expect(drawer).toBeVisible();
@@ -43,11 +83,11 @@ test.describe("user profile/drawer visibility", () => {
         const switchSections = [
             // { title: 'Autokorrektor', labels: ['Teksti autokorrektor'] },
             // { title: 'Märguanded e-postile', labels: ['Uus suunatud vestlus', 'Uus vastamata vestlus'] },
-            { title: translation.soundNotifications, labels: [translation.newForwardedChat, translation.newUnansweredChat]  },
+            { title: translation.soundNotifications, labels: [translation.newForwardedChat, translation.newUnansweredChat] },
             { title: translation.popUpNotifications, labels: [translation.newForwardedChat, translation.newUnansweredChat] }
         ];
 
-        
+
         for (const { title, labels } of switchSections) {
             const titleLocator = drawerBody.locator(`p.h6:has-text("${title}")`);
             await expect(titleLocator).toBeVisible();
