@@ -6,8 +6,10 @@ let translation;
 
 test.beforeEach(async ({ page }) => {
     await page.goto('https://admin.prod.buerokratt.ee/chat/active');
+    await page.waitForTimeout(4000);
     await page.getByRole('button', { name: 'Kustutamiseks' }).click();
-    await expect(page.locator('.drawer')).toBeVisible({ timeout: 5000 });
+    
+    await expect(page.locator('.drawer')).toBeVisible();
     translation = await getTranslations(page)
 });
 

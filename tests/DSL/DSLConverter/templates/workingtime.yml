@@ -18,7 +18,7 @@ templates:
           switch: "button.switch__button" 
     
       class: "track"
-      - name: Start time
+    - name: Start time
         wrapperclass: "startTime"
         type: datepicker
         props:
