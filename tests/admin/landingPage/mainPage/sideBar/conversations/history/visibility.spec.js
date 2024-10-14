@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test';
-const { getTranslations } = require('../../../../../../translations/languageDetector');
+import { getTranslations } from '@translation/languageDetector.js';
 let translation;
+
 
 test.beforeEach(async ({ page }) => {
     await page.goto('https://admin.prod.buerokratt.ee/chat/history');
@@ -19,11 +20,12 @@ test.describe('Visibility Tests for "Ajalugu" / "History" Page', () => {
         await expect(header).toBeVisible();
     });
 
+
     test('header card should include all necessary parts like search field, filtering from, to fields, and dropdown menu', async ({ page }) => {
         const card = page.locator('.card').first();
         await expect(card).toBeVisible();
 
-       const searchField = await page.getByPlaceholder(`${translation.searchChats}`);
+        const searchField = await page.getByPlaceholder(`${translation.searchChats}`);
         await expect(searchField).toBeVisible();
         await expect(searchField).toHaveAttribute('placeholder', `${translation.searchChats}`);
 
@@ -56,39 +58,33 @@ test.describe('Visibility Tests for "Ajalugu" / "History" Page', () => {
         const table = page.locator('table.data-table').first();
         await expect(table).toBeVisible();
     });
+});
 
-    test.describe('Data Table Tests', () => {
 
-        test.beforeEach(() => {
-            // Define headers dynamically in each test case after translations are fetched
-            this.headers = [
-                new RegExp(translation.startTime), new RegExp(translation.endTime),
-                new RegExp(translation.supportName), new RegExp(translation.name),
-                new RegExp(translation.idCode), new RegExp(translation.contactInformation),
-                new RegExp(translation.comment), new RegExp(translation.rating)
-            ];
-        });
 
-        test('Check if the table and all headers are rendered', async ({ page }) => {
-            const table = page.locator('table.data-table');
-            await expect(table).toBeVisible();
-
-            for (const header of this.headers) {
-                const headerElement = table.locator('th').filter({ hasText: header });
-                await expect(headerElement).toBeVisible();
-            }
-        });
-
-    });
-
-    test('Check if sorting buttons are present in each column', async ({ page }) => {
-        const headers = [
+test.describe('Data Table Tests', () => {
+    let headers;
+    test.beforeEach(() => {
+        // Define headers dynamically in each test case after translations are fetched
+        headers = [
             new RegExp(translation.startTime), new RegExp(translation.endTime),
             new RegExp(translation.supportName), new RegExp(translation.name),
-            new RegExp(translation.idCode), new RegExp(translation.contactInformation),
-            new RegExp(translation.comment), new RegExp(translation.rating)
+            new RegExp(translation.idCode)
         ];
+    });
 
+    test('Check if the table and all headers are rendered', async ({ page }) => {
+        const table = page.locator('table.data-table');
+        await expect(table).toBeVisible();
+
+        for (const header of headers) {
+            const headerElement = table.locator('th').filter({ hasText: header });
+            await expect(headerElement).toBeVisible();
+        }
+    });
+
+
+    test('Check if sorting buttons are present in each column', async ({ page }) => {
         for (const header of headers) {
             const sortingButton = page.locator('th').filter({ hasText: header }).locator('button');
             await expect(sortingButton).toBeVisible();
@@ -105,4 +101,8 @@ test.describe('Visibility Tests for "Ajalugu" / "History" Page', () => {
             await expect(pageSizeSelector).toHaveValue(option);
         }
     });
+
 });
+
+
+

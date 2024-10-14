@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 test.describe('chatbox details menu', () => {
     test.beforeEach(async ({ page }) => {
-        await page.goto('/');
+        await page.goto('https://prod.buerokratt.ee');
         await page.getByLabel('Ava vestlus').click();
         await page.getByLabel('Detailid').click();
     });

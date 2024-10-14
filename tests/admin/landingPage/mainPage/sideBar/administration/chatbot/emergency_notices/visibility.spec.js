@@ -1,5 +1,6 @@
 const { test, expect } = require('@playwright/test');
-import { getTranslations } from '../../../../../../../translations/languageDetector.js'
+import { getTranslations } from '@translation/languageDetector.js';
+
 
 test.describe('Erakorralised Teated/Emergency notices Page Visibility', () => {
   let translation
@@ -24,18 +25,20 @@ test.describe('Erakorralised Teated/Emergency notices Page Visibility', () => {
     const teadeInput = await page.locator(`.textarea:has(.textarea__label:has-text("${translation["notice"]}")) textarea`);
     await expect(teadeInput).toBeVisible();
   });
-  
+
 
   test('Check if "Kuvamisperiood" date inputs are present', async ({ page }) => {
-    const kuvamisperioodLabel = await page.locator(`p:has-text("${translation["displayPeriod"]}")`);
-    await expect(kuvamisperioodLabel).toBeVisible();
 
+    const displayPeriodLabel = page.locator(`p:has-text("${translation.displayPeriod}")`);
+    await expect(displayPeriodLabel).toBeVisible();
 
-    // TODO Change this to appear universal
-    const startDateInput = await page.locator('.datepicker').first();
+    const startDateInput = page.locator('.datepicker input[type="text"]').nth(0);
     await expect(startDateInput).toBeVisible();
 
-    const endDateInput = await page.locator('.datepicker').nth(1);
+    const dateUntilLabel = page.locator(`.track span:has-text("${translation.dateUntil}")`);
+    await expect(dateUntilLabel).toBeVisible();
+
+    const endDateInput = page.locator('.datepicker input[type="text"]').nth(1);
     await expect(endDateInput).toBeVisible();
   });
 
@@ -43,5 +46,4 @@ test.describe('Erakorralised Teated/Emergency notices Page Visibility', () => {
     const saveButton = await page.locator(`button.btn--primary:has-text("${translation["save"]}")`);
     await expect(saveButton).toBeVisible();
   });
-
 });

@@ -1,0 +1,10 @@
+{
+    "compilerOptions": {
+      "baseUrl": "./", 
+      "paths": {
+        "@translation/*": ["tests/translations/*"]  
+      }
+    },
+    "include": ["tests/**/*.js", "src/**/*.js"]  
+  }
+  

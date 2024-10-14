@@ -8,6 +8,7 @@ test.describe('"Vastamata" page visibility', async () => {
 
     test.beforeEach(async ({ page }) => {
         await page.goto('https://admin.prod.buerokratt.ee/chat/unanswered');
+        await page.waitForTimeout(4000);
         translation = await getTranslations(page);
     })
 
@@ -55,7 +56,7 @@ test.describe('Selected conversation open chat visibility tests', () => {
     let translation;
     test.beforeEach(async ({ page }) => {
         await page.goto('https://admin.prod.buerokratt.ee/chat/unanswered');
-
+        await page.waitForTimeout(4000);
         const switchButton = await page.locator('.switch__button');
         const isChecked = await switchButton.getAttribute('aria-checked');
         if (isChecked !== 'true' ) {
@@ -132,7 +133,7 @@ test.describe('"Vali vestluse staatus" dialog visibility', async () => {
     let translation;
     test.beforeEach(async ({ page }) => {
         await page.goto('https://admin.prod.buerokratt.ee/chat/unanswered');
-
+        await page.waitForTimeout(4000);
 
         const switchButton = await page.locator('.switch__button');
         const isChecked = await switchButton.getAttribute('aria-checked');
@@ -196,7 +197,7 @@ test.describe('"Suuna kolleegile" active chat actions dialog visibility',  () =>
     test.beforeEach(async ({ page }) => {
 
         await page.goto('https://admin.prod.buerokratt.ee/chat/unanswered');
-
+        await page.waitForTimeout(4000);
         
         const switchButton = await page.locator('.switch__button');
         const isChecked = await switchButton.getAttribute('aria-checked');
@@ -205,8 +206,10 @@ test.describe('"Suuna kolleegile" active chat actions dialog visibility',  () =>
         }
 
         translation = await getTranslations(page);
+
+
         headers = [
-            new RegExp(translation.name), new RegExp(translation.displayName), new RegExp(translation.status)
+            new RegExp(`^${translation.name}$`), new RegExp(`^${translation.displayName}$`), new RegExp(`^${translation.status}$`)
         ];
         await selectFirstChat(page);
         await takeOverFirstChat(page);
@@ -216,7 +219,7 @@ test.describe('"Suuna kolleegile" active chat actions dialog visibility',  () =>
 
     test('After clicking on "Suuna kolleegile" button should have "Kellele vastust suunata?" dialog header and body parts visible', async ({ page }) => {
         // header parse 
-        const dialogHeader = page.waitForSelector('.dialog__header');
+        const dialogHeader = page.locator('.dialog__header');
         await expect(dialogHeader).toBeVisible();
 
         const dialogTitle = dialogHeader.locator('h2.dialog__title');
@@ -230,7 +233,7 @@ test.describe('"Suuna kolleegile" active chat actions dialog visibility',  () =>
         await expect(dialogBody).toBeVisible();
 
         // Check input field visibility and placeholder
-        const inputField = dialogBody.locator('input[name="search"]');
+        const inputField = dialogBody.locator(`input[name="search"]`);
         await expect(inputField).toBeVisible();
         await expect(inputField).toHaveAttribute('placeholder', translation.searchByName);
 
@@ -246,6 +249,7 @@ test.describe('"Suuna kolleegile" active chat actions dialog visibility',  () =>
             const headerElement = table.locator(`th`).filter({ hasText: header });
             await expect(headerElement).toBeVisible();
         }
+        //const lastTrainedText = page.locator('p').filter({ hasText: new RegExp(`^${translations.lastTrained} .+`) });
 
 
         // Iterate over each header and check if the sorting button exists
@@ -255,29 +259,15 @@ test.describe('"Suuna kolleegile" active chat actions dialog visibility',  () =>
         }
 
 
-        // Check if table pagination wrapper exist 
-        const paginationWrapper = page.locator('.data-table__pagination-wrapper');
-        await expect(paginationWrapper).toBeVisible();
-
-        const pageSizeSelector = paginationWrapper.locator('select');
+        // Check for table pagination
+        const pageSizeSelector = page.locator('.data-table__page-size select');
         await expect(pageSizeSelector).toBeVisible();
 
-
-        // Change the number of rows per page
-        await pageSizeSelector.selectOption('10');
-        await expect(pageSizeSelector).toHaveValue('10');
-
-        await pageSizeSelector.selectOption('20');
-        await expect(pageSizeSelector).toHaveValue('20');
-
-        await pageSizeSelector.selectOption('30');
-        await expect(pageSizeSelector).toHaveValue('30');
-
-        await pageSizeSelector.selectOption('40');
-        await expect(pageSizeSelector).toHaveValue('40');
-
-        await pageSizeSelector.selectOption('50');
-        await expect(pageSizeSelector).toHaveValue('50');
+        const options = ['10', '20', '30', '40', '50'];
+        for (const option of options) {
+            await pageSizeSelector.selectOption(option);
+            await expect(pageSizeSelector).toHaveValue(option);
+        }
     });
 
 })

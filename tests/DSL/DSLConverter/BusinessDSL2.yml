@@ -1,0 +1,72 @@
+resource: chat/chatbot/emergency-notices
+description: "Emergency notices"
+methods:
+  - methods: POST
+    description: "Update Emergency Notices"
+    required:
+      - "header"
+      - "left_menu"
+    main:
+      title:
+        name: title
+        components:
+        - title:
+           - title:
+              args:
+                - type: text
+                - value: "Emergency notices"
+                - style: h1
+
+      body:
+        name: card_body
+        components:
+          - switch:
+              - label:
+                  args:
+                    - type: text
+                    - value: "Notice active"
+                    - style: label
+              - input:
+                  args:
+                    - type: button
+                    - style: switch
+
+          - textarea:
+              - label:
+                  args:
+                    - type: text
+                    - value: "Notice"
+                    - style: label
+              - textarea:
+                  args:
+                    - type: date
+                    - type: text
+                    - style: textarea
+
+          - date:
+              - label:
+                  args:
+                    - type: text
+                    - value: "Display period"
+                    - style: label
+              - input:
+                  args:
+                    - type: date
+              - label:
+                  args:
+                    - type: text
+                    - value: "to"
+                    - style: label
+              - input:
+                  args:
+                    - type: date
+
+      footer:
+        name: card_footer
+        components:
+          - button:
+              - button:
+                  args:
+                    - type: button
+                    - value: "Save"
+                    - style: button

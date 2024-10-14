@@ -37,7 +37,7 @@ test.describe('Full Visibility Test for User Management Page', () => {
         const headers = await page.locator('table.data-table thead tr th');
         await expect(headers).toHaveCount(8); 
 
-        const headerTexts = [`${translation["name"]}`, `${translation["idCode"]}`, `${translation["role"]}`, `${translation["displayName"]}`, `${translation["userTitle"]}`, `${translation["e-mail"]}`]; // Adjust as needed
+        const headerTexts = [`${translation["name"]}`, `${translation["idCode"]}`, `${translation["role"]}`, `${translation["displayName"]}`, `${translation["userTitle"]}`, `${translation["email"]}`]; // Adjust as needed
         for (let i = 0; i < headerTexts.length; i++) {
             await expect(headers.nth(i)).toHaveText(headerTexts[i]);
             await expect(headers.nth(i)).toBeVisible();

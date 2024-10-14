@@ -1,24 +1,13 @@
 import { test, expect } from '@playwright/test';
-import { getTranslations } from '../../../../../../../translations/languageDetector';
+import { getTranslations } from '@translation/languageDetector.js';
 
 test.describe('Visibility Tests for "Välimus ja käitumine"/"Appearance and Behaviour" Page', async () => {
     let translation;
-    let context;
-    let page;
-
-    test.beforeAll(async ({ browser }) => {
-        // Create a new context and page manually
-        context = await browser.newContext();
-        page = await context.newPage();
-        await page.goto('https://admin.prod.buerokratt.ee/chat/chatbot/appearance');
-        translation = await getTranslations(page);
-    });
 
     test.beforeEach(async ({ page }) => {
         // Navigate to the page before each test
-        let translation
         await page.goto('https://admin.prod.buerokratt.ee/chat/chatbot/appearance');
-        //translation = await getTranslations(page);
+        translation = await getTranslations(page);
     });
 
     test('Check visibility of the header', async ({ page }) => {
@@ -27,12 +16,14 @@ test.describe('Visibility Tests for "Välimus ja käitumine"/"Appearance and Beh
     });
 
     test('Check visibility of animation duration input', async ({ page }) => {
-        const animationDurationInput = page.locator(`label:has-text("${translation['widgetProactiveSeconds']}") + div input`);
-        await expect(animationDurationInput).toBeVisible();
+        const label = page.locator(`label:has-text("${translation['widgetProactiveSeconds']}")`);
+        await expect(label).toBeVisible();
+        const inputField = page.locator('input[name="widgetProactiveSeconds"]');
+        await expect(inputField).toBeVisible();
     });
 
     test('Check visibility of notification switch', async ({ page }) => {
-        const notificationSwitch = page.locator(`label:has-text("${translation['widgetBubbleMessage']}") + button.switch__button`);
+        const notificationSwitch = page.locator(`label:has-text("${translation['widgetBubbleMessageText']}") + button.switch__button`);
         await expect(notificationSwitch).toBeVisible();
     });
 
@@ -42,7 +33,7 @@ test.describe('Visibility Tests for "Välimus ja käitumine"/"Appearance and Beh
     });
 
     test('Check visibility of notification message input', async ({ page }) => {
-        const notificationMessageInput = page.locator(`label:has-text("${translation['widgetBubbleMessage']}") + div input`);
+        const notificationMessageInput = page.locator(`label:has-text("${translation['widgetBubbleMessageText']}") + div input`);
         await expect(notificationMessageInput).toBeVisible();
 
     });

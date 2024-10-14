@@ -1,0 +1,53 @@
+resource: chat/chatbot/welcome-message
+description: Settings
+methods:
+  - methods: POST
+    description: Welcome Message
+    required:
+      - header
+      - left_menu
+    main:
+      title:
+        name: title
+        components:
+          - title:
+              - title:
+                  args:
+                    - type: text
+                    - value: "Welcome Message"
+                    - style: h1
+
+      body:
+        name: card_body
+        components:
+          - switch:
+              - label:
+                  args:
+                    - type: text
+                    - value: "Greeting Active"
+                    - style: label
+              - switch:
+                  args:
+                    - type: button
+                    - style: switch
+          - textarea:
+              - label:
+                  args:
+                    - type: text
+                    - value: "Welcome Message"
+                    - style: label
+
+              - textarea:
+                  args:
+                    - type: text
+                    - style: textarea
+
+      footer:
+        name: card_footer
+        components:
+          - button:
+              - button:
+                  args:
+                    - type: button
+                    - value: "Save"
+                    - style: button

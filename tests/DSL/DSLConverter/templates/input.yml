@@ -12,5 +12,4 @@ templates:
         type: Input
         props:
           input: "input"
-          
-        
+          name: "{{ name }}"

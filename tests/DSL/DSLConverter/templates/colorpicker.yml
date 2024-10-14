@@ -19,4 +19,4 @@ templates:
         props:
           icon: true
           # Indicates it's next to the ColorPicker in the DOM structure
-          adjacent_to: ColorPicker
+          adjacent_to: div input    

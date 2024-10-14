@@ -1,0 +1,36 @@
+resource: chat/users
+description: "Users"
+methods:
+  - methods: GET
+    description: "Retrieve and display user list"
+    required:
+      - "header"
+      - "left_menu"
+    main:
+      title:
+        name: title
+        components:
+        - title:
+           - title:
+              args:
+                - type: text
+                - value: "Users"
+                - style: h1
+           - button:
+              args:
+                - type: button
+                - value: "Add User"
+                - style: button
+      body:
+        name: card_body
+        components:
+          - table:
+              footer:
+        name: card_footer
+        components:
+          - button:
+              - button:
+                  args:
+                    - type: button
+                    - value: "Save"
+                    - style: button

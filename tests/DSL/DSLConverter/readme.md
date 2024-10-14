@@ -1,29 +1,64 @@
 # DSLConverter Readme
-
 - DSLConverter on WIP, mis peaks tegema äri DSList templiitide baasil testDSLi. 
 
 - Väga algses faasis, põhimõtteliselt praegu lihtsalt loeb templiidid sisse äriDSLi baasil ja annab tagasi testDSLi, kuhu {{ }} sulgude sisse tõlkevariatsioonid
 
 - Tõlkeid endid pole rakendanud veel, tõenäoliselt saab lihtsamalt, eriti mainHeaderiga, mis on igal leheküljel. Seal ei pea midagi asendama ning saab panna otse translations.XXX. 
 
+# How to run
+- Move into DSLConverter directory
+- run ```node DSLConverter.js BusinessDSL.yml```
+
+
 - **Tohutu abi .yml filede lugemisel on js-yaml package'ist, mis sätib .yml faili sisu arraysse ning lihtsustab lugemist**
 
+
 ## **TODO:**
-- Pealkirjad testDSL-dele
+- Lisada input_button template
+- Pealkirjad testDSL-dele - DONE
 
 - Kõik äriDSLid peavad vastama ühele formaadile, muidu läheb programm katki. Formaati saab muuta ning on läbirääkimise asi. 
 
 - Templiidid ühele formaadile vastama ei pea kuid peavad olema võimalikult universaalsed.
 
-- Header ja Footer peab olema handletud eraldi, sest need on üle lehekülgede väga erinevad. 
+- Iga lehekülje ülemises osas on lehe pealkiri. Header ja Footer peab olema handletud eraldi, sest need on üle lehekülgede väga erinevad.
 
 - Praegune implementatsioon on proovina ehitatud selle baasil, et templatel on üks placeholder, mille formaat on 'label' + XXX
 
 - See aga ei tööta kõigiga kuivõrd osadel on rohkem placeholdereid, osadel on staatilised placeholderid, mis on üle pagede samad (vt nt mainHeader.yml, ükski placeholder tegelikult ei olene kontekstis ning võib kohe translation.XXX formaadis)
 
-- Muutmisel äriDSList testDSLiks peaks sisestama sinna ka beforeach (et ta läheks kuhugi URLI ja laeks sisse translationi jne)
+- Muutmisel äriDSList testDSLiks peaks sisestama sinna ka beforeach (et ta läheks kuhugi URLI ja laeks sisse translationi jne) - DONE
 
-- Täpsemate testDSLide jaoks oleks vaja tõesti osadele asjadele parentclassi. 
+- Täpsemate testDSLide jaoks oleks vaja tõesti osadele asjadele parentclassi. Test nii ehitab korralikult chatgpt abil  Playwrighti testi: 
+
+```
+ name: Check Visibility of Animation Duration Input
+        action:
+          assertVisible: "input[name='widgetProactiveSeconds']"
+```
+
+ehk äkki inputi nimi on sama, mis eelneva labeli oma? 
+
+```
+	- name: label_input
+	  - components: 
+	      parent: input
+	      children: Label + Input
+	      - name: Label
+	        type: Label
+	        props:
+	          label: "translation.widgetProactiveSeconds"
+	          
+	      # This input is next to the label    
+	      - name: Input
+	        type: Input
+	        props:
+	          input: "input"
+```
+
+proovime praegu ka sibling_of, et saada inputile täpsema locator
+
+- Kui programmi jooksutada rekursiivselt läbi kõikide directoryte, peaks ta lugema sisse ka selle, kas tegu on visibility või functionalityga, et saada aru, mis pealkiri panna
 
 
 ### **Praegune output BusinessDSL.ymli näitel**

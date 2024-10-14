@@ -2,22 +2,20 @@ template:
   name: label_input_label
   components: 
     parent: track
-    children: Label1 + Input + Label2
-    - name: Label1
+    children: Label + Input + Label
+    - name: Label
       type: Label
       props:
-        label: "translations['labelInput']"
+        label: {{ labelTimeinput }}
         
     - name: Input
       type: Input
       props:
         input: "input"
         attributes:
-          name: "{{ inputName }}"
-          type: "{{ inputType }}"
-
+          type: number
         
-    - name: Label2
+    - name: Label
       type: Label
       props:
-        label: "translations['labelInput']"
+        label: "translations.minutes"

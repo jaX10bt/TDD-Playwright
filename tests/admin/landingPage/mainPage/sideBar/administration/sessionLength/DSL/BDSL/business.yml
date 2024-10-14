@@ -1,0 +1,42 @@
+resource: chat/session-length
+description: "Session Length"
+methods:
+  - methods: POST
+    description: "Session Length"
+    required:
+      - "header"
+      - "left_menu"
+    main:
+      title:
+        name: title
+        components:
+        - title:
+           - title:
+              args:
+                - type: text
+                - value: "Session length"
+                - style: h1
+
+      body:
+        name: card_body
+        components:
+          - timeinput:
+              - label:
+                  args:
+                    - type: text
+                    - value: "Session length"
+                    - style: label
+              - input:
+                  args:
+                    - type: number
+                    - style: input
+
+      footer:
+        name: card_footer
+        components:
+          - button:
+              - button:
+                  args:
+                    - type: button
+                    - value: "Save"
+                    - style: button

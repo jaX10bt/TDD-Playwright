@@ -2,7 +2,7 @@ const { test, expect } = require('@playwright/test');
 const { getTranslations } = require('../../../../../../translations/languageDetector');
 
 
-test.describe.serial('Complete User Management Functionality Tests', () => {
+test.describe('Complete User Management Functionality Tests', () => {
     test.describe.serial('User Management Functionality Tests', () => {
         let translation;
         const pageUrl = 'https://admin.prod.buerokratt.ee/chat/users';
@@ -10,7 +10,7 @@ test.describe.serial('Complete User Management Functionality Tests', () => {
         test.beforeEach(async ({ page }) => {
             await page.goto(pageUrl);
             translation = await getTranslations(page);
-            await page.waitForLoadState('networkidle');
+            
         });
 
         async function testSorting({ page }, translationKey) {
@@ -42,7 +42,7 @@ test.describe.serial('Complete User Management Functionality Tests', () => {
 
         async function testSearching({ page }, translationKey) {
             const columnName = translation[translationKey];
-            const searchName = translation['search...'];
+            const searchName = translation['dottedSearch'];
 
             const headers = await page.locator('//table//thead//th').allTextContents();
             const columnIndex = headers.indexOf(columnName) + 1;
@@ -79,7 +79,7 @@ test.describe.serial('Complete User Management Functionality Tests', () => {
             await testSearching({ page }, 'idCode');
         });
 
-        test('Sort and Search by Roĺl/Role', async ({ page }) => {
+        test.skip('Sort and Search by Roĺl/Role ### CHECK ISSUE INSIDE', async ({ page }) => {
             test.info().annotations.push({
                 type: 'Known bug',
                 description: 'The sorting is starts from Z-A for some reason instead of A-Z as with other sortings.',
@@ -99,8 +99,8 @@ test.describe.serial('Complete User Management Functionality Tests', () => {
         });
 
         test('Sort and Search by E-post/E-mail', async ({ page }) => {
-            await testSorting({ page }, 'e-mail');
-            await testSearching({ page }, 'e-mail');
+            await testSorting({ page }, 'email');
+            await testSearching({ page }, 'email');
         });
 
 

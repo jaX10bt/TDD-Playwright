@@ -7,10 +7,10 @@ templates:
         type: Label
         props:
           label: " {{ labelSwitch }}"
+          adjacent_to: Switch
           
       - name: Switch
         type: Switch
         props:
           switch: "button.switch__button"
-          
-        
+          adjacent_to_label: true
