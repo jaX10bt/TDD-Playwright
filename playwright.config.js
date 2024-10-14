@@ -8,7 +8,7 @@ module.exports = defineConfig({
 
   retries: process.env.CI ? 2 : 1,
   /* Opt out of parallel tests on CI. */
-  //workers: process.env.CI ? 4 : undefined,
+  workers: process.env.CI ? 2 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [
     ['html', { open: 'always' }], // Generates the HTML report
@@ -19,7 +19,7 @@ module.exports = defineConfig({
     //storageState: 'tests/admin/.auth/user.json',
     video: 'on',
     screenshot: 'only-on-failure',
-    trace: 'on',
+    trace: 'on-first-retry',
     baseURL: 'https://prod.buerokratt.ee/'
   },
   /* Configure projects for major browsers */
